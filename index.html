@@ -6,6 +6,8 @@
     <title>Dashboard Admin - CBT SMANJO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Library Chart.js untuk Grafik Visualisasi -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Library jsPDF untuk Cetak PDF A4 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -31,20 +33,28 @@
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 h-screen flex overflow-hidden">
 
+    <!-- Overlay Gelap untuk Mobile saat Sidebar Terbuka -->
+    <div id="mobileOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-950/50 backdrop-blur-sm z-30 md:hidden hidden transition-opacity duration-300"></div>
+
     <!-- Sidebar Kiri -->
-    <aside id="sidebar" class="w-72 bg-slate-900 text-white flex flex-col shadow-2xl z-30 sidebar-transition relative">
-        <div class="p-5 border-b border-slate-800 flex items-center justify-between flex-shrink-0">
+    <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-72 bg-slate-900 text-white flex flex-col shadow-2xl z-40 sidebar-transition -translate-x-full md:translate-x-0 flex-shrink-0">
+        <div class="p-5 border-b border-slate-800/80 flex items-center justify-between flex-shrink-0">
             <div id="sidebarHeaderContent" class="flex items-center space-x-3 overflow-hidden">
                 <div class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 flex-shrink-0">
                     <i class="fas fa-graduation-cap text-white text-lg"></i>
                 </div>
                 <div class="sidebar-text truncate">
                     <h1 class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300 tracking-wide">CBT SMANJO</h1>
-                    <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Admin Panel v2.6</p>
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Admin Panel v2.9</p>
                 </div>
             </div>
-            <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition flex-shrink-0" title="Tutup/Buka Sidebar">
-                <i id="toggleIcon" class="fas fa-bars-staggered"></i>
+            
+            <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white p-2.5 rounded-xl hover:bg-slate-800/80 transition flex-shrink-0 md:hidden border border-slate-800" title="Tutup Menu">
+                <i class="fas fa-times text-sm"></i>
+            </button>
+            
+            <button onclick="toggleSidebar()" class="hidden md:flex items-center justify-center w-9 h-9 text-slate-400 hover:text-white rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700/60 shadow-sm transition-all duration-200 group" title="Sembunyikan/Tampilkan Sidebar">
+                <i id="toggleIcon" class="fas fa-chevron-left text-xs transition-transform duration-300"></i>
             </button>
         </div>
 
@@ -73,7 +83,7 @@
             </a>
         </nav>
 
-        <div class="p-4 border-t border-slate-800 flex-shrink-0 bg-slate-900">
+        <div class="p-4 border-t border-slate-800/80 flex-shrink-0 bg-slate-900">
             <button onclick="logout()" class="w-full bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-white py-3 px-4 rounded-2xl font-bold transition flex items-center justify-center group shadow-sm">
                 <i class="fas fa-sign-out-alt text-base flex-shrink-0 group-hover:rotate-180 transition duration-300"></i>
                 <span class="sidebar-text ml-2 text-sm">Keluar Sistem</span>
@@ -82,75 +92,108 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 flex flex-col overflow-hidden">
-        <header class="bg-white border-b border-slate-200 px-6 sm:px-8 py-4 flex justify-between items-center z-10 shadow-sm flex-shrink-0">
+    <main class="flex-1 flex flex-col overflow-hidden w-full">
+        <header class="bg-white border-b border-slate-200 px-4 sm:px-8 py-4 flex justify-between items-center z-10 shadow-sm flex-shrink-0">
             <div class="flex items-center space-x-3 sm:space-x-4">
+                <button onclick="toggleSidebar()" class="md:hidden flex items-center justify-center w-10 h-10 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition border border-slate-200 shadow-sm">
+                    <i class="fas fa-bars-staggered text-sm"></i>
+                </button>
                 <div>
-                    <h2 id="pageTitle" class="text-lg sm:text-xl font-bold text-slate-900">Overview Dashboard</h2>
+                    <h2 id="pageTitle" class="text-base sm:text-xl font-bold text-slate-900">Overview Dashboard</h2>
                     <p id="welcomeGreeting" class="text-xs font-medium text-slate-500 hidden mt-0.5">
                         Selamat datang, <span id="adminNameDisplay" class="font-bold text-blue-600">Admin</span> 👋
                     </p>
                 </div>
             </div>
-            <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <div class="hidden md:flex items-center space-x-2 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-full text-xs font-medium text-slate-700">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" id="serverPingDot"></span>
+                    <span id="serverStatusText">GAS Server: Optimal</span>
+                </div>
+                <!-- Hitung Mundur Sinkronisasi -->
                 <span class="text-xs font-medium px-3 py-1.5 bg-slate-100 text-slate-600 rounded-full border border-slate-200 hidden sm:inline-flex items-center" id="lastSync">
-                    <i class="fas fa-circle text-emerald-500 text-[8px] mr-2 animate-pulse"></i> Mengsinkronkan...
+                    <i class="fas fa-circle text-emerald-500 text-[8px] mr-2 animate-pulse"></i> Sinkron dalam <span id="syncCountdown" class="font-bold ml-1">15</span>s
                 </span>
-                <button onclick="fetchDashboardData()" class="bg-white border border-slate-200 hover:bg-slate-50 p-2.5 rounded-xl text-slate-600 shadow-sm transition" title="Refresh Data"><i class="fas fa-sync-alt"></i></button>
+                <button onclick="manualSync()" class="bg-white border border-slate-200 hover:bg-slate-50 p-2.5 rounded-xl text-slate-600 shadow-sm transition" title="Refresh Data Sekarang"><i class="fas fa-sync-alt"></i></button>
             </div>
         </header>
 
         <div class="flex-1 overflow-y-auto p-4 sm:p-8 bg-slate-50">
             <!-- DASHBOARD TAB -->
             <div id="tab-dashboard" class="space-y-6">
-                <!-- Baris 1: Info Cards Tema Modern & Profesional -->
+                <!-- Baris 1: Info Cards -->
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
-                    <!-- Card 1 -->
-                    <div class="bg-gradient-to-br from-violet-500 to-purple-700 text-white rounded-3xl p-5 shadow-lg shadow-purple-500/20 relative overflow-hidden group hover:scale-[1.02] transition duration-300">
+                    <div class="bg-gradient-to-br from-violet-500 to-purple-700 text-white rounded-3xl p-4 sm:p-5 shadow-lg shadow-purple-500/20 relative overflow-hidden group hover:scale-[1.02] transition duration-300">
                         <div class="absolute -right-4 -bottom-4 text-white/10 text-7xl group-hover:scale-110 transition"><i class="fas fa-users"></i></div>
                         <div class="flex justify-between items-start mb-4">
-                            <div class="p-3 bg-white/20 backdrop-blur-md rounded-2xl text-white"><i class="fas fa-users text-lg"></i></div>
-                            <span class="text-[10px] font-bold uppercase tracking-wider bg-white/20 px-2.5 py-1 rounded-full">Database</span>
+                            <div class="p-2.5 sm:p-3 bg-white/20 backdrop-blur-md rounded-2xl text-white"><i class="fas fa-users text-base sm:text-lg"></i></div>
+                            <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-white/20 px-2.5 py-1 rounded-full">Database</span>
                         </div>
                         <p class="text-purple-100 text-xs font-medium mb-1">Total Seluruh Siswa</p>
-                        <h3 class="text-3xl font-black tracking-tight" id="card-total">0</h3>
+                        <h3 class="text-2xl sm:text-3xl font-black tracking-tight" id="card-total">0</h3>
                     </div>
 
-                    <!-- Card 2 -->
-                    <div class="bg-gradient-to-br from-emerald-500 to-teal-700 text-white rounded-3xl p-5 shadow-lg shadow-emerald-500/20 relative overflow-hidden group hover:scale-[1.02] transition duration-300">
+                    <div class="bg-gradient-to-br from-emerald-500 to-teal-700 text-white rounded-3xl p-4 sm:p-5 shadow-lg shadow-emerald-500/20 relative overflow-hidden group hover:scale-[1.02] transition duration-300">
                         <div class="absolute -right-4 -bottom-4 text-white/10 text-7xl group-hover:scale-110 transition"><i class="fas fa-check-circle"></i></div>
                         <div class="flex justify-between items-start mb-4">
-                            <div class="p-3 bg-white/20 backdrop-blur-md rounded-2xl text-white"><i class="fas fa-check-circle text-lg"></i></div>
-                            <span class="text-[10px] font-bold uppercase tracking-wider bg-white/20 px-2.5 py-1 rounded-full">Progres</span>
+                            <div class="p-2.5 sm:p-3 bg-white/20 backdrop-blur-md rounded-2xl text-white"><i class="fas fa-check-circle text-base sm:text-lg"></i></div>
+                            <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-white/20 px-2.5 py-1 rounded-full">Progres</span>
                         </div>
                         <p class="text-emerald-100 text-xs font-medium mb-1">Siswa Selesai</p>
-                        <h3 class="text-3xl font-black tracking-tight" id="card-selesai">0</h3>
+                        <h3 class="text-2xl sm:text-3xl font-black tracking-tight" id="card-selesai">0</h3>
                     </div>
 
-                    <!-- Card 3 -->
-                    <div class="bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-3xl p-5 shadow-lg shadow-amber-500/20 relative overflow-hidden group hover:scale-[1.02] transition duration-300">
+                    <div class="bg-gradient-to-br from-amber-500 to-orange-600 text-white rounded-3xl p-4 sm:p-5 shadow-lg shadow-amber-500/20 relative overflow-hidden group hover:scale-[1.02] transition duration-300">
                         <div class="absolute -right-4 -bottom-4 text-white/10 text-7xl group-hover:scale-110 transition"><i class="fas fa-signal"></i></div>
                         <div class="flex justify-between items-start mb-4">
-                            <div class="p-3 bg-white/20 backdrop-blur-md rounded-2xl text-white animate-pulse"><i class="fas fa-signal text-lg"></i></div>
-                            <span class="text-[10px] font-bold uppercase tracking-wider bg-white/20 px-2.5 py-1 rounded-full animate-pulse">Realtime</span>
+                            <div class="p-2.5 sm:p-3 bg-white/20 backdrop-blur-md rounded-2xl text-white animate-pulse"><i class="fas fa-signal text-base sm:text-lg"></i></div>
+                            <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-white/20 px-2.5 py-1 rounded-full animate-pulse">Realtime</span>
                         </div>
                         <p class="text-amber-100 text-xs font-medium mb-1">Siswa Online</p>
-                        <h3 class="text-3xl font-black tracking-tight" id="card-online">0</h3>
+                        <h3 class="text-2xl sm:text-3xl font-black tracking-tight" id="card-online">0</h3>
                     </div>
 
-                    <!-- Card 4 -->
-                    <div class="bg-gradient-to-br from-rose-500 to-pink-700 text-white rounded-3xl p-5 shadow-lg shadow-rose-500/20 relative overflow-hidden group hover:scale-[1.02] transition duration-300">
+                    <div class="bg-gradient-to-br from-rose-500 to-pink-700 text-white rounded-3xl p-4 sm:p-5 shadow-lg shadow-rose-500/20 relative overflow-hidden group hover:scale-[1.02] transition duration-300">
                         <div class="absolute -right-4 -bottom-4 text-white/10 text-7xl group-hover:scale-110 transition"><i class="fas fa-exclamation-triangle"></i></div>
                         <div class="flex justify-between items-start mb-4">
-                            <div class="p-3 bg-white/20 backdrop-blur-md rounded-2xl text-white"><i class="fas fa-exclamation-triangle text-lg"></i></div>
-                            <span class="text-[10px] font-bold uppercase tracking-wider bg-white/20 px-2.5 py-1 rounded-full">Warning</span>
+                            <div class="p-2.5 sm:p-3 bg-white/20 backdrop-blur-md rounded-2xl text-white"><i class="fas fa-exclamation-triangle text-base sm:text-lg"></i></div>
+                            <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-white/20 px-2.5 py-1 rounded-full">Warning</span>
                         </div>
                         <p class="text-rose-100 text-xs font-medium mb-1">Pelanggaran</p>
-                        <h3 class="text-3xl font-black tracking-tight" id="card-pelanggaran">0</h3>
+                        <h3 class="text-2xl sm:text-3xl font-black tracking-tight" id="card-pelanggaran">0</h3>
                     </div>
                 </div>
 
-                <!-- Baris 2: Info Card Sesi/Ujian Aktif -->
+                <!-- Baris 1.5: Grafik Visualisasi & Live Feed -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-3xl border border-slate-200/80 p-5 sm:p-6 shadow-sm flex flex-col justify-between">
+                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                            <h3 class="font-bold text-slate-900 flex items-center text-sm sm:text-base"><i class="fas fa-chart-pie text-violet-500 mr-2"></i> Proporsi Status Pengerjaan Ujian</h3>
+                            <span class="text-xs text-slate-400 font-medium">Live Statistik</span>
+                        </div>
+                        <div class="relative h-64 flex items-center justify-center">
+                            <canvas id="progressChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-3xl border border-slate-200/80 p-5 sm:p-6 shadow-sm flex flex-col justify-between">
+                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                            <h3 class="font-bold text-slate-900 flex items-center text-sm sm:text-base"><i class="fas fa-stream text-blue-500 mr-2"></i> Live Activity Feed (Aktivitas)</h3>
+                            <span class="text-xs text-emerald-600 font-bold px-2.5 py-0.5 bg-emerald-50 rounded-full animate-pulse">Live</span>
+                        </div>
+                        <div id="activityStreamContainer" class="overflow-y-auto max-h-64 pr-1 space-y-3">
+                            <div class="flex items-start space-x-3 text-xs bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                                <div class="w-8 h-8 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0 font-bold"><i class="fas fa-sync text-xs"></i></div>
+                                <div>
+                                    <p class="font-semibold text-slate-700">Sistem diinisialisasi</p>
+                                    <p class="text-[10px] text-slate-400 mt-0.5">Menunggu sinkronisasi data dari Google Sheets...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Baris 2: Sesi Ujian Aktif -->
                 <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-5 sm:p-6 text-white shadow-lg shadow-blue-500/20 relative overflow-hidden">
                     <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl pointer-events-none"><i class="fas fa-bolt"></i></div>
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 mb-4 border-b border-white/10 gap-2">
@@ -169,13 +212,13 @@
                     </div>
                 </div>
 
-                <!-- Baris 3: Grid Bawah (Live Progress & Pelanggaran) -->
+                <!-- Baris 3: Live Progress & Pelanggaran -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Progress Realtime -->
+                    <!-- Progress Realtime (Klik baris untuk inspeksi detail) -->
                     <div class="bg-white rounded-3xl border border-slate-200/80 p-5 sm:p-6 shadow-sm">
                         <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
                             <h3 class="font-bold text-slate-900 flex items-center text-sm sm:text-base"><i class="fas fa-broadcast-tower text-emerald-500 mr-2"></i> Live Progress Mengerjakan</h3>
-                            <span class="text-xs text-slate-400 font-medium">Update otomatis</span>
+                            <span class="text-xs text-slate-400 font-medium">Klik baris untuk detail</span>
                         </div>
                         <div class="overflow-y-auto max-h-72 pr-1">
                             <table class="w-full text-left text-sm">
@@ -193,7 +236,7 @@
                         </div>
                     </div>
 
-                    <!-- Tabel Pelanggaran Siswa -->
+                    <!-- Log Pelanggaran -->
                     <div class="bg-white rounded-3xl border border-slate-200/80 p-5 sm:p-6 shadow-sm">
                         <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 flex-wrap gap-2">
                             <h3 class="font-bold text-slate-900 flex items-center text-sm sm:text-base"><i class="fas fa-shield-alt text-rose-500 mr-2"></i> Log Pelanggaran Ujian</h3>
@@ -298,6 +341,41 @@
         </div>
     </main>
 
+    <!-- Modal Inspeksi Cepat Siswa (Quick Inspection Modal) -->
+    <div id="studentModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center z-50 p-4 hidden">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md border border-slate-100 overflow-hidden transform transition-all">
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-white flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center font-bold text-white"><i class="fas fa-user-graduate"></i></div>
+                    <div>
+                        <h3 class="font-bold text-base" id="modalStudentName">Nama Siswa</h3>
+                        <p class="text-xs text-blue-100" id="modalStudentClass">Kelas / NISN</p>
+                    </div>
+                </div>
+                <button onclick="closeStudentModal()" class="text-white/80 hover:text-white p-2 rounded-xl hover:bg-white/10 transition"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase">Mata Ujian Aktif</p>
+                        <p class="text-sm font-bold text-blue-600 mt-1" id="modalExamCode">-</p>
+                    </div>
+                    <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
+                        <p class="text-[10px] text-slate-400 font-bold uppercase">Soal Terjawab</p>
+                        <p class="text-sm font-bold text-emerald-600 mt-1" id="modalAnswerCount">-</p>
+                    </div>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-2">
+                    <p class="text-xs font-bold text-slate-700 flex items-center"><i class="fas fa-shield-alt text-rose-500 mr-2"></i> Status Pelanggaran Siswa:</p>
+                    <p class="text-xs text-slate-600" id="modalViolationStatus">Tidak ada catatan pelanggaran terdeteksi.</p>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-50 border-t border-slate-100 flex justify-end">
+                <button onclick="closeStudentModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-5 py-2.5 rounded-xl text-xs font-bold transition">Tutup</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Login Overlay -->
     <div id="loginOverlay" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md flex items-center justify-center z-50 p-4">
         <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-100">
@@ -337,37 +415,44 @@
         let ADMIN_USER = localStorage.getItem('cbt_admin_user') || "";
         let ADMIN_PASS = localStorage.getItem('cbt_admin_pass') || "";
         let syncInterval;
-        let isSidebarOpen = window.innerWidth >= 768;
-        window.listPelanggaran = []; // Global variable untuk data pelanggaran PDF
-
-        // Inisialisasi status awal sidebar berdasarkan ukuran layar
-        if (window.innerWidth < 768) {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.remove('w-72');
-            sidebar.classList.add('w-20');
-            document.querySelectorAll('.sidebar-text').forEach(el => el.classList.add('hidden'));
-            const divider = document.querySelector('.sidebar-divider');
-            if(divider) divider.classList.remove('hidden');
-            isSidebarOpen = false;
-        }
+        let countdownTimer;
+        let countdownValue = 15;
+        let isSidebarOpen = false;
+        window.listPelanggaran = [];
+        window.listSiswaOnline = [];
+        let progressChartInstance = null;
 
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
             const texts = document.querySelectorAll('.sidebar-text');
             const divider = document.querySelector('.sidebar-divider');
+            const toggleIcon = document.getElementById('toggleIcon');
             
             isSidebarOpen = !isSidebarOpen;
             
-            if (!isSidebarOpen) {
-                sidebar.classList.remove('w-72');
-                sidebar.classList.add('w-20');
-                texts.forEach(el => el.classList.add('hidden'));
-                if(divider) divider.classList.remove('hidden');
+            if (window.innerWidth < 768) {
+                if (isSidebarOpen) {
+                    sidebar.classList.remove('-translate-x-full');
+                    overlay.classList.remove('hidden');
+                } else {
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
+                }
             } else {
-                sidebar.classList.remove('w-20');
-                sidebar.classList.add('w-72');
-                texts.forEach(el => el.classList.remove('hidden'));
-                if(divider) divider.classList.add('hidden');
+                if (!isSidebarOpen) {
+                    sidebar.classList.remove('w-72');
+                    sidebar.classList.add('w-20');
+                    texts.forEach(el => el.classList.add('hidden'));
+                    if(divider) divider.classList.remove('hidden');
+                    if(toggleIcon) toggleIcon.style.transform = 'rotate(180deg)';
+                } else {
+                    sidebar.classList.remove('w-20');
+                    sidebar.classList.add('w-72');
+                    texts.forEach(el => el.classList.remove('hidden'));
+                    if(divider) divider.classList.add('hidden');
+                    if(toggleIcon) toggleIcon.style.transform = 'rotate(0deg)';
+                }
             }
         }
 
@@ -445,6 +530,7 @@
             localStorage.removeItem('cbt_admin_pass');
             localStorage.removeItem('cbt_admin_name');
             clearInterval(syncInterval);
+            clearInterval(countdownTimer);
             document.getElementById('welcomeGreeting').classList.add('hidden');
             document.getElementById('loginOverlay').classList.remove('hidden');
         }
@@ -472,13 +558,23 @@
             };
             document.getElementById('pageTitle').textContent = titles[tabId];
 
-            // Auto tutup sidebar di mobile jika salah satu menu diklik
             if (window.innerWidth < 768 && isSidebarOpen) {
                 toggleSidebar();
             }
         }
 
         function startAutoSync() {
+            countdownValue = 15;
+            if(countdownTimer) clearInterval(countdownTimer);
+            
+            countdownTimer = setInterval(() => {
+                countdownValue--;
+                document.getElementById('syncCountdown').textContent = countdownValue;
+                if(countdownValue <= 0) {
+                    countdownValue = 15;
+                }
+            }, 1000);
+
             syncInterval = setInterval(() => {
                 if(!document.getElementById('tab-dashboard').classList.contains('hidden')) {
                     fetchDashboardData(true);
@@ -486,9 +582,12 @@
             }, 15000);
         }
 
+        function manualSync() {
+            fetchDashboardData(false);
+            countdownValue = 15;
+        }
+
         function fetchDashboardData(isSilent = false) {
-            if(!isSilent) document.getElementById('lastSync').innerHTML = '<i class="fas fa-circle text-emerald-500 text-[8px] mr-2 animate-pulse"></i> Sinkronisasi...';
-            
             fetch(GAS_URL, {
                 method: 'POST',
                 body: JSON.stringify({ 
@@ -499,8 +598,22 @@
             }).then(res => res.json()).then(res => {
                 if(res.error) { logout(); return; }
                 renderDashboard(res);
-                document.getElementById('lastSync').innerHTML = `<i class="fas fa-circle text-emerald-500 text-[8px] mr-2"></i> Update: ${new Date().toLocaleTimeString('id-ID')}`;
+                updateServerStatus(true);
+            }).catch(err => {
+                updateServerStatus(false);
             });
+        }
+
+        function updateServerStatus(isOnline) {
+            const dot = document.getElementById('serverPingDot');
+            const txt = document.getElementById('serverStatusText');
+            if(isOnline) {
+                dot.className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
+                txt.textContent = "GAS Server: Optimal";
+            } else {
+                dot.className = "w-2 h-2 rounded-full bg-rose-500";
+                txt.textContent = "GAS Server: Gangguan";
+            }
         }
 
         function renderDashboard(data) {
@@ -553,8 +666,12 @@
             document.getElementById('card-online').textContent = data.totalOnline;
             
             window.listPelanggaran = data.listPelanggaran || [];
+            window.listSiswaOnline = data.siswaOnline || [];
             document.getElementById('card-pelanggaran').textContent = window.listPelanggaran.length;
             document.getElementById('badgePelanggaranCount').textContent = window.listPelanggaran.length + " Pelanggaran";
+
+            renderProgressChart(data.totalSiswa, data.totalSelesai, data.totalOnline);
+            renderActivityStream(data);
 
             const pelanggaranTable = document.getElementById('pelanggaranTable');
             pelanggaranTable.innerHTML = '';
@@ -577,7 +694,6 @@
                 });
             }
 
-            // Hitung grafik distribusi proporsional kelas terbanyak
             let maxCount = 1;
             for (let kelas in data.siswaPerKelas) {
                 if (data.siswaPerKelas[kelas] > maxCount) {
@@ -605,14 +721,14 @@
 
             const progTable = document.getElementById('liveProgressTable');
             progTable.innerHTML = '';
-            if(data.siswaOnline.length === 0) {
+            if(window.listSiswaOnline.length === 0) {
                 progTable.innerHTML = '<tr><td colspan="3" class="text-center p-6 text-slate-400 text-xs">Belum ada siswa yang sedang online/mengerjakan.</td></tr>';
             } else {
-                data.siswaOnline.forEach(s => {
+                window.listSiswaOnline.forEach((s, idx) => {
                     progTable.innerHTML += `
-                        <tr class="hover:bg-slate-50/80 transition">
+                        <tr onclick="inspectStudent(${idx})" class="hover:bg-blue-50/60 transition cursor-pointer" title="Klik untuk inspeksi detail">
                             <td class="p-3">
-                                <div class="font-bold text-slate-800 text-sm">${s.nama}</div>
+                                <div class="font-bold text-slate-800 text-sm flex items-center">${s.nama} <i class="fas fa-chevron-right text-[10px] text-blue-500 ml-2"></i></div>
                                 <div class="text-xs text-slate-400">${s.nisn}</div>
                             </td>
                             <td class="p-3 text-xs font-bold text-blue-600">${s.kodeUjian}</td>
@@ -623,6 +739,131 @@
                     `;
                 });
             }
+        }
+
+        // --- FITUR MODAL INSPEKSI CEPAT SISWA (No. 4) ---
+        function inspectStudent(index) {
+            const s = window.listSiswaOnline[index];
+            if (!s) return;
+
+            document.getElementById('modalStudentName').textContent = s.nama;
+            document.getElementById('modalStudentClass').textContent = `NISN: ${s.nisn} | Kelas: ${s.kelas || 'Umum'}`;
+            document.getElementById('modalExamCode').textContent = s.kodeUjian || '-';
+            document.getElementById('modalAnswerCount').textContent = (s.terjawab || 0) + " Soal Terjawab";
+
+            // Cek apakah siswa ini punya pelanggaran
+            const studentViolations = window.listPelanggaran.filter(p => p.nisn.toString() === s.nisn.toString());
+            const violationContainer = document.getElementById('modalViolationStatus');
+
+            if (studentViolations.length > 0) {
+                let vText = `<span class="text-rose-600 font-bold">Terdeteksi ${studentViolations.length} Pelanggaran:</span><br>`;
+                studentViolations.forEach(v => {
+                    vText += `• Ujian ${v.kodeUjian} (Kesempatan Ke-${v.kesempatanKe})<br>`;
+                });
+                violationContainer.innerHTML = vText;
+            } else {
+                violationContainer.innerHTML = '<span class="text-emerald-600 font-semibold"><i class="fas fa-check-circle mr-1"></i> Bersih (Tidak ada pelanggaran tata tertib).</span>';
+            }
+
+            document.getElementById('studentModal').classList.remove('hidden');
+        }
+
+        function closeStudentModal() {
+            document.getElementById('studentModal').classList.add('hidden');
+        }
+
+        function renderProgressChart(total, selesai, online) {
+            let belumSelesai = Math.max(0, total - selesai - online);
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            
+            if (progressChartInstance) {
+                progressChartInstance.data.datasets[0].data = [selesai, online, belumSelesai];
+                progressChartInstance.update();
+                return;
+            }
+
+            progressChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Selesai Ujian', 'Sedang Mengerjakan (Online)', 'Belum Mulai'],
+                    datasets: [{
+                        data: [selesai, online, belumSelesai],
+                        backgroundColor: ['#10b981', '#f59e0b', '#64748b'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                font: { size: 11, family: 'sans-serif' }
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+        }
+
+        function renderActivityStream(data) {
+            const container = document.getElementById('activityStreamContainer');
+            container.innerHTML = '';
+            
+            let feeds = [];
+            if(data.siswaOnline && data.siswaOnline.length > 0) {
+                data.siswaOnline.slice(0, 3).forEach(s => {
+                    feeds.push({
+                        icon: 'fa-user-pen text-blue-600 bg-blue-100',
+                        title: `${s.nama} (${s.kelas})`,
+                        desc: `Sedang aktif mengerjakan ujian ${s.kodeUjian} (${s.terjawab} soal)`,
+                        time: 'Baru saja'
+                    });
+                });
+            }
+
+            if(data.listPelanggaran && data.listPelanggaran.length > 0) {
+                data.listPelanggaran.slice(0, 2).forEach(p => {
+                    feeds.push({
+                        icon: 'fa-triangle-exclamation text-rose-600 bg-rose-100',
+                        title: `Pelanggaran: ${p.nama}`,
+                        desc: `Melanggar tata tertib ujian ${p.kodeUjian} (Kesempatan Ke-${p.kesempatanKe})`,
+                        time: p.waktu || 'Hari ini'
+                    });
+                });
+            }
+
+            if(feeds.length === 0) {
+                container.innerHTML = `
+                    <div class="flex items-center space-x-3 text-xs bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                        <div class="w-8 h-8 rounded-xl bg-slate-100 text-slate-500 flex items-center justify-center flex-shrink-0 font-bold"><i class="fas fa-info text-xs"></i></div>
+                        <div>
+                            <p class="font-semibold text-slate-700">Tidak ada aktivitas baru</p>
+                            <p class="text-[10px] text-slate-400 mt-0.5">Sistem memantau secara real-time.</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            feeds.forEach(f => {
+                container.innerHTML += `
+                    <div class="flex items-start space-x-3 text-xs bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                        <div class="w-8 h-8 rounded-xl ${f.icon} flex items-center justify-center flex-shrink-0 font-bold"><i class="fas ${f.icon.split(' ')[0]} text-xs"></i></div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center">
+                                <p class="font-semibold text-slate-800">${f.title}</p>
+                                <span class="text-[9px] text-slate-400">${f.time}</span>
+                            </div>
+                            <p class="text-[10px] text-slate-500 mt-0.5">${f.desc}</p>
+                        </div>
+                    </div>
+                `;
+            });
         }
 
         // --- FITUR DOWNLOAD PDF A4 TERKELOMPOK PER KODE UJIAN & KELAS ---
@@ -674,7 +915,6 @@
                     }
                     isFirstPage = false;
 
-                    // KOP SURAT
                     doc.setFont("Helvetica", "bold");
                     doc.setFontSize(14);
                     doc.text("PEMERINTAH PROVINSI JAWA TIMUR", 105, 15, { align: "center" });
@@ -689,7 +929,6 @@
                     doc.setLineWidth(0.5);
                     doc.line(15, 36, 195, 36);
 
-                    // JUDUL LAPORAN & INFO FILTER
                     doc.setFont("Helvetica", "bold");
                     doc.setFontSize(12);
                     doc.text("REKAPITULASI PELANGGARAN TATA TERTIB UJIAN (CBT)", 105, 44, { align: "center" });
@@ -703,7 +942,6 @@
                     doc.setFontSize(9);
                     doc.text(`Tanggal Cetak: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`, 15, 62);
 
-                    // TABEL DATA
                     let startY = 66;
                     doc.setFillColor(79, 70, 229); 
                     doc.rect(15, startY, 180, 8, "F");
@@ -747,7 +985,6 @@
                         currentY += 7;
                     });
 
-                    // TANDA TANGAN
                     currentY += 12;
                     if (currentY > 240) { doc.addPage(); currentY = 30; }
 
