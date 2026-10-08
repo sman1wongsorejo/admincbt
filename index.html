@@ -6,46 +6,97 @@
     <title>Dashboard Admin - CBT SMANJO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .sidebar-transition {
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* CSS untuk memperkecil skala tampilan iframe spreadsheet menjadi 60% */
+        .iframe-container {
+            position: relative;
+            width: 166.66%; /* 100 / 0.6 agar pas menutupi area */
+            height: 166.66%;
+            transform: scale(0.6);
+            transform-origin: 0 0;
+            border: 0;
+        }
+    </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 h-screen flex overflow-hidden">
 
-    <!-- Sidebar -->
-    <aside class="w-64 bg-slate-900 text-white flex flex-col shadow-xl z-20">
-        <div class="p-6 border-b border-slate-800">
-            <h1 class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">CBT SMANJO</h1>
-            <p class="text-xs text-slate-400 mt-1 font-medium">Admin Control Panel</p>
-        </div>
-        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
-            <a href="#" onclick="switchTab('dashboard')" id="nav-dashboard" class="flex items-center p-3 rounded-xl bg-blue-600 text-white font-semibold shadow-lg shadow-blue-500/30 transition"><i class="fas fa-chart-pie w-6"></i> Dashboard</a>
-            <a href="#" onclick="switchTab('nilai')" id="nav-nilai" class="flex items-center p-3 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition"><i class="fas fa-file-alt w-6"></i> Rekap Nilai</a>
-            
-            <div class="pt-4 pb-2">
-                <p class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">Pintasan Database</p>
+    <!-- Sidebar Kiri yang Interaktif (Buka/Tutup) -->
+    <aside id="sidebar" class="w-72 bg-slate-900 text-white flex flex-col shadow-2xl z-30 sidebar-transition relative">
+        <!-- Header Sidebar -->
+        <div class="p-6 border-b border-slate-800 flex items-center justify-between">
+            <div id="sidebarHeaderContent" class="flex items-center space-x-3 overflow-hidden">
+                <div class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 flex-shrink-0">
+                    <i class="fas fa-graduation-cap text-white text-lg"></i>
+                </div>
+                <div class="sidebar-text truncate">
+                    <h1 class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300 tracking-wide">CBT SMANJO</h1>
+                    <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Admin Panel v2.6</p>
+                </div>
             </div>
-            <a href="https://docs.google.com/spreadsheets/d/1PtrDYq0WhbmBtbpIh_Lh7Lq7e32xC7wrUBZbSjzUoMY/edit" target="_blank" class="flex items-center p-3 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-emerald-400 transition text-sm">
-                <i class="fas fa-database w-6 text-emerald-400"></i> Buka Database Utama
+            <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition flex-shrink-0" title="Tutup/Buka Sidebar">
+                <i id="toggleIcon" class="fas fa-bars-staggered"></i>
+            </button>
+        </div>
+
+        <!-- Navigasi Menu -->
+        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+            <a href="#" onclick="switchTab('dashboard')" id="nav-dashboard" class="flex items-center p-3 rounded-2xl bg-blue-600 text-white font-semibold shadow-lg shadow-blue-500/25 transition group">
+                <i class="fas fa-chart-pie w-6 text-center text-lg flex-shrink-0"></i>
+                <span class="sidebar-text ml-3 text-sm">Dashboard Utama</span>
             </a>
-            <a href="https://docs.google.com/spreadsheets/d/1hx6CXRF8NM9LSnz8Gi5XhWhXtEJap0ZQbluTlqPfn4Q/edit" target="_blank" class="flex items-center p-3 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-amber-400 transition text-sm">
-                <i class="fas fa-table w-6 text-amber-400"></i> Folder Hasil Ujian
+            <a href="#" onclick="switchTab('nilai')" id="nav-nilai" class="flex items-center p-3 rounded-2xl text-slate-300 hover:bg-slate-800/80 hover:text-white transition group">
+                <i class="fas fa-file-alt w-6 text-center text-lg flex-shrink-0 text-slate-400 group-hover:text-blue-400 transition"></i>
+                <span class="sidebar-text ml-3 text-sm">Rekap Nilai Siswa</span>
+            </a>
+            
+            <div class="pt-6 pb-2">
+                <p class="sidebar-text px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">Pintasan Database</p>
+                <hr class="sidebar-divider border-slate-800 my-2 hidden">
+            </div>
+            
+            <!-- Embed Database Utama -->
+            <a href="#" onclick="switchTab('dbUtama')" id="nav-dbUtama" class="flex items-center p-3 rounded-2xl text-slate-300 hover:bg-slate-800/80 hover:text-emerald-400 transition group">
+                <i class="fas fa-database w-6 text-center text-lg flex-shrink-0 text-emerald-400"></i>
+                <span class="sidebar-text ml-3 text-sm">Database Utama</span>
+            </a>
+            <!-- Embed Folder / Sheet Hasil Ujian -->
+            <a href="#" onclick="switchTab('dbNilai')" id="nav-dbNilai" class="flex items-center p-3 rounded-2xl text-slate-300 hover:bg-slate-800/80 hover:text-amber-400 transition group">
+                <i class="fas fa-table w-6 text-center text-lg flex-shrink-0 text-amber-400"></i>
+                <span class="sidebar-text ml-3 text-sm">Folder Hasil Ujian</span>
             </a>
         </nav>
+
+        <!-- Footer / Tombol Logout -->
         <div class="p-4 border-t border-slate-800">
-            <button onclick="logout()" class="w-full bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-white py-2.5 rounded-xl font-semibold transition flex items-center justify-center"><i class="fas fa-sign-out-alt mr-2"></i> Keluar Sistem</button>
+            <button onclick="logout()" class="w-full bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-white py-3 px-4 rounded-2xl font-bold transition flex items-center justify-center group">
+                <i class="fas fa-sign-out-alt text-base flex-shrink-0 group-hover:rotate-180 transition duration-300"></i>
+                <span class="sidebar-text ml-2 text-sm">Keluar Sistem</span>
+            </button>
         </div>
     </aside>
 
     <!-- Main Content -->
     <main class="flex-1 flex flex-col overflow-hidden">
         <!-- Topbar -->
-        <header class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center z-10">
-            <div>
-                <h2 id="pageTitle" class="text-xl font-bold text-slate-900">Overview Dashboard</h2>
-                <p id="welcomeGreeting" class="text-xs font-medium text-slate-500 hidden mt-0.5">
-                    Selamat datang kembali, <span id="adminNameDisplay" class="font-bold text-blue-600">Admin</span> 👋
-                </p>
+        <header class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center z-10 shadow-sm">
+            <div class="flex items-center space-x-4">
+                <button onclick="toggleSidebar()" class="text-slate-600 hover:text-blue-600 p-2 rounded-xl hover:bg-slate-100 transition lg:hidden">
+                    <i class="fas fa-bars text-lg"></i>
+                </button>
+                <div>
+                    <h2 id="pageTitle" class="text-xl font-bold text-slate-900">Overview Dashboard</h2>
+                    <p id="welcomeGreeting" class="text-xs font-medium text-slate-500 hidden mt-0.5">
+                        Selamat datang kembali, <span id="adminNameDisplay" class="font-bold text-blue-600">Admin</span> 👋
+                    </p>
+                </div>
             </div>
             <div class="flex items-center space-x-4">
-                <span class="text-xs font-medium px-3 py-1 bg-slate-100 text-slate-600 rounded-full border border-slate-200" id="lastSync"><i class="fas fa-circle text-emerald-500 text-[8px] mr-1.5 animate-pulse"></i> Mengsinkronkan...</span>
+                <span class="text-xs font-medium px-3.5 py-1.5 bg-slate-100 text-slate-600 rounded-full border border-slate-200 hidden sm:inline-flex items-center" id="lastSync">
+                    <i class="fas fa-circle text-emerald-500 text-[8px] mr-2 animate-pulse"></i> Mengsinkronkan...
+                </span>
                 <button onclick="fetchDashboardData()" class="bg-white border border-slate-200 hover:bg-slate-50 p-2.5 rounded-xl text-slate-600 shadow-sm transition" title="Refresh Data"><i class="fas fa-sync-alt"></i></button>
             </div>
         </header>
@@ -53,10 +104,8 @@
         <div class="flex-1 overflow-y-auto p-8 bg-slate-50">
             <!-- DASHBOARD TAB -->
             <div id="tab-dashboard" class="space-y-6">
-                
-                <!-- Baris 1: Info Cards Statistik Ringkas (3 Cards) -->
+                <!-- Baris 1: Info Cards Statistik Ringkas -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                    <!-- Card 1: Total Siswa -->
                     <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm relative overflow-hidden hover:border-slate-300 transition">
                         <div class="flex justify-between items-start mb-4">
                             <div class="p-3 bg-purple-50 text-purple-600 rounded-xl"><i class="fas fa-users text-xl"></i></div>
@@ -66,7 +115,6 @@
                         <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="card-total">0</h3>
                     </div>
 
-                    <!-- Card 2: Siswa Selesai -->
                     <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm relative overflow-hidden hover:border-slate-300 transition">
                         <div class="flex justify-between items-start mb-4">
                             <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl"><i class="fas fa-check-circle text-xl"></i></div>
@@ -76,7 +124,6 @@
                         <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="card-selesai">0</h3>
                     </div>
 
-                    <!-- Card 3: Siswa Online -->
                     <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm relative overflow-hidden hover:border-slate-300 transition">
                         <div class="flex justify-between items-start mb-4">
                             <div class="p-3 bg-amber-50 text-amber-600 rounded-xl"><i class="fas fa-signal text-xl"></i></div>
@@ -101,7 +148,6 @@
                         <span class="text-[10px] font-bold uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full">Live Session</span>
                     </div>
                     
-                    <!-- Container List Ujian Memanjang -->
                     <div id="card-ujian-detail" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         <p class="text-sm text-blue-100">Memuat sesi ujian...</p>
                     </div>
@@ -109,7 +155,6 @@
 
                 <!-- Baris 3: Grid Bawah (Live Progress & Distribusi Kelas) -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Progress Realtime -->
                     <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
                         <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
                             <h3 class="font-bold text-slate-900 flex items-center"><i class="fas fa-broadcast-tower text-emerald-500 mr-2"></i> Live Progress Mengerjakan</h3>
@@ -131,7 +176,6 @@
                         </div>
                     </div>
 
-                    <!-- Siswa per kelas -->
                     <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
                         <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
                             <h3 class="font-bold text-slate-900 flex items-center"><i class="fas fa-chart-bar text-blue-500 mr-2"></i> Distribusi Siswa per Kelas</h3>
@@ -176,6 +220,37 @@
                     </div>
                 </div>
             </div>
+
+            <!-- EMBED TAB: DATABASE UTAMA (Skala 60%) -->
+            <div id="tab-dbUtama" class="hidden h-[calc(100vh-140px)]">
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm h-full flex flex-col overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50 flex-shrink-0 z-10">
+                        <h3 class="font-bold text-slate-900 flex items-center"><i class="fas fa-database text-emerald-500 mr-2"></i> Database Utama (Google Sheets)</h3>
+                        <a href="https://docs.google.com/spreadsheets/d/1PtrDYq0WhbmBtbpIh_Lh7Lq7e32xC7wrUBZbSjzUoMY/edit" target="_blank" class="text-xs bg-emerald-50 text-emerald-700 hover:bg-emerald-100 px-3 py-1.5 rounded-lg font-bold transition flex items-center">
+                            <i class="fas fa-external-link-alt mr-1"></i> Buka Fullscreen
+                        </a>
+                    </div>
+                    <div class="flex-1 w-full bg-slate-100 overflow-hidden relative">
+                        <iframe src="https://docs.google.com/spreadsheets/d/1PtrDYq0WhbmBtbpIh_Lh7Lq7e32xC7wrUBZbSjzUoMY/edit?usp=sharing&single=true&widget=true&headers=false" class="iframe-container"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EMBED TAB: FOLDER HASIL UJIAN (Skala 60%) -->
+            <div id="tab-dbNilai" class="hidden h-[calc(100vh-140px)]">
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm h-full flex flex-col overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50 flex-shrink-0 z-10">
+                        <h3 class="font-bold text-slate-900 flex items-center"><i class="fas fa-table text-amber-500 mr-2"></i> Folder Hasil Ujian & Nilai (Google Sheets)</h3>
+                        <a href="https://docs.google.com/spreadsheets/d/1hx6CXRF8NM9LSnz8Gi5XhWhXtEJap0ZQbluTlqPfn4Q/edit" target="_blank" class="text-xs bg-amber-50 text-amber-700 hover:bg-amber-100 px-3 py-1.5 rounded-lg font-bold transition flex items-center">
+                            <i class="fas fa-external-link-alt mr-1"></i> Buka Fullscreen
+                        </a>
+                    </div>
+                    <div class="flex-1 w-full bg-slate-100 overflow-hidden relative">
+                        <iframe src="https://docs.google.com/spreadsheets/d/1hx6CXRF8NM9LSnz8Gi5XhWhXtEJap0ZQbluTlqPfn4Q/edit?usp=sharing&single=true&widget=true&headers=false" class="iframe-container"></iframe>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
@@ -213,6 +288,27 @@
         let ADMIN_USER = localStorage.getItem('cbt_admin_user') || "";
         let ADMIN_PASS = localStorage.getItem('cbt_admin_pass') || "";
         let syncInterval;
+        let isSidebarOpen = true;
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const texts = document.querySelectorAll('.sidebar-text');
+            const divider = document.querySelector('.sidebar-divider');
+            
+            isSidebarOpen = !isSidebarOpen;
+            
+            if (!isSidebarOpen) {
+                sidebar.classList.remove('w-72');
+                sidebar.classList.add('w-20');
+                texts.forEach(el => el.classList.add('hidden'));
+                if(divider) divider.classList.remove('hidden');
+            } else {
+                sidebar.classList.remove('w-20');
+                sidebar.classList.add('w-72');
+                texts.forEach(el => el.classList.remove('hidden'));
+                if(divider) divider.classList.add('hidden');
+            }
+        }
 
         if (GAS_URL && ADMIN_USER && ADMIN_PASS) {
             document.getElementById('adminUser').value = ADMIN_USER;
@@ -281,13 +377,25 @@
         function switchTab(tabId) {
             document.getElementById('tab-dashboard').classList.add('hidden');
             document.getElementById('tab-nilai').classList.add('hidden');
+            document.getElementById('tab-dbUtama').classList.add('hidden');
+            document.getElementById('tab-dbNilai').classList.add('hidden');
+            
             document.getElementById('tab-' + tabId).classList.remove('hidden');
             
-            document.getElementById('nav-dashboard').className = "flex items-center p-3 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition";
-            document.getElementById('nav-nilai').className = "flex items-center p-3 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition";
+            const navItems = ['dashboard', 'nilai', 'dbUtama', 'dbNilai'];
+            navItems.forEach(id => {
+                document.getElementById('nav-' + id).className = "flex items-center p-3 rounded-2xl text-slate-300 hover:bg-slate-800/80 hover:text-white transition group";
+            });
             
-            document.getElementById('nav-' + tabId).className = "flex items-center p-3 rounded-xl bg-blue-600 text-white font-semibold shadow-lg shadow-blue-500/30 transition";
-            document.getElementById('pageTitle').textContent = tabId === 'dashboard' ? 'Overview Dashboard' : 'Rekap Nilai Siswa';
+            document.getElementById('nav-' + tabId).className = "flex items-center p-3 rounded-2xl bg-blue-600 text-white font-semibold shadow-lg shadow-blue-500/25 transition group";
+            
+            const titles = {
+                'dashboard': 'Overview Dashboard',
+                'nilai': 'Rekap Nilai Siswa',
+                'dbUtama': 'Database Utama',
+                'dbNilai': 'Folder Hasil Ujian'
+            };
+            document.getElementById('pageTitle').textContent = titles[tabId];
         }
 
         function startAutoSync() {
@@ -299,7 +407,7 @@
         }
 
         function fetchDashboardData(isSilent = false) {
-            if(!isSilent) document.getElementById('lastSync').innerHTML = '<i class="fas fa-circle text-emerald-500 text-[8px] mr-1.5 animate-pulse"></i> Sinkronisasi...';
+            if(!isSilent) document.getElementById('lastSync').innerHTML = '<i class="fas fa-circle text-emerald-500 text-[8px] mr-2 animate-pulse"></i> Sinkronisasi...';
             
             fetch(GAS_URL, {
                 method: 'POST',
@@ -311,7 +419,7 @@
             }).then(res => res.json()).then(res => {
                 if(res.error) { logout(); return; }
                 renderDashboard(res);
-                document.getElementById('lastSync').innerHTML = `<i class="fas fa-circle text-emerald-500 text-[8px] mr-1.5"></i> Update: ${new Date().toLocaleTimeString('id-ID')}`;
+                document.getElementById('lastSync').innerHTML = `<i class="fas fa-circle text-emerald-500 text-[8px] mr-2"></i> Update: ${new Date().toLocaleTimeString('id-ID')}`;
             });
         }
 
@@ -328,7 +436,6 @@
                 }
             }
 
-            // Render Detail Ujian Aktif (Memanjang ke Samping dalam Grid)
             const detailContainer = document.getElementById('card-ujian-detail');
             detailContainer.innerHTML = '';
             
