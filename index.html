@@ -6,6 +6,8 @@
     <title>Dashboard Admin - CBT SMANJO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Library jsPDF untuk Cetak PDF A4 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         .sidebar-transition {
             transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -182,9 +184,14 @@
 
                     <!-- Tabel Pelanggaran Siswa -->
                     <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 flex-wrap gap-2">
                             <h3 class="font-bold text-slate-900 flex items-center"><i class="fas fa-shield-alt text-rose-500 mr-2"></i> Log Pelanggaran Ujian</h3>
-                            <span class="text-xs text-rose-500 font-bold px-2.5 py-0.5 bg-rose-50 rounded-full" id="badgePelanggaranCount">0 Pelanggaran</span>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="downloadPdfPelanggaran()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center shadow-sm">
+                                    <i class="fas fa-file-pdf mr-1.5"></i> Unduh PDF (A4)
+                                </button>
+                                <span class="text-xs text-rose-500 font-bold px-2.5 py-0.5 bg-rose-50 rounded-full" id="badgePelanggaranCount">0 Pelanggaran</span>
+                            </div>
                         </div>
                         <div class="overflow-y-auto max-h-72 pr-1">
                             <table class="w-full text-left text-sm">
@@ -316,6 +323,7 @@
         let ADMIN_PASS = localStorage.getItem('cbt_admin_pass') || "";
         let syncInterval;
         let isSidebarOpen = true;
+        window.listPelanggaran = []; // Global variable untuk data pelanggaran PDF
 
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -482,7 +490,7 @@
                                 </div>
                                 <div class="text-blue-100 space-y-1 text-xs mb-3">
                                     <div class="flex items-center"><i class="far fa-clock w-4 mr-1 text-blue-200"></i> Durasi: <span class="font-bold text-white ml-1">${item.durasi} Menit</span></div>
-                                    <div class="flex items-center"><i class="far fa-calendar-alt w-4 mr-1 text-blue-200"></i> Pukul: <span class="font-semibold text-white ml-1">${waktuMulaiStr} - ${waktuSelesaiStr} WIB</span></div>
+                                    <div class="flex items-center"><i class="far fa-calendar-alt w-4 mr-1 text-blue-200"></i> Pukul: <span class="semibold text-white ml-1">${waktuMulaiStr} - ${waktuSelesaiStr} WIB</span></div>
                                 </div>
                             </div>
                             <div class="pt-2 border-t border-white/10 flex justify-end">
@@ -499,17 +507,16 @@
             document.getElementById('card-selesai').textContent = data.totalSelesai;
             document.getElementById('card-online').textContent = data.totalOnline;
             
-            // Render Card dan Tabel Pelanggaran
-            const pelanggaranList = data.listPelanggaran || [];
-            document.getElementById('card-pelanggaran').textContent = pelanggaranList.length;
-            document.getElementById('badgePelanggaranCount').textContent = pelanggaranList.length + " Pelanggaran";
+            window.listPelanggaran = data.listPelanggaran || [];
+            document.getElementById('card-pelanggaran').textContent = window.listPelanggaran.length;
+            document.getElementById('badgePelanggaranCount').textContent = window.listPelanggaran.length + " Pelanggaran";
 
             const pelanggaranTable = document.getElementById('pelanggaranTable');
             pelanggaranTable.innerHTML = '';
-            if(pelanggaranList.length === 0) {
+            if(window.listPelanggaran.length === 0) {
                 pelanggaranTable.innerHTML = '<tr><td colspan="3" class="text-center p-6 text-slate-400 text-xs">Tidak ada siswa yang melanggar.</td></tr>';
             } else {
-                pelanggaranList.forEach(p => {
+                window.listPelanggaran.forEach(p => {
                     pelanggaranTable.innerHTML += `
                         <tr class="hover:bg-slate-50/80 transition">
                             <td class="p-3">
@@ -563,6 +570,144 @@
                     `;
                 });
             }
+        }
+
+        // --- FITUR DOWNLOAD PDF A4 TERKELOMPOK PER KODE UJIAN & KELAS ---
+        function downloadPdfPelanggaran() {
+            if (!window.jspdf) {
+                alert("Library PDF belum dimuat. Periksa koneksi internet Anda.");
+                return;
+            }
+
+            if (!window.listPelanggaran || window.listPelanggaran.length === 0) {
+                alert("Tidak ada data pelanggaran siswa untuk diunduh saat ini.");
+                return;
+            }
+
+            let pilihanUjian = prompt("Masukkan Kode Ujian yang ingin direkap (atau kosongkan untuk SEMUA ujian):", "");
+            let pilihanKelas = prompt("Masukkan Kelas yang ingin direkap (atau kosongkan untuk SEMUA kelas):", "");
+
+            let dataFilter = window.listPelanggaran.filter(p => {
+                let matchUjian = !pilihanUjian || (p.kodeUjian && p.kodeUjian.toString().trim().toUpperCase() === pilihanUjian.trim().toUpperCase());
+                let matchKelas = !pilihanKelas || (p.kelas && p.kelas.toString().trim().toUpperCase() === pilihanKelas.trim().toUpperCase());
+                return matchUjian && matchKelas;
+            });
+
+            if (dataFilter.length === 0) {
+                alert("Tidak ada data pelanggaran yang sesuai dengan filter Kode Ujian / Kelas tersebut.");
+                return;
+            }
+
+            let groupedData = {};
+            dataFilter.forEach(p => {
+                let kode = p.kodeUjian || "UMUM";
+                let kelas = p.kelas || "Tanpa Kelas";
+                if (!groupedData[kode]) groupedData[kode] = {};
+                if (!groupedData[kode][kelas]) groupedData[kode][kelas] = [];
+                groupedData[kode][kelas].push(p);
+            });
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4'); 
+
+            let isFirstPage = true;
+
+            for (let kodeUjian in groupedData) {
+                for (let kelas in groupedData[kodeUjian]) {
+                    let daftarSiswaKelas = groupedData[kodeUjian][kelas];
+
+                    if (!isFirstPage) {
+                        doc.addPage();
+                    }
+                    isFirstPage = false;
+
+                    // KOP SURAT
+                    doc.setFont("Helvetica", "bold");
+                    doc.setFontSize(14);
+                    doc.text("PEMERINTAH PROVINSI JAWA TIMUR", 105, 15, { align: "center" });
+                    doc.text("DINAS PENDIDIKAN", 105, 21, { align: "center" });
+                    doc.setFontSize(16);
+                    doc.text("SMAN 1 WONGSOREJO", 105, 28, { align: "center" });
+                    
+                    doc.setFont("Helvetica", "normal");
+                    doc.setFontSize(9);
+                    doc.text("Jl. Raya Wongsorejo, Banyuwangi, Jawa Timur", 105, 33, { align: "center" });
+                    
+                    doc.setLineWidth(0.5);
+                    doc.line(15, 36, 195, 36);
+
+                    // JUDUL LAPORAN & INFO FILTER
+                    doc.setFont("Helvetica", "bold");
+                    doc.setFontSize(12);
+                    doc.text("REKAPITULASI PELANGGARAN TATA TERTIB UJIAN (CBT)", 105, 44, { align: "center" });
+                    
+                    doc.setFont("Helvetica", "bold");
+                    doc.setFontSize(10);
+                    doc.text(`Mata Ujian / Kode: ${kodeUjian}`, 15, 52);
+                    doc.text(`Kelas: ${kelas}`, 15, 57);
+
+                    doc.setFont("Helvetica", "normal");
+                    doc.setFontSize(9);
+                    doc.text(`Tanggal Cetak: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`, 15, 62);
+
+                    // TABEL DATA
+                    let startY = 66;
+                    doc.setFillColor(79, 70, 229); 
+                    doc.rect(15, startY, 180, 8, "F");
+
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFont("Helvetica", "bold");
+                    doc.setFontSize(9);
+                    doc.text("No", 18, startY + 5.5);
+                    doc.text("NISN", 32, startY + 5.5);
+                    doc.text("Nama Siswa", 65, startY + 5.5);
+                    doc.text("Waktu Pelanggaran", 130, startY + 5.5);
+                    doc.text("Pelanggaran Ke-", 165, startY + 5.5);
+
+                    doc.setTextColor(0, 0, 0);
+                    doc.setFont("Helvetica", "normal");
+                    doc.setFontSize(9);
+
+                    let currentY = startY + 8;
+                    daftarSiswaKelas.forEach((p, index) => {
+                        if (currentY > 265) {
+                            doc.addPage();
+                            currentY = 20;
+                        }
+
+                        if (index % 2 === 0) {
+                            doc.setFillColor(248, 250, 252);
+                            doc.rect(15, currentY, 180, 7, "F");
+                        }
+
+                        doc.text(`${index + 1}`, 18, currentY + 5);
+                        doc.text(String(p.nisn || "-"), 32, currentY + 5);
+                        doc.text(String(p.nama || "-"), 65, currentY + 5, { maxWidth: 60 });
+                        doc.text(String(p.waktu || "-"), 130, currentY + 5);
+                        doc.text(`${p.kesempatanKe} / 4`, 172, currentY + 5);
+
+                        doc.setLineWidth(0.1);
+                        doc.setLineDash([0.5, 0.5], 0);
+                        doc.line(15, currentY + 7, 195, currentY + 7);
+                        doc.setLineDash([]);
+
+                        currentY += 7;
+                    });
+
+                    // TANDA TANGAN
+                    currentY += 12;
+                    if (currentY > 240) { doc.addPage(); currentY = 30; }
+
+                    doc.text("Mengetahui,", 150, currentY);
+                    doc.text("Proktor / Admin CBT SMANJO", 150, currentY + 5);
+                    doc.text("( ................................................... )", 150, currentY + 22);
+                }
+            }
+
+            let namaFile = "Rekap_Pelanggaran";
+            if (pilihanUjian) namaFile += `_${pilihanUjian}`;
+            if (pilihanKelas) namaFile += `_Kelas_${pilihanKelas}`;
+            doc.save(`${namaFile}_${new Date().toISOString().slice(0,10)}.pdf`);
         }
 
         function fetchNilai() {
