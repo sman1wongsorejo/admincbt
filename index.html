@@ -10,10 +10,9 @@
         .sidebar-transition {
             transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        /* CSS untuk memperkecil skala tampilan iframe spreadsheet menjadi 60% */
         .iframe-container {
             position: relative;
-            width: 166.66%; /* 100 / 0.6 agar pas menutupi area */
+            width: 166.66%; 
             height: 166.66%;
             transform: scale(0.6);
             transform-origin: 0 0;
@@ -23,9 +22,8 @@
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 h-screen flex overflow-hidden">
 
-    <!-- Sidebar Kiri yang Interaktif (Buka/Tutup) -->
+    <!-- Sidebar Kiri -->
     <aside id="sidebar" class="w-72 bg-slate-900 text-white flex flex-col shadow-2xl z-30 sidebar-transition relative">
-        <!-- Header Sidebar -->
         <div class="p-6 border-b border-slate-800 flex items-center justify-between">
             <div id="sidebarHeaderContent" class="flex items-center space-x-3 overflow-hidden">
                 <div class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 flex-shrink-0">
@@ -41,7 +39,6 @@
             </button>
         </div>
 
-        <!-- Navigasi Menu -->
         <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
             <a href="#" onclick="switchTab('dashboard')" id="nav-dashboard" class="flex items-center p-3 rounded-2xl bg-blue-600 text-white font-semibold shadow-lg shadow-blue-500/25 transition group">
                 <i class="fas fa-chart-pie w-6 text-center text-lg flex-shrink-0"></i>
@@ -57,19 +54,16 @@
                 <hr class="sidebar-divider border-slate-800 my-2 hidden">
             </div>
             
-            <!-- Embed Database Utama -->
             <a href="#" onclick="switchTab('dbUtama')" id="nav-dbUtama" class="flex items-center p-3 rounded-2xl text-slate-300 hover:bg-slate-800/80 hover:text-emerald-400 transition group">
                 <i class="fas fa-database w-6 text-center text-lg flex-shrink-0 text-emerald-400"></i>
                 <span class="sidebar-text ml-3 text-sm">Database Utama</span>
             </a>
-            <!-- Embed Folder / Sheet Hasil Ujian -->
             <a href="#" onclick="switchTab('dbNilai')" id="nav-dbNilai" class="flex items-center p-3 rounded-2xl text-slate-300 hover:bg-slate-800/80 hover:text-amber-400 transition group">
                 <i class="fas fa-table w-6 text-center text-lg flex-shrink-0 text-amber-400"></i>
                 <span class="sidebar-text ml-3 text-sm">Folder Hasil Ujian</span>
             </a>
         </nav>
 
-        <!-- Footer / Tombol Logout -->
         <div class="p-4 border-t border-slate-800">
             <button onclick="logout()" class="w-full bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-white py-3 px-4 rounded-2xl font-bold transition flex items-center justify-center group">
                 <i class="fas fa-sign-out-alt text-base flex-shrink-0 group-hover:rotate-180 transition duration-300"></i>
@@ -80,7 +74,6 @@
 
     <!-- Main Content -->
     <main class="flex-1 flex flex-col overflow-hidden">
-        <!-- Topbar -->
         <header class="bg-white border-b border-slate-200 px-8 py-4 flex justify-between items-center z-10 shadow-sm">
             <div class="flex items-center space-x-4">
                 <button onclick="toggleSidebar()" class="text-slate-600 hover:text-blue-600 p-2 rounded-xl hover:bg-slate-100 transition lg:hidden">
@@ -104,8 +97,8 @@
         <div class="flex-1 overflow-y-auto p-8 bg-slate-50">
             <!-- DASHBOARD TAB -->
             <div id="tab-dashboard" class="space-y-6">
-                <!-- Baris 1: Info Cards Statistik Ringkas -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <!-- Baris 1: Info Cards Statistik Ringkas (+ Pelanggaran) -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
                     <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm relative overflow-hidden hover:border-slate-300 transition">
                         <div class="flex justify-between items-start mb-4">
                             <div class="p-3 bg-purple-50 text-purple-600 rounded-xl"><i class="fas fa-users text-xl"></i></div>
@@ -132,6 +125,16 @@
                         <p class="text-slate-500 text-xs font-medium mb-1">Siswa Sedang Online</p>
                         <h3 class="text-3xl font-black text-slate-900 tracking-tight" id="card-online">0</h3>
                     </div>
+
+                    <!-- Card Pelanggaran Baru -->
+                    <div class="bg-white rounded-2xl p-6 border border-rose-200 shadow-sm relative overflow-hidden hover:border-rose-300 transition">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-3 bg-rose-50 text-rose-600 rounded-xl"><i class="fas fa-exclamation-triangle text-xl"></i></div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider bg-rose-100 text-rose-700 px-2.5 py-1 rounded-full">Warning</span>
+                        </div>
+                        <p class="text-slate-500 text-xs font-medium mb-1">Siswa Melakukan Pelanggaran</p>
+                        <h3 class="text-3xl font-black text-rose-600 tracking-tight" id="card-pelanggaran">0</h3>
+                    </div>
                 </div>
 
                 <!-- Baris 2: Info Card Sesi/Ujian Aktif Memanjang ke Samping -->
@@ -153,8 +156,9 @@
                     </div>
                 </div>
 
-                <!-- Baris 3: Grid Bawah (Live Progress & Distribusi Kelas) -->
+                <!-- Baris 3: Grid Bawah (Live Progress, Pelanggaran, Distribusi Kelas) -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Progress Realtime -->
                     <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
                         <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
                             <h3 class="font-bold text-slate-900 flex items-center"><i class="fas fa-broadcast-tower text-emerald-500 mr-2"></i> Live Progress Mengerjakan</h3>
@@ -176,14 +180,37 @@
                         </div>
                     </div>
 
+                    <!-- Tabel Pelanggaran Siswa -->
                     <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
                         <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
-                            <h3 class="font-bold text-slate-900 flex items-center"><i class="fas fa-chart-bar text-blue-500 mr-2"></i> Distribusi Siswa per Kelas</h3>
-                            <span class="text-xs text-slate-400 font-medium">Berdasarkan Database</span>
+                            <h3 class="font-bold text-slate-900 flex items-center"><i class="fas fa-shield-alt text-rose-500 mr-2"></i> Log Pelanggaran Ujian</h3>
+                            <span class="text-xs text-rose-500 font-bold px-2.5 py-0.5 bg-rose-50 rounded-full" id="badgePelanggaranCount">0 Pelanggaran</span>
                         </div>
-                        <div id="kelasDistList" class="space-y-4 max-h-72 overflow-y-auto pr-2">
-                            <p class="text-slate-400 text-sm">Memuat data kelas...</p>
+                        <div class="overflow-y-auto max-h-72 pr-1">
+                            <table class="w-full text-left text-sm">
+                                <thead>
+                                    <tr class="text-slate-400 text-xs uppercase tracking-wider bg-slate-50 rounded-lg">
+                                        <th class="p-3 rounded-l-lg">Siswa / Kelas</th>
+                                        <th class="p-3">Mapel (Ujian)</th>
+                                        <th class="p-3 text-center rounded-r-lg">Kesempatan Ke-</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pelanggaranTable" class="divide-y divide-slate-100">
+                                    <tr><td colspan="3" class="text-center p-6 text-slate-400 text-sm">Tidak ada siswa yang melanggar.</td></tr>
+                                </tbody>
+                            </table>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Baris 4: Distribusi Siswa per Kelas -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+                    <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                        <h3 class="font-bold text-slate-900 flex items-center"><i class="fas fa-chart-bar text-blue-500 mr-2"></i> Distribusi Siswa per Kelas</h3>
+                        <span class="text-xs text-slate-400 font-medium">Berdasarkan Database</span>
+                    </div>
+                    <div id="kelasDistList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pr-2">
+                        <p class="text-slate-400 text-sm">Memuat data kelas...</p>
                     </div>
                 </div>
             </div>
@@ -221,7 +248,7 @@
                 </div>
             </div>
 
-            <!-- EMBED TAB: DATABASE UTAMA (Skala 60%) -->
+            <!-- EMBED TAB: DATABASE UTAMA -->
             <div id="tab-dbUtama" class="hidden h-[calc(100vh-140px)]">
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm h-full flex flex-col overflow-hidden">
                     <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50 flex-shrink-0 z-10">
@@ -236,7 +263,7 @@
                 </div>
             </div>
 
-            <!-- EMBED TAB: FOLDER HASIL UJIAN (Skala 60%) -->
+            <!-- EMBED TAB: FOLDER HASIL UJIAN -->
             <div id="tab-dbNilai" class="hidden h-[calc(100vh-140px)]">
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm h-full flex flex-col overflow-hidden">
                     <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50 flex-shrink-0 z-10">
@@ -471,6 +498,32 @@
             document.getElementById('card-total').textContent = data.totalSiswa;
             document.getElementById('card-selesai').textContent = data.totalSelesai;
             document.getElementById('card-online').textContent = data.totalOnline;
+            
+            // Render Card dan Tabel Pelanggaran
+            const pelanggaranList = data.listPelanggaran || [];
+            document.getElementById('card-pelanggaran').textContent = pelanggaranList.length;
+            document.getElementById('badgePelanggaranCount').textContent = pelanggaranList.length + " Pelanggaran";
+
+            const pelanggaranTable = document.getElementById('pelanggaranTable');
+            pelanggaranTable.innerHTML = '';
+            if(pelanggaranList.length === 0) {
+                pelanggaranTable.innerHTML = '<tr><td colspan="3" class="text-center p-6 text-slate-400 text-xs">Tidak ada siswa yang melanggar.</td></tr>';
+            } else {
+                pelanggaranList.forEach(p => {
+                    pelanggaranTable.innerHTML += `
+                        <tr class="hover:bg-slate-50/80 transition">
+                            <td class="p-3">
+                                <div class="font-bold text-slate-800 text-sm">${p.nama}</div>
+                                <div class="text-xs text-slate-400">${p.kelas} (${p.nisn})</div>
+                            </td>
+                            <td class="p-3 text-xs font-bold text-rose-600">${p.kodeUjian}</td>
+                            <td class="p-3 text-center">
+                                <span class="bg-rose-100 text-rose-700 border border-rose-200 px-3 py-1 rounded-full text-xs font-extrabold">Ke-${p.kesempatanKe}</span>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
 
             const classContainer = document.getElementById('kelasDistList');
             classContainer.innerHTML = '';
@@ -478,7 +531,7 @@
                 let count = data.siswaPerKelas[kelas];
                 let percent = (count / data.totalSiswa) * 100;
                 classContainer.innerHTML += `
-                    <div>
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
                         <div class="flex justify-between text-sm mb-1">
                             <span class="font-bold text-slate-700">${kelas}</span>
                             <span class="text-slate-500 font-medium text-xs">${count} Siswa</span>
