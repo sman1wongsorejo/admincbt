@@ -63,6 +63,15 @@
                 <i class="fas fa-chart-pie w-6 text-center text-lg flex-shrink-0"></i>
                 <span class="sidebar-text ml-3 text-sm">Dashboard Utama</span>
             </a>
+            <a href="#" onclick="switchTab('online')" id="nav-online" class="flex items-center p-3 rounded-2xl text-slate-300 hover:bg-slate-800 hover:text-white transition group">
+                <i class="fas fa-tower-broadcast w-6 text-center text-lg flex-shrink-0 text-cyan-400 group-hover:text-cyan-300 transition animate-pulse"></i>
+                <span class="sidebar-text ml-3 text-sm">Siswa Online</span>
+            </a>
+            <!-- MENU BARU UNTUK DETAIL SISWA SELESAI -->
+            <a href="#" onclick="switchTab('selesai')" id="nav-selesai" class="flex items-center p-3 rounded-2xl text-slate-300 hover:bg-slate-800 hover:text-white transition group">
+                <i class="fas fa-check-double w-6 text-center text-lg flex-shrink-0 text-emerald-400 group-hover:text-emerald-300 transition"></i>
+                <span class="sidebar-text ml-3 text-sm">Siswa Selesai</span>
+            </a>
             <a href="#" onclick="switchTab('nilai')" id="nav-nilai" class="flex items-center p-3 rounded-2xl text-slate-300 hover:bg-slate-800 hover:text-white transition group">
                 <i class="fas fa-file-alt w-6 text-center text-lg flex-shrink-0 text-slate-400 group-hover:text-blue-400 transition"></i>
                 <span class="sidebar-text ml-3 text-sm">Rekap Nilai Siswa</span>
@@ -123,7 +132,7 @@
             <!-- DASHBOARD TAB -->
             <div id="tab-dashboard" class="space-y-6">
                 
-                <!-- 1. COMPACT & PROFESSIONAL GRADIENT INFO CARDS (ELEGANT BLUE THEME) -->
+                <!-- 1. COMPACT & PROFESSIONAL GRADIENT INFO CARDS -->
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                     <!-- Card 1: Total Siswa -->
                     <div class="bg-gradient-to-br from-blue-600 to-indigo-700 text-white rounded-2xl p-4 shadow-lg shadow-blue-500/10 relative overflow-hidden group hover:scale-[1.01] transition duration-300 flex items-center justify-between border border-blue-400/20">
@@ -170,7 +179,7 @@
                     </div>
                 </div>
 
-                <!-- 2. SESI UJIAN AKTIF (Dipindah ke atas agar mudah dipantau proktor) -->
+                <!-- 2A. SESI UJIAN AKTIF -->
                 <div class="bg-slate-900 rounded-3xl border border-slate-800 p-5 sm:p-6 shadow-xl">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 mb-4 border-b border-slate-800 gap-2">
                         <div class="flex items-center space-x-3">
@@ -219,12 +228,20 @@
                     </div>
                 </div>
 
-                <!-- 4. LIVE PROGRESS & PELANGGARAN -->
+                <!-- 4. LIVE PROGRESS (Tabel) & PELANGGARAN -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div class="bg-slate-900 rounded-3xl border border-slate-800 p-5 sm:p-6 shadow-xl">
-                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
-                            <h3 class="font-bold text-white flex items-center text-sm sm:text-base"><i class="fas fa-broadcast-tower text-blue-400 mr-2"></i> Live Progress Mengerjakan</h3>
-                            <span class="text-xs text-slate-400 font-medium">Klik baris untuk detail</span>
+                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800 flex-wrap gap-3">
+                            <div>
+                                <h3 class="font-bold text-white flex items-center text-sm sm:text-base"><i class="fas fa-broadcast-tower text-blue-400 mr-2"></i> Live Progress Mengerjakan</h3>
+                                <span class="text-xs text-slate-400 font-medium">Klik baris untuk inspeksi detail</span>
+                            </div>
+                            
+                            <!-- Search Box Progress -->
+                            <div class="relative w-full sm:w-auto">
+                                <input type="text" id="searchProgress" onkeyup="filterProgress()" placeholder="Cari Siswa/NISN..." class="w-full sm:w-48 bg-slate-800 border border-slate-700 rounded-xl px-4 py-1.5 text-xs text-white focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 outline-none transition placeholder-slate-500">
+                                <i class="fas fa-search absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                            </div>
                         </div>
                         <div class="overflow-y-auto max-h-72 pr-1">
                             <table class="w-full text-left text-sm">
@@ -281,6 +298,53 @@
                 </div>
             </div>
 
+            <!-- ONLINE TAB (Siswa Online) -->
+            <div id="tab-online" class="hidden space-y-6">
+                <div class="bg-slate-900 rounded-3xl border border-slate-800 p-5 sm:p-6 shadow-xl min-h-[calc(100vh-160px)]">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 mb-4 border-b border-slate-800 gap-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-bold border border-cyan-500/20">
+                                <i class="fas fa-tower-broadcast text-xl animate-pulse"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-white text-lg">Pantauan Siswa Online</h3>
+                                <p class="text-xs text-slate-400 mt-1">Daftar grid siswa yang terpantau aktif mengerjakan di dalam sistem secara Real-Time.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3 w-full sm:w-auto">
+                            <span class="text-xs font-bold uppercase tracking-wider bg-cyan-500/10 text-cyan-400 px-3 py-1.5 rounded-full border border-cyan-500/20 flex items-center justify-center w-full sm:w-auto">
+                                <i class="fas fa-circle text-[8px] mr-1.5 animate-ping"></i> Live Data
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div id="card-siswa-online" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-auto max-h-[calc(100vh-280px)] pr-2 pb-4">
+                        <p class="text-sm text-slate-400 col-span-full">Memuat data siswa online...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SELESAI TAB (TAB BARU - Siswa Selesai) -->
+            <div id="tab-selesai" class="hidden space-y-6">
+                <div class="bg-slate-900 rounded-3xl border border-slate-800 p-5 sm:p-6 shadow-xl min-h-[calc(100vh-160px)]">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 mb-4 border-b border-slate-800 gap-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold border border-emerald-500/20">
+                                <i class="fas fa-check-double text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-white text-lg">Detail Siswa Selesai</h3>
+                                <p class="text-xs text-slate-400 mt-1">Daftar grid siswa yang telah menyelesaikan ujian terbarunya.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="card-siswa-selesai-tab" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-auto max-h-[calc(100vh-280px)] pr-2 pb-4">
+                        <p class="text-sm text-slate-400 col-span-full">Memuat data siswa selesai...</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- NILAI TAB -->
             <div id="tab-nilai" class="hidden space-y-6">
                 <div class="bg-slate-900 rounded-3xl border border-slate-800 p-5 sm:p-6 shadow-xl">
@@ -290,11 +354,10 @@
                             <p class="text-xs text-slate-400">Pilih kode ujian dari daftar untuk melihat hasil penilaian lengkap.</p>
                         </div>
                         
-                        <!-- Dropdown Pintar (Datalist) Pengganti Input Manual -->
                         <div class="flex items-center space-x-2 w-full sm:w-auto">
                             <input list="daftarKode" id="inputKodeUjian" placeholder="Pilih atau Ketik Kode Ujian..." class="border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none w-full sm:w-64 bg-slate-800 text-white cursor-pointer" autocomplete="off">
                             <datalist id="daftarKode">
-                                <!-- Opsi dimuat otomatis dari Sheet Jadwal_Ujian -->
+                                <!-- Opsi dimuat otomatis -->
                             </datalist>
 
                             <button onclick="fetchNilai()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-md shadow-blue-500/20 transition whitespace-nowrap">
@@ -354,7 +417,7 @@
         </div>
     </main>
 
-    <!-- Modal Inspeksi Cepat Siswa (Quick Inspection Modal) -->
+    <!-- Modal Inspeksi Cepat Siswa -->
     <div id="studentModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 hidden">
         <div class="bg-slate-900 rounded-3xl shadow-2xl w-full max-w-md border border-slate-800 overflow-hidden transform transition-all text-white">
             <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-white flex justify-between items-center">
@@ -435,6 +498,32 @@
         window.listSiswaOnline = [];
         let progressChartInstance = null;
 
+        // --- Fitur Pencarian Tabel Progress ---
+        function filterProgress() {
+            let input = document.getElementById('searchProgress');
+            let filter = input.value.toLowerCase();
+            let table = document.getElementById('liveProgressTable');
+            let tr = table.getElementsByTagName('tr');
+
+            for (let i = 0; i < tr.length; i++) {
+                if (tr[i].cells.length === 1) continue; 
+                
+                let tdSiswa = tr[i].getElementsByTagName("td")[0];
+                let tdUjian = tr[i].getElementsByTagName("td")[1];
+                
+                if (tdSiswa || tdUjian) {
+                    let textValueSiswa = tdSiswa.textContent || tdSiswa.innerText;
+                    let textValueUjian = tdUjian.textContent || tdUjian.innerText;
+                    
+                    if (textValueSiswa.toLowerCase().indexOf(filter) > -1 || textValueUjian.toLowerCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('mobileOverlay');
@@ -483,7 +572,6 @@
             }
         }
 
-        // Ambil daftar kode ujian otomatis dari database sheet Jadwal_Ujian via backend yang sudah ada
         function loadKodeUjianOtomatis() {
             fetch(GAS_URL, {
                 method: 'POST',
@@ -499,7 +587,7 @@
                     });
                 }
             })
-            .catch(err => console.warn("Gagal memuat dropdown kode ujian otomatis:", err));
+            .catch(err => console.warn("Gagal memuat dropdown:", err));
         }
 
         if (GAS_URL && ADMIN_USER && ADMIN_PASS) {
@@ -508,7 +596,7 @@
             document.getElementById('loginOverlay').classList.add('hidden');
             fetchDashboardData();
             startAutoSync();
-            loadKodeUjianOtomatis(); // Muat dropdown otomatis saat sesi aktif
+            loadKodeUjianOtomatis(); 
         }
 
         function login() {
@@ -544,7 +632,7 @@
                     document.getElementById('loginOverlay').classList.add('hidden');
                     renderDashboard(res);
                     startAutoSync();
-                    loadKodeUjianOtomatis(); // Muat dropdown otomatis setelah login sukses
+                    loadKodeUjianOtomatis();
                 }
             }).catch(err => {
                 btn.innerHTML = originalBtnHtml;
@@ -569,23 +657,31 @@
             document.getElementById('loginOverlay').classList.remove('hidden');
         }
 
+        // --- UPDATE TAB SWITCHING LOGIC ---
         function switchTab(tabId) {
-            document.getElementById('tab-dashboard').classList.add('hidden');
-            document.getElementById('tab-nilai').classList.add('hidden');
-            document.getElementById('tab-dbUtama').classList.add('hidden');
-            document.getElementById('tab-dbNilai').classList.add('hidden');
-            
-            document.getElementById('tab-' + tabId).classList.remove('hidden');
-            
-            const navItems = ['dashboard', 'nilai', 'dbUtama', 'dbNilai'];
-            navItems.forEach(id => {
-                document.getElementById('nav-' + id).className = "flex items-center p-3 rounded-2xl text-slate-300 hover:bg-slate-800 hover:text-white transition group";
+            // Sembunyikan semua tab (Termasuk tab selesai)
+            const allTabs = ['dashboard', 'online', 'selesai', 'nilai', 'dbUtama', 'dbNilai'];
+            allTabs.forEach(id => {
+                document.getElementById('tab-' + id).classList.add('hidden');
             });
             
-            document.getElementById('nav-' + tabId).className = "flex items-center p-3 rounded-2xl bg-blue-600 text-white font-semibold shadow-lg shadow-blue-500/25 transition group";
+            // Tampilkan tab yang dipilih
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            
+            // Reset style semua navigasi
+            allTabs.forEach(id => {
+                let navEl = document.getElementById('nav-' + id);
+                if(navEl) navEl.className = "flex items-center p-3 rounded-2xl text-slate-300 hover:bg-slate-800 hover:text-white transition group";
+            });
+            
+            // Aktifkan style untuk menu yang dipilih
+            let activeNav = document.getElementById('nav-' + tabId);
+            if(activeNav) activeNav.className = "flex items-center p-3 rounded-2xl bg-blue-600 text-white font-semibold shadow-lg shadow-blue-500/25 transition group";
             
             const titles = {
                 'dashboard': 'Overview Dashboard',
+                'online': 'Pantauan Siswa Online',
+                'selesai': 'Detail Siswa Selesai',
                 'nilai': 'Rekap Nilai Siswa',
                 'dbUtama': 'Database Utama',
                 'dbNilai': 'Folder Hasil Ujian'
@@ -610,7 +706,10 @@
             }, 1000);
 
             syncInterval = setInterval(() => {
-                if(!document.getElementById('tab-dashboard').classList.contains('hidden')) {
+                // Sync data if Dashboard, Online OR Selesai tab is active
+                if(!document.getElementById('tab-dashboard').classList.contains('hidden') || 
+                   !document.getElementById('tab-online').classList.contains('hidden') || 
+                   !document.getElementById('tab-selesai').classList.contains('hidden')) {
                     fetchDashboardData(true);
                 }
             }, 15000);
@@ -664,9 +763,9 @@
                 }
             }
 
+            // 1. Render Sesi Ujian Aktif
             const detailContainer = document.getElementById('card-ujian-detail');
             detailContainer.innerHTML = '';
-            
             if (!data.ujianAktifDetail || data.ujianAktifDetail.length === 0) {
                 detailContainer.innerHTML = '<div class="col-span-full bg-slate-800/60 border border-slate-700/80 p-4 rounded-2xl text-center text-xs text-slate-400 font-medium">Tidak ada sesi ujian atau mapel yang aktif saat ini.</div>';
             } else {
@@ -696,9 +795,60 @@
                 });
             }
 
-            document.getElementById('card-total').textContent = data.totalSiswa;
-            document.getElementById('card-selesai').textContent = data.totalSelesai;
-            document.getElementById('card-online').textContent = data.totalOnline;
+            // 2. Render Detail Siswa Selesai Mengerjakan (DI TAB BARU - SELESAI TAB)
+            const selesaiContainer = document.getElementById('card-siswa-selesai-tab');
+            selesaiContainer.innerHTML = '';
+            
+            if (!data.siswaSelesai || data.siswaSelesai.length === 0) {
+                selesaiContainer.innerHTML = '<div class="col-span-full bg-slate-800/60 border border-slate-700/80 p-10 rounded-2xl text-center text-sm text-slate-400 font-medium flex flex-col items-center justify-center"><i class="fas fa-clipboard-check text-4xl mb-3 text-slate-600"></i> Belum ada catatan siswa yang selesai ujian terbaru.</div>';
+            } else {
+                data.siswaSelesai.forEach(item => {
+                    selesaiContainer.innerHTML += `
+                        <div class="bg-slate-800/60 p-4 rounded-2xl border border-slate-700/80 flex flex-col justify-between hover:border-slate-600 transition shadow-sm">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-bold text-white text-sm truncate pr-2">${item.nama || 'Anonim'}</span>
+                                <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full font-bold">Selesai</span>
+                            </div>
+                            <div class="text-slate-400 space-y-1.5 text-xs">
+                                <div class="flex items-center justify-between"><span>Kelas:</span> <span class="font-medium text-slate-200">${item.kelas || '-'}</span></div>
+                                <div class="flex items-center justify-between"><span>Mapel:</span> <span class="font-bold text-blue-400">${item.kodeUjian || '-'}</span></div>
+                                <div class="flex items-center justify-between"><span>Waktu:</span> <span class="font-medium text-slate-200">${item.waktuSelesai || '-'}</span></div>
+                                <div class="flex items-center justify-between"><span>Nilai:</span> <span class="font-black text-emerald-400">${item.nilai !== undefined ? item.nilai : '-'}</span></div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // 2.5 Render Detail Siswa Sedang Online DI TAB ONLINE
+            const onlineContainer = document.getElementById('card-siswa-online');
+            onlineContainer.innerHTML = '';
+            
+            if (!data.siswaOnline || data.siswaOnline.length === 0) {
+                onlineContainer.innerHTML = '<div class="col-span-full bg-slate-800/60 border border-slate-700/80 p-10 rounded-2xl text-center text-sm text-slate-400 font-medium flex flex-col items-center justify-center"><i class="fas fa-bed text-4xl mb-3 text-slate-600"></i> Belum ada siswa yang terpantau aktif di dalam sistem.</div>';
+            } else {
+                data.siswaOnline.forEach(item => {
+                    onlineContainer.innerHTML += `
+                        <div class="bg-slate-800/60 p-4 rounded-2xl border border-slate-700/80 flex flex-col justify-between hover:border-slate-600 transition shadow-sm">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-bold text-white text-sm truncate pr-2">${item.nama || 'Anonim'}</span>
+                                <span class="text-[10px] bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-2 py-0.5 rounded-full font-bold">Online</span>
+                            </div>
+                            <div class="text-slate-400 space-y-1.5 text-xs">
+                                <div class="flex items-center justify-between"><span>Kelas:</span> <span class="font-medium text-slate-200">${item.kelas || '-'}</span></div>
+                                <div class="flex items-center justify-between"><span>NISN:</span> <span class="font-medium text-slate-200">${item.nisn || '-'}</span></div>
+                                <div class="flex items-center justify-between"><span>Mapel:</span> <span class="font-bold text-blue-400">${item.kodeUjian || '-'}</span></div>
+                                <div class="flex items-center justify-between"><span>Terjawab:</span> <span class="font-medium text-slate-200 bg-slate-700 px-2 rounded-md">${item.terjawab || 0} Soal</span></div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // 3. Render Top Cards
+            document.getElementById('card-total').textContent = data.totalSiswa || 0;
+            document.getElementById('card-selesai').textContent = data.totalSelesai || 0;
+            document.getElementById('card-online').textContent = data.totalOnline || 0;
             
             window.listPelanggaran = data.listPelanggaran || [];
             window.listSiswaOnline = data.siswaOnline || [];
@@ -708,6 +858,7 @@
             renderProgressChart(data.totalSiswa, data.totalSelesai, data.totalOnline);
             renderActivityStream(data);
 
+            // 4. Render Table Pelanggaran
             const pelanggaranTable = document.getElementById('pelanggaranTable');
             pelanggaranTable.innerHTML = '';
             if(window.listPelanggaran.length === 0) {
@@ -729,11 +880,10 @@
                 });
             }
 
+            // 5. Render Distribusi Kelas
             let maxCount = 1;
             for (let kelas in data.siswaPerKelas) {
-                if (data.siswaPerKelas[kelas] > maxCount) {
-                    maxCount = data.siswaPerKelas[kelas];
-                }
+                if (data.siswaPerKelas[kelas] > maxCount) maxCount = data.siswaPerKelas[kelas];
             }
 
             const classContainer = document.getElementById('kelasDistList');
@@ -754,6 +904,7 @@
                 `;
             }
 
+            // 6. Render Tabel Progress Mengerjakan
             const progTable = document.getElementById('liveProgressTable');
             progTable.innerHTML = '';
             if(window.listSiswaOnline.length === 0) {
@@ -774,13 +925,12 @@
                     `;
                 });
             }
+            filterProgress();
         }
 
-        // --- FITUR MODAL INSPEKSI CEPAT SISWA ---
         function inspectStudent(index) {
             const s = window.listSiswaOnline[index];
             if (!s) return;
-
             document.getElementById('modalStudentName').textContent = s.nama;
             document.getElementById('modalStudentClass').textContent = `NISN: ${s.nisn} | Kelas: ${s.kelas || 'Umum'}`;
             document.getElementById('modalExamCode').textContent = s.kodeUjian || '-';
@@ -798,7 +948,6 @@
             } else {
                 violationContainer.innerHTML = '<span class="text-emerald-400 font-semibold"><i class="fas fa-check-circle mr-1"></i> Bersih (Tidak ada pelanggaran tata tertib).</span>';
             }
-
             document.getElementById('studentModal').classList.remove('hidden');
         }
 
@@ -822,7 +971,7 @@
                     labels: ['Selesai Ujian', 'Sedang Mengerjakan (Online)', 'Belum Mulai'],
                     datasets: [{
                         data: [selesai, online, belumSelesai],
-                        backgroundColor: ['#3b82f6', '#38bdf8', '#334155'],
+                        backgroundColor: ['#10b981', '#38bdf8', '#334155'], 
                         borderWidth: 0,
                         hoverOffset: 4
                     }]
@@ -901,18 +1050,15 @@
             });
         }
 
-        // --- FITUR DOWNLOAD PDF A4 TERKELOMPOK PER KODE UJIAN & KELAS ---
         function downloadPdfPelanggaran() {
             if (!window.jspdf) {
                 alert("Library PDF belum dimuat. Periksa koneksi internet Anda.");
                 return;
             }
-
             if (!window.listPelanggaran || window.listPelanggaran.length === 0) {
                 alert("Tidak ada data pelanggaran siswa untuk diunduh saat ini.");
                 return;
             }
-
             let pilihanUjian = prompt("Masukkan Kode Ujian yang ingin direkap (atau kosongkan untuk SEMUA ujian):", "");
             let pilihanKelas = prompt("Masukkan Kelas yang ingin direkap (atau kosongkan untuk SEMUA kelas):", "");
 
@@ -945,9 +1091,7 @@
                 for (let kelas in groupedData[kodeUjian]) {
                     let daftarSiswaKelas = groupedData[kodeUjian][kelas];
 
-                    if (!isFirstPage) {
-                        doc.addPage();
-                    }
+                    if (!isFirstPage) doc.addPage();
                     isFirstPage = false;
 
                     doc.setFont("Helvetica", "bold");
