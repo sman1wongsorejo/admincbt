@@ -29,31 +29,47 @@
                 transform: scale(1);
             }
         }
+        /* Custom scrollbar untuk tema terang */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
     </style>
 </head>
-<body class="bg-slate-950 font-sans text-slate-100 h-screen flex overflow-hidden">
+<body class="bg-slate-50 font-sans text-slate-800 h-screen flex overflow-hidden">
 
     <!-- Overlay Gelap untuk Mobile saat Sidebar Terbuka -->
-    <div id="mobileOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-30 md:hidden hidden transition-opacity duration-300"></div>
+    <div id="mobileOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-30 md:hidden hidden transition-opacity duration-300"></div>
 
     <!-- Sidebar Kiri -->
-    <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-72 bg-slate-900 text-white flex flex-col shadow-2xl z-40 sidebar-transition -translate-x-full md:translate-x-0 flex-shrink-0 border-r border-slate-800">
-        <div class="p-5 border-b border-slate-800 flex items-center justify-between flex-shrink-0">
+    <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-72 bg-white text-slate-800 flex flex-col shadow-xl z-40 sidebar-transition -translate-x-full md:translate-x-0 flex-shrink-0 border-r border-slate-200">
+        <div class="p-5 border-b border-slate-200 flex items-center justify-between flex-shrink-0">
             <div id="sidebarHeaderContent" class="flex items-center space-x-3 overflow-hidden">
-                <div class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-sky-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 flex-shrink-0">
+                <div class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-sky-500 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 flex-shrink-0">
                     <i class="fas fa-graduation-cap text-white text-lg"></i>
                 </div>
                 <div class="sidebar-text truncate">
-                    <h1 class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-sky-300 tracking-wide">CBT SMANJO</h1>
-                    <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Admin Panel v2.9</p>
+                    <h1 class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-sky-600 tracking-wide">CBT SMANJO</h1>
+                    <p class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Admin Panel v2.9</p>
                 </div>
             </div>
             
-            <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white p-2.5 rounded-xl hover:bg-slate-800 transition flex-shrink-0 md:hidden border border-slate-800" title="Tutup Menu">
+            <button onclick="toggleSidebar()" class="text-slate-500 hover:text-slate-800 p-2.5 rounded-xl hover:bg-slate-100 transition flex-shrink-0 md:hidden border border-slate-200" title="Tutup Menu">
                 <i class="fas fa-times text-sm"></i>
             </button>
             
-            <button onclick="toggleSidebar()" class="hidden md:flex items-center justify-center w-9 h-9 text-slate-400 hover:text-white rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700/60 shadow-sm transition-all duration-200 group" title="Sembunyikan/Tampilkan Sidebar">
+            <button onclick="toggleSidebar()" class="hidden md:flex items-center justify-center w-9 h-9 text-slate-500 hover:text-slate-800 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 shadow-sm transition-all duration-200 group" title="Sembunyikan/Tampilkan Sidebar">
                 <i id="toggleIcon" class="fas fa-chevron-left text-xs transition-transform duration-300"></i>
             </button>
         </div>
@@ -63,37 +79,36 @@
                 <i class="fas fa-chart-pie w-6 text-center text-lg flex-shrink-0"></i>
                 <span class="sidebar-text ml-3 text-sm">Dashboard Utama</span>
             </a>
-            <a href="#" onclick="switchTab('online')" id="nav-online" class="flex items-center p-3 rounded-2xl text-slate-300 hover:bg-slate-800 hover:text-white transition group">
-                <i class="fas fa-tower-broadcast w-6 text-center text-lg flex-shrink-0 text-cyan-400 group-hover:text-cyan-300 transition animate-pulse"></i>
+            <a href="#" onclick="switchTab('online')" id="nav-online" class="flex items-center p-3 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition group">
+                <i class="fas fa-tower-broadcast w-6 text-center text-lg flex-shrink-0 text-cyan-500 group-hover:text-cyan-600 transition animate-pulse"></i>
                 <span class="sidebar-text ml-3 text-sm">Siswa Online</span>
             </a>
-            <!-- MENU BARU UNTUK DETAIL SISWA SELESAI -->
-            <a href="#" onclick="switchTab('selesai')" id="nav-selesai" class="flex items-center p-3 rounded-2xl text-slate-300 hover:bg-slate-800 hover:text-white transition group">
-                <i class="fas fa-check-double w-6 text-center text-lg flex-shrink-0 text-emerald-400 group-hover:text-emerald-300 transition"></i>
+            <a href="#" onclick="switchTab('selesai')" id="nav-selesai" class="flex items-center p-3 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition group">
+                <i class="fas fa-check-double w-6 text-center text-lg flex-shrink-0 text-emerald-500 group-hover:text-emerald-600 transition"></i>
                 <span class="sidebar-text ml-3 text-sm">Siswa Selesai</span>
             </a>
-            <a href="#" onclick="switchTab('nilai')" id="nav-nilai" class="flex items-center p-3 rounded-2xl text-slate-300 hover:bg-slate-800 hover:text-white transition group">
-                <i class="fas fa-file-alt w-6 text-center text-lg flex-shrink-0 text-slate-400 group-hover:text-blue-400 transition"></i>
+            <a href="#" onclick="switchTab('nilai')" id="nav-nilai" class="flex items-center p-3 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition group">
+                <i class="fas fa-file-alt w-6 text-center text-lg flex-shrink-0 text-slate-400 group-hover:text-blue-500 transition"></i>
                 <span class="sidebar-text ml-3 text-sm">Rekap Nilai Siswa</span>
             </a>
             
             <div class="pt-6 pb-2">
-                <p class="sidebar-text px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">Pintasan Database</p>
-                <hr class="sidebar-divider border-slate-800 my-2 hidden">
+                <p class="sidebar-text px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">Pintasan Database</p>
+                <hr class="sidebar-divider border-slate-200 my-2 hidden">
             </div>
             
-            <a href="#" onclick="switchTab('dbUtama')" id="nav-dbUtama" class="flex items-center p-3 rounded-2xl text-slate-300 hover:bg-slate-800 hover:text-blue-400 transition group">
-                <i class="fas fa-database w-6 text-center text-lg flex-shrink-0 text-blue-400"></i>
+            <a href="#" onclick="switchTab('dbUtama')" id="nav-dbUtama" class="flex items-center p-3 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition group">
+                <i class="fas fa-database w-6 text-center text-lg flex-shrink-0 text-blue-500"></i>
                 <span class="sidebar-text ml-3 text-sm">Database Utama</span>
             </a>
-            <a href="#" onclick="switchTab('dbNilai')" id="nav-dbNilai" class="flex items-center p-3 rounded-2xl text-slate-300 hover:bg-slate-800 hover:text-sky-400 transition group">
-                <i class="fas fa-table w-6 text-center text-lg flex-shrink-0 text-sky-400"></i>
+            <a href="#" onclick="switchTab('dbNilai')" id="nav-dbNilai" class="flex items-center p-3 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-sky-600 transition group">
+                <i class="fas fa-table w-6 text-center text-lg flex-shrink-0 text-sky-500"></i>
                 <span class="sidebar-text ml-3 text-sm">Folder Hasil Ujian</span>
             </a>
         </nav>
 
-        <div class="p-4 border-t border-slate-800 flex-shrink-0 bg-slate-900">
-            <button onclick="logout()" class="w-full bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-white py-3 px-4 rounded-2xl font-bold transition flex items-center justify-center group shadow-sm">
+        <div class="p-4 border-t border-slate-200 flex-shrink-0 bg-white">
+            <button onclick="logout()" class="w-full bg-rose-50 hover:bg-rose-100 text-rose-600 py-3 px-4 rounded-2xl font-bold transition flex items-center justify-center group shadow-sm border border-rose-100">
                 <i class="fas fa-sign-out-alt text-base flex-shrink-0 group-hover:rotate-180 transition duration-300"></i>
                 <span class="sidebar-text ml-2 text-sm">Keluar Sistem</span>
             </button>
@@ -101,127 +116,127 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 flex flex-col overflow-hidden w-full bg-slate-950">
-        <header class="bg-slate-900 border-b border-slate-800 px-4 sm:px-8 py-4 flex justify-between items-center z-10 shadow-sm flex-shrink-0 text-white">
+    <main class="flex-1 flex flex-col overflow-hidden w-full bg-slate-50">
+        <header class="bg-white border-b border-slate-200 px-4 sm:px-8 py-4 flex justify-between items-center z-10 shadow-sm flex-shrink-0">
             <div class="flex items-center space-x-3 sm:space-x-4">
-                <button onclick="toggleSidebar()" class="md:hidden flex items-center justify-center w-10 h-10 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl transition border border-slate-700 shadow-sm">
+                <button onclick="toggleSidebar()" class="md:hidden flex items-center justify-center w-10 h-10 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-xl transition border border-slate-200 shadow-sm">
                     <i class="fas fa-bars-staggered text-sm"></i>
                 </button>
                 <div>
-                    <h2 id="pageTitle" class="text-base sm:text-xl font-bold text-white">Overview Dashboard</h2>
-                    <p id="welcomeGreeting" class="text-xs font-medium text-slate-400 hidden mt-0.5">
-                        Selamat datang, <span id="adminNameDisplay" class="font-bold text-blue-400">Admin</span> 👋
+                    <h2 id="pageTitle" class="text-base sm:text-xl font-bold text-slate-800">Overview Dashboard</h2>
+                    <p id="welcomeGreeting" class="text-xs font-medium text-slate-500 hidden mt-0.5">
+                        Selamat datang, <span id="adminNameDisplay" class="font-bold text-blue-600">Admin</span> 👋
                     </p>
                 </div>
             </div>
             <div class="flex items-center space-x-2 sm:space-x-3">
-                <div class="hidden md:flex items-center space-x-2 bg-slate-800/80 border border-slate-700 px-3 py-1.5 rounded-full text-xs font-medium text-slate-300">
+                <div class="hidden md:flex items-center space-x-2 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-full text-xs font-medium text-slate-600 shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" id="serverPingDot"></span>
                     <span id="serverStatusText">GAS Server: Optimal</span>
                 </div>
                 <!-- Hitung Mundur Sinkronisasi -->
-                <span class="text-xs font-medium px-3 py-1.5 bg-slate-800/80 text-slate-300 rounded-full border border-slate-700 hidden sm:inline-flex items-center" id="lastSync">
-                    <i class="fas fa-circle text-emerald-500 text-[8px] mr-2 animate-pulse"></i> Sinkron dalam <span id="syncCountdown" class="font-bold ml-1">15</span>s
+                <span class="text-xs font-medium px-3 py-1.5 bg-slate-50 text-slate-600 rounded-full border border-slate-200 shadow-sm hidden sm:inline-flex items-center" id="lastSync">
+                    <i class="fas fa-circle text-emerald-500 text-[8px] mr-2 animate-pulse"></i> Sinkron dalam <span id="syncCountdown" class="font-bold ml-1 text-slate-800">15</span>s
                 </span>
 
-                <button onclick="manualSync()" class="bg-slate-800 border border-slate-700 hover:bg-slate-700 p-2.5 rounded-xl text-slate-300 shadow-sm transition" title="Refresh Data Sekarang"><i class="fas fa-sync-alt"></i></button>
+                <button onclick="manualSync()" class="bg-slate-50 border border-slate-200 hover:bg-slate-100 p-2.5 rounded-xl text-slate-600 shadow-sm transition" title="Refresh Data Sekarang"><i class="fas fa-sync-alt"></i></button>
             </div>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-4 sm:p-8 bg-slate-950">
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 bg-slate-50">
             <!-- DASHBOARD TAB -->
             <div id="tab-dashboard" class="space-y-6">
                 
                 <!-- 1. COMPACT & PROFESSIONAL GRADIENT INFO CARDS -->
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                     <!-- Card 1: Total Siswa -->
-                    <div class="bg-gradient-to-br from-blue-600 to-indigo-700 text-white rounded-2xl p-4 shadow-lg shadow-blue-500/10 relative overflow-hidden group hover:scale-[1.01] transition duration-300 flex items-center justify-between border border-blue-400/20">
+                    <div class="bg-gradient-to-br from-blue-600 to-indigo-600 text-white rounded-2xl p-4 shadow-lg shadow-blue-500/20 relative overflow-hidden group hover:-translate-y-1 transition duration-300 flex items-center justify-between border border-blue-400/30">
                         <div>
                             <p class="text-blue-100 text-[11px] font-semibold mb-1 uppercase tracking-wider">Total Siswa</p>
                             <h3 class="text-2xl sm:text-3xl font-black tracking-tight" id="card-total">0</h3>
                         </div>
-                        <div class="w-12 h-12 bg-white/15 backdrop-blur-md rounded-xl flex items-center justify-center text-white text-lg shadow-inner">
+                        <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center text-white text-lg shadow-inner">
                             <i class="fas fa-user-group"></i>
                         </div>
                     </div>
 
                     <!-- Card 2: Siswa Selesai -->
-                    <div class="bg-gradient-to-br from-sky-600 to-blue-800 text-white rounded-2xl p-4 shadow-lg shadow-sky-500/10 relative overflow-hidden group hover:scale-[1.01] transition duration-300 flex items-center justify-between border border-sky-400/20">
+                    <div class="bg-gradient-to-br from-sky-500 to-blue-600 text-white rounded-2xl p-4 shadow-lg shadow-sky-500/20 relative overflow-hidden group hover:-translate-y-1 transition duration-300 flex items-center justify-between border border-sky-400/30">
                         <div>
                             <p class="text-sky-100 text-[11px] font-semibold mb-1 uppercase tracking-wider">Siswa Selesai</p>
                             <h3 class="text-2xl sm:text-3xl font-black tracking-tight" id="card-selesai">0</h3>
                         </div>
-                        <div class="w-12 h-12 bg-white/15 backdrop-blur-md rounded-xl flex items-center justify-center text-white text-lg shadow-inner">
+                        <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center text-white text-lg shadow-inner">
                             <i class="fas fa-circle-check"></i>
                         </div>
                     </div>
 
                     <!-- Card 3: Siswa Online -->
-                    <div class="bg-gradient-to-br from-cyan-600 to-blue-700 text-white rounded-2xl p-4 shadow-lg shadow-cyan-500/10 relative overflow-hidden group hover:scale-[1.01] transition duration-300 flex items-center justify-between border border-cyan-400/20">
+                    <div class="bg-gradient-to-br from-cyan-500 to-blue-500 text-white rounded-2xl p-4 shadow-lg shadow-cyan-500/20 relative overflow-hidden group hover:-translate-y-1 transition duration-300 flex items-center justify-between border border-cyan-400/30">
                         <div>
                             <p class="text-cyan-100 text-[11px] font-semibold mb-1 uppercase tracking-wider">Siswa Online</p>
                             <h3 class="text-2xl sm:text-3xl font-black tracking-tight" id="card-online">0</h3>
                         </div>
-                        <div class="w-12 h-12 bg-white/15 backdrop-blur-md rounded-xl flex items-center justify-center text-white text-lg shadow-inner animate-pulse">
+                        <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center text-white text-lg shadow-inner animate-pulse">
                             <i class="fas fa-tower-broadcast"></i>
                         </div>
                     </div>
 
                     <!-- Card 4: Pelanggaran -->
-                    <div class="bg-gradient-to-br from-indigo-700 to-slate-900 text-white rounded-2xl p-4 shadow-lg shadow-indigo-500/10 relative overflow-hidden group hover:scale-[1.01] transition duration-300 flex items-center justify-between border border-indigo-500/20">
+                    <div class="bg-gradient-to-br from-slate-700 to-slate-800 text-white rounded-2xl p-4 shadow-lg shadow-slate-500/20 relative overflow-hidden group hover:-translate-y-1 transition duration-300 flex items-center justify-between border border-slate-600/50">
                         <div>
-                            <p class="text-indigo-100 text-[11px] font-semibold mb-1 uppercase tracking-wider">Pelanggaran</p>
-                            <h3 class="text-2xl sm:text-3xl font-black tracking-tight" id="card-pelanggaran">0</h3>
+                            <p class="text-slate-300 text-[11px] font-semibold mb-1 uppercase tracking-wider">Pelanggaran</p>
+                            <h3 class="text-2xl sm:text-3xl font-black tracking-tight text-white" id="card-pelanggaran">0</h3>
                         </div>
-                        <div class="w-12 h-12 bg-white/15 backdrop-blur-md rounded-xl flex items-center justify-center text-white text-lg shadow-inner">
+                        <div class="w-12 h-12 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center text-rose-300 text-lg shadow-inner border border-white/5">
                             <i class="fas fa-triangle-exclamation"></i>
                         </div>
                     </div>
                 </div>
 
                 <!-- 2A. SESI UJIAN AKTIF -->
-                <div class="bg-slate-900 rounded-3xl border border-slate-800 p-5 sm:p-6 shadow-xl">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 mb-4 border-b border-slate-800 gap-2">
+                <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 mb-4 border-b border-slate-100 gap-2">
                         <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center font-bold border border-blue-500/20">
+                            <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold border border-blue-100">
                                 <i class="fas fa-bolt text-base"></i>
                             </div>
                             <div>
-                                <h3 class="font-bold text-white text-base">Sesi Ujian & Mapel Aktif</h3>
-                                <p class="text-xs text-slate-400">Daftar ujian yang sedang berlangsung saat ini.</p>
+                                <h3 class="font-bold text-slate-800 text-base">Sesi Ujian & Mapel Aktif</h3>
+                                <p class="text-xs text-slate-500">Daftar ujian yang sedang berlangsung saat ini.</p>
                             </div>
                         </div>
-                        <span class="text-[10px] font-bold uppercase tracking-wider bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full border border-blue-500/20">Live Session</span>
+                        <span class="text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-600 px-3 py-1 rounded-full border border-blue-200">Live Session</span>
                     </div>
                     
                     <div id="card-ujian-detail" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <p class="text-sm text-slate-400">Memuat sesi ujian...</p>
+                        <p class="text-sm text-slate-500">Memuat sesi ujian...</p>
                     </div>
                 </div>
 
                 <!-- 3. GRAFIK & LIVE ACTIVITY FEED -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div class="bg-slate-900 rounded-3xl border border-slate-800 p-5 sm:p-6 shadow-xl flex flex-col justify-between">
-                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
-                            <h3 class="font-bold text-white flex items-center text-sm sm:text-base"><i class="fas fa-chart-pie text-blue-400 mr-2"></i> Proporsi Status Pengerjaan</h3>
-                            <span class="text-xs text-slate-400 font-medium">Live Statistik</span>
+                    <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm flex flex-col justify-between">
+                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                            <h3 class="font-bold text-slate-800 flex items-center text-sm sm:text-base"><i class="fas fa-chart-pie text-blue-500 mr-2"></i> Proporsi Status Pengerjaan</h3>
+                            <span class="text-xs text-slate-500 font-medium">Live Statistik</span>
                         </div>
                         <div class="relative h-60 flex items-center justify-center">
                             <canvas id="progressChart"></canvas>
                         </div>
                     </div>
 
-                    <div class="bg-slate-900 rounded-3xl border border-slate-800 p-5 sm:p-6 shadow-xl flex flex-col justify-between">
-                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
-                            <h3 class="font-bold text-white flex items-center text-sm sm:text-base"><i class="fas fa-stream text-blue-400 mr-2"></i> Live Activity Feed</h3>
-                            <span class="text-xs text-blue-400 font-bold px-2.5 py-0.5 bg-blue-500/10 rounded-full border border-blue-500/20 animate-pulse">Live</span>
+                    <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm flex flex-col justify-between">
+                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                            <h3 class="font-bold text-slate-800 flex items-center text-sm sm:text-base"><i class="fas fa-stream text-blue-500 mr-2"></i> Live Activity Feed</h3>
+                            <span class="text-xs text-blue-600 font-bold px-2.5 py-0.5 bg-blue-50 rounded-full border border-blue-100 animate-pulse">Live</span>
                         </div>
                         <div id="activityStreamContainer" class="overflow-y-auto max-h-60 pr-1 space-y-3">
-                            <div class="flex items-start space-x-3 text-xs bg-slate-800/50 p-3 rounded-2xl border border-slate-800">
-                                <div class="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center flex-shrink-0 font-bold border border-blue-500/20"><i class="fas fa-sync text-xs"></i></div>
+                            <div class="flex items-start space-x-3 text-xs bg-slate-50 p-3 rounded-2xl border border-slate-200">
+                                <div class="w-8 h-8 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0 font-bold border border-blue-200"><i class="fas fa-sync text-xs"></i></div>
                                 <div>
-                                    <p class="font-semibold text-slate-200">Sistem diinisialisasi</p>
-                                    <p class="text-[10px] text-slate-400 mt-0.5">Menunggu sinkronisasi data dari Google Sheets...</p>
+                                    <p class="font-semibold text-slate-800">Sistem diinisialisasi</p>
+                                    <p class="text-[10px] text-slate-500 mt-0.5">Menunggu sinkronisasi data dari Google Sheets...</p>
                                 </div>
                             </div>
                         </div>
@@ -230,55 +245,55 @@
 
                 <!-- 4. LIVE PROGRESS (Tabel) & PELANGGARAN -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div class="bg-slate-900 rounded-3xl border border-slate-800 p-5 sm:p-6 shadow-xl">
-                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800 flex-wrap gap-3">
+                    <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm">
+                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 flex-wrap gap-3">
                             <div>
-                                <h3 class="font-bold text-white flex items-center text-sm sm:text-base"><i class="fas fa-broadcast-tower text-blue-400 mr-2"></i> Live Progress Mengerjakan</h3>
-                                <span class="text-xs text-slate-400 font-medium">Klik baris untuk inspeksi detail</span>
+                                <h3 class="font-bold text-slate-800 flex items-center text-sm sm:text-base"><i class="fas fa-broadcast-tower text-blue-500 mr-2"></i> Live Progress Mengerjakan</h3>
+                                <span class="text-xs text-slate-500 font-medium">Klik baris untuk inspeksi detail</span>
                             </div>
                             
                             <!-- Search Box Progress -->
                             <div class="relative w-full sm:w-auto">
-                                <input type="text" id="searchProgress" onkeyup="filterProgress()" placeholder="Cari Siswa/NISN..." class="w-full sm:w-48 bg-slate-800 border border-slate-700 rounded-xl px-4 py-1.5 text-xs text-white focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 outline-none transition placeholder-slate-500">
+                                <input type="text" id="searchProgress" onkeyup="filterProgress()" placeholder="Cari Siswa/NISN..." class="w-full sm:w-48 bg-slate-50 border border-slate-200 rounded-xl px-4 py-1.5 text-xs text-slate-800 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition placeholder-slate-400">
                                 <i class="fas fa-search absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
                             </div>
                         </div>
-                        <div class="overflow-y-auto max-h-72 pr-1">
+                        <div class="overflow-y-auto max-h-72 pr-1 border border-slate-100 rounded-xl">
                             <table class="w-full text-left text-sm">
-                                <thead>
-                                    <tr class="text-slate-400 text-xs uppercase tracking-wider bg-slate-800/50 rounded-lg">
-                                        <th class="p-3 rounded-l-lg">Siswa</th>
+                                <thead class="sticky top-0 bg-slate-100">
+                                    <tr class="text-slate-600 text-xs uppercase tracking-wider">
+                                        <th class="p-3 rounded-tl-xl">Siswa</th>
                                         <th class="p-3">Ujian</th>
-                                        <th class="p-3 text-center rounded-r-lg">Soal Terjawab</th>
+                                        <th class="p-3 text-center rounded-tr-xl">Soal Terjawab</th>
                                     </tr>
                                 </thead>
-                                <tbody id="liveProgressTable" class="divide-y divide-slate-800/60">
+                                <tbody id="liveProgressTable" class="divide-y divide-slate-100">
                                     <tr><td colspan="3" class="text-center p-6 text-slate-500 text-sm">Belum ada aktivitas ujian aktif.</td></tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
-                    <div class="bg-slate-900 rounded-3xl border border-slate-800 p-5 sm:p-6 shadow-xl">
-                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800 flex-wrap gap-2">
-                            <h3 class="font-bold text-white flex items-center text-sm sm:text-base"><i class="fas fa-shield-alt text-blue-400 mr-2"></i> Log Pelanggaran Ujian</h3>
+                    <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm">
+                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 flex-wrap gap-2">
+                            <h3 class="font-bold text-slate-800 flex items-center text-sm sm:text-base"><i class="fas fa-shield-alt text-blue-500 mr-2"></i> Log Pelanggaran Ujian</h3>
                             <div class="flex items-center space-x-2">
                                 <button onclick="downloadPdfPelanggaran()" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center shadow-sm">
                                     <i class="fas fa-file-pdf mr-1.5"></i> Unduh PDF (A4)
                                 </button>
-                                <span class="text-xs text-rose-400 font-bold px-2.5 py-0.5 bg-rose-500/10 border border-rose-500/20 rounded-full" id="badgePelanggaranCount">0 Pelanggaran</span>
+                                <span class="text-xs text-rose-600 font-bold px-2.5 py-0.5 bg-rose-50 border border-rose-100 rounded-full" id="badgePelanggaranCount">0 Pelanggaran</span>
                             </div>
                         </div>
-                        <div class="overflow-y-auto max-h-72 pr-1">
+                        <div class="overflow-y-auto max-h-72 pr-1 border border-slate-100 rounded-xl">
                             <table class="w-full text-left text-sm">
-                                <thead>
-                                    <tr class="text-slate-400 text-xs uppercase tracking-wider bg-slate-800/50 rounded-lg">
-                                        <th class="p-3 rounded-l-lg">Siswa / Kelas</th>
+                                <thead class="sticky top-0 bg-slate-100">
+                                    <tr class="text-slate-600 text-xs uppercase tracking-wider">
+                                        <th class="p-3 rounded-tl-xl">Siswa / Kelas</th>
                                         <th class="p-3">Mapel (Ujian)</th>
-                                        <th class="p-3 text-center rounded-r-lg">Kesempatan Ke-</th>
+                                        <th class="p-3 text-center rounded-tr-xl">Kesempatan Ke-</th>
                                     </tr>
                                 </thead>
-                                <tbody id="pelanggaranTable" class="divide-y divide-slate-800/60">
+                                <tbody id="pelanggaranTable" class="divide-y divide-slate-100">
                                     <tr><td colspan="3" class="text-center p-6 text-slate-500 text-sm">Tidak ada siswa yang melanggar.</td></tr>
                                 </tbody>
                             </table>
@@ -287,75 +302,77 @@
                 </div>
 
                 <!-- 5. DISTRIBUSI SISWA PER KELAS -->
-                <div class="bg-slate-900 rounded-3xl border border-slate-800 p-5 sm:p-6 shadow-xl">
-                    <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
-                        <h3 class="font-bold text-white flex items-center text-sm sm:text-base"><i class="fas fa-chart-bar text-blue-400 mr-2"></i> Distribusi Siswa per Kelas</h3>
-                        <span class="text-xs text-slate-400 font-medium">Berdasarkan Database</span>
+                <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm">
+                    <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                        <h3 class="font-bold text-slate-800 flex items-center text-sm sm:text-base"><i class="fas fa-chart-bar text-blue-500 mr-2"></i> Distribusi Siswa per Kelas</h3>
+                        <span class="text-xs text-slate-500 font-medium">Berdasarkan Database</span>
                     </div>
                     <div id="kelasDistList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pr-2">
-                        <p class="text-slate-400 text-sm">Memuat data kelas...</p>
+                        <p class="text-slate-500 text-sm">Memuat data kelas...</p>
                     </div>
                 </div>
             </div>
 
             <!-- ONLINE TAB (Siswa Online) -->
             <div id="tab-online" class="hidden space-y-6">
-                <div class="bg-slate-900 rounded-3xl border border-slate-800 p-5 sm:p-6 shadow-xl min-h-[calc(100vh-160px)]">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 mb-4 border-b border-slate-800 gap-4">
+                <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm min-h-[calc(100vh-160px)]">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 mb-4 border-b border-slate-100 gap-4">
                         <div class="flex items-center space-x-3">
-                            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center font-bold border border-cyan-500/20">
+                            <div class="w-12 h-12 rounded-xl bg-cyan-50 text-cyan-500 flex items-center justify-center font-bold border border-cyan-100">
                                 <i class="fas fa-tower-broadcast text-xl animate-pulse"></i>
                             </div>
                             <div>
-                                <h3 class="font-bold text-white text-lg">Pantauan Siswa Online</h3>
-                                <p class="text-xs text-slate-400 mt-1">Daftar grid siswa yang terpantau aktif mengerjakan di dalam sistem secara Real-Time.</p>
+                                <h3 class="font-bold text-slate-800 text-lg">Pantauan Siswa Online</h3>
+                                <p class="text-xs text-slate-500 mt-1">Daftar siswa yang terpantau aktif mengerjakan di dalam sistem secara Real-Time.</p>
                             </div>
                         </div>
                         <div class="flex items-center space-x-3 w-full sm:w-auto">
-                            <span class="text-xs font-bold uppercase tracking-wider bg-cyan-500/10 text-cyan-400 px-3 py-1.5 rounded-full border border-cyan-500/20 flex items-center justify-center w-full sm:w-auto">
+                            <span class="text-xs font-bold uppercase tracking-wider bg-cyan-50 text-cyan-600 px-3 py-1.5 rounded-full border border-cyan-100 flex items-center justify-center w-full sm:w-auto shadow-sm">
                                 <i class="fas fa-circle text-[8px] mr-1.5 animate-ping"></i> Live Data
                             </span>
                         </div>
                     </div>
                     
-                    <div id="card-siswa-online" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-auto max-h-[calc(100vh-280px)] pr-2 pb-4">
-                        <p class="text-sm text-slate-400 col-span-full">Memuat data siswa online...</p>
+                    <!-- GRID SISWA ONLINE (MEMANJANG, HORIZONTAL INFO, NAMA LEBIH JELAS) -->
+                    <div id="card-siswa-online" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 overflow-y-auto max-h-[calc(100vh-280px)] pr-2 pb-4">
+                        <p class="text-sm text-slate-500 col-span-full">Memuat data siswa online...</p>
                     </div>
                 </div>
             </div>
             
-            <!-- SELESAI TAB (TAB BARU - Siswa Selesai) -->
+            <!-- SELESAI TAB (Siswa Selesai) -->
             <div id="tab-selesai" class="hidden space-y-6">
-                <div class="bg-slate-900 rounded-3xl border border-slate-800 p-5 sm:p-6 shadow-xl min-h-[calc(100vh-160px)]">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 mb-4 border-b border-slate-800 gap-4">
+                <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm min-h-[calc(100vh-160px)]">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 mb-4 border-b border-slate-100 gap-4">
                         <div class="flex items-center space-x-3">
-                            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold border border-emerald-500/20">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center font-bold border border-emerald-100">
                                 <i class="fas fa-check-double text-xl"></i>
                             </div>
                             <div>
-                                <h3 class="font-bold text-white text-lg">Detail Siswa Selesai</h3>
-                                <p class="text-xs text-slate-400 mt-1">Daftar grid siswa yang telah menyelesaikan ujian terbarunya.</p>
+                                <h3 class="font-bold text-slate-800 text-lg">Detail Siswa Selesai</h3>
+                                <p class="text-xs text-slate-500 mt-1">Daftar siswa yang telah menyelesaikan ujian terbarunya.</p>
                             </div>
                         </div>
                     </div>
                     
-                    <div id="card-siswa-selesai-tab" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-auto max-h-[calc(100vh-280px)] pr-2 pb-4">
-                        <p class="text-sm text-slate-400 col-span-full">Memuat data siswa selesai...</p>
+                    <!-- GRID SISWA SELESAI (MEMANJANG, HORIZONTAL INFO, NAMA LEBIH JELAS) -->
+                    <div id="card-siswa-selesai-tab" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 overflow-y-auto max-h-[calc(100vh-280px)] pr-2 pb-4">
+                        <p class="text-sm text-slate-500 col-span-full">Memuat data siswa selesai...</p>
                     </div>
                 </div>
             </div>
 
             <!-- NILAI TAB -->
             <div id="tab-nilai" class="hidden space-y-6">
-                <div class="bg-slate-900 rounded-3xl border border-slate-800 p-5 sm:p-6 shadow-xl">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b border-slate-800">
+                <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b border-slate-100">
                         <div>
-                            <h3 class="font-bold text-white text-lg">Rekap Nilai Siswa</h3>
-                            <p class="text-xs text-slate-400">Pilih kode ujian dari daftar untuk melihat hasil penilaian lengkap.</p>
+                            <h3 class="font-bold text-slate-800 text-lg">Rekap Nilai Siswa</h3>
+                            <p class="text-xs text-slate-500">Pilih kode ujian dari daftar untuk melihat hasil penilaian lengkap.</p>
                         </div>
                         
                         <div class="flex items-center space-x-2 w-full sm:w-auto">
-                            <input list="daftarKode" id="inputKodeUjian" placeholder="Pilih atau Ketik Kode Ujian..." class="border border-slate-700 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none w-full sm:w-64 bg-slate-800 text-white cursor-pointer" autocomplete="off">
+                            <input list="daftarKode" id="inputKodeUjian" placeholder="Pilih atau Ketik Kode Ujian..." class="border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none w-full sm:w-64 bg-slate-50 text-slate-800 cursor-pointer transition" autocomplete="off">
                             <datalist id="daftarKode">
                                 <!-- Opsi dimuat otomatis -->
                             </datalist>
@@ -366,18 +383,18 @@
                         </div>
                     </div>
                     
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto border border-slate-100 rounded-xl">
                         <table class="w-full text-left text-sm">
-                            <thead>
-                                <tr class="text-slate-400 bg-slate-800/50 uppercase text-xs tracking-wider">
-                                    <th class="p-3.5 rounded-l-xl">Waktu Selesai</th>
+                            <thead class="bg-slate-100">
+                                <tr class="text-slate-600 uppercase text-xs tracking-wider">
+                                    <th class="p-3.5 rounded-tl-xl">Waktu Selesai</th>
                                     <th class="p-3.5">NISN</th>
                                     <th class="p-3.5">Nama Lengkap</th>
                                     <th class="p-3.5">Kelas</th>
-                                    <th class="p-3.5 rounded-r-xl text-center">Nilai Akhir</th>
+                                    <th class="p-3.5 rounded-tr-xl text-center">Nilai Akhir</th>
                                 </tr>
                             </thead>
-                            <tbody id="nilaiTable" class="divide-y divide-slate-800/60">
+                            <tbody id="nilaiTable" class="divide-y divide-slate-100">
                                 <tr><td colspan="5" class="text-center p-8 text-slate-500">Pilih kode ujian di atas dan klik tampilkan data.</td></tr>
                             </tbody>
                         </table>
@@ -387,14 +404,14 @@
 
             <!-- EMBED TAB: DATABASE UTAMA -->
             <div id="tab-dbUtama" class="hidden h-[calc(100vh-140px)]">
-                <div class="bg-slate-900 rounded-3xl border border-slate-800 shadow-xl h-full flex flex-col overflow-hidden">
-                    <div class="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-900 flex-shrink-0 z-10">
-                        <h3 class="font-bold text-white flex items-center"><i class="fas fa-database text-blue-400 mr-2"></i> Database Utama (Google Sheets)</h3>
-                        <a href="https://docs.google.com/spreadsheets/d/1PtrDYq0WhbmBtbpIh_Lh7Lq7e32xC7wrUBZbSjzUoMY/edit" target="_blank" class="text-xs bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 px-3 py-1.5 rounded-lg font-bold transition flex items-center border border-blue-500/20">
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm h-full flex flex-col overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-white flex-shrink-0 z-10">
+                        <h3 class="font-bold text-slate-800 flex items-center"><i class="fas fa-database text-blue-500 mr-2"></i> Database Utama (Google Sheets)</h3>
+                        <a href="https://docs.google.com/spreadsheets/d/1PtrDYq0WhbmBtbpIh_Lh7Lq7e32xC7wrUBZbSjzUoMY/edit" target="_blank" class="text-xs bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg font-bold transition flex items-center border border-blue-200 shadow-sm">
                             <i class="fas fa-external-link-alt mr-1"></i> Buka Fullscreen
                         </a>
                     </div>
-                    <div class="flex-1 w-full bg-slate-950 overflow-hidden relative">
+                    <div class="flex-1 w-full bg-slate-50 overflow-hidden relative">
                         <iframe src="https://docs.google.com/spreadsheets/d/1PtrDYq0WhbmBtbpIh_Lh7Lq7e32xC7wrUBZbSjzUoMY/edit?usp=sharing&single=true&widget=true&headers=false" class="iframe-container"></iframe>
                     </div>
                 </div>
@@ -402,14 +419,14 @@
 
             <!-- EMBED TAB: FOLDER HASIL UJIAN -->
             <div id="tab-dbNilai" class="hidden h-[calc(100vh-140px)]">
-                <div class="bg-slate-900 rounded-3xl border border-slate-800 shadow-xl h-full flex flex-col overflow-hidden">
-                    <div class="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-900 flex-shrink-0 z-10">
-                        <h3 class="font-bold text-white flex items-center"><i class="fas fa-table text-sky-400 mr-2"></i> Folder Hasil Ujian & Nilai (Google Sheets)</h3>
-                        <a href="https://docs.google.com/spreadsheets/d/1hx6CXRF8NM9LSnz8Gi5XhWhXtEJap0ZQbluTlqPfn4Q/edit" target="_blank" class="text-xs bg-sky-500/10 text-sky-400 hover:bg-sky-500/20 px-3 py-1.5 rounded-lg font-bold transition flex items-center border border-sky-500/20">
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm h-full flex flex-col overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-white flex-shrink-0 z-10">
+                        <h3 class="font-bold text-slate-800 flex items-center"><i class="fas fa-table text-sky-500 mr-2"></i> Folder Hasil Ujian & Nilai</h3>
+                        <a href="https://docs.google.com/spreadsheets/d/1hx6CXRF8NM9LSnz8Gi5XhWhXtEJap0ZQbluTlqPfn4Q/edit" target="_blank" class="text-xs bg-sky-50 text-sky-600 hover:bg-sky-100 px-3 py-1.5 rounded-lg font-bold transition flex items-center border border-sky-200 shadow-sm">
                             <i class="fas fa-external-link-alt mr-1"></i> Buka Fullscreen
                         </a>
                     </div>
-                    <div class="flex-1 w-full bg-slate-950 overflow-hidden relative">
+                    <div class="flex-1 w-full bg-slate-50 overflow-hidden relative">
                         <iframe src="https://docs.google.com/spreadsheets/d/1hx6CXRF8NM9LSnz8Gi5XhWhXtEJap0ZQbluTlqPfn4Q/edit?usp=sharing&single=true&widget=true&headers=false" class="iframe-container"></iframe>
                     </div>
                 </div>
@@ -418,61 +435,61 @@
     </main>
 
     <!-- Modal Inspeksi Cepat Siswa -->
-    <div id="studentModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 hidden">
-        <div class="bg-slate-900 rounded-3xl shadow-2xl w-full max-w-md border border-slate-800 overflow-hidden transform transition-all text-white">
+    <div id="studentModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 hidden transition-opacity">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 overflow-hidden transform transition-all text-slate-800">
             <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-white flex justify-between items-center">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center font-bold text-white"><i class="fas fa-user-graduate"></i></div>
+                    <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center font-bold text-white shadow-inner"><i class="fas fa-user-graduate"></i></div>
                     <div>
                         <h3 class="font-bold text-base" id="modalStudentName">Nama Siswa</h3>
                         <p class="text-xs text-blue-100" id="modalStudentClass">Kelas / NISN</p>
                     </div>
                 </div>
-                <button onclick="closeStudentModal()" class="text-white/80 hover:text-white p-2 rounded-xl hover:bg-white/10 transition"><i class="fas fa-times"></i></button>
+                <button onclick="closeStudentModal()" class="text-white/80 hover:text-white p-2 rounded-xl hover:bg-white/20 transition"><i class="fas fa-times"></i></button>
             </div>
             <div class="p-6 space-y-4">
                 <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-slate-800/60 p-3.5 rounded-2xl border border-slate-700/80">
-                        <p class="text-[10px] text-slate-400 font-bold uppercase">Mata Ujian Aktif</p>
-                        <p class="text-sm font-bold text-blue-400 mt-1" id="modalExamCode">-</p>
+                    <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+                        <p class="text-[10px] text-slate-500 font-bold uppercase">Mata Ujian Aktif</p>
+                        <p class="text-sm font-bold text-blue-600 mt-1" id="modalExamCode">-</p>
                     </div>
-                    <div class="bg-slate-800/60 p-3.5 rounded-2xl border border-slate-700/80">
-                        <p class="text-[10px] text-slate-400 font-bold uppercase">Soal Terjawab</p>
-                        <p class="text-sm font-bold text-emerald-400 mt-1" id="modalAnswerCount">-</p>
+                    <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+                        <p class="text-[10px] text-slate-500 font-bold uppercase">Soal Terjawab</p>
+                        <p class="text-sm font-bold text-emerald-600 mt-1" id="modalAnswerCount">-</p>
                     </div>
                 </div>
-                <div class="bg-slate-800/60 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                    <p class="text-xs font-bold text-slate-200 flex items-center"><i class="fas fa-shield-alt text-blue-400 mr-2"></i> Status Pelanggaran Siswa:</p>
-                    <p class="text-xs text-slate-300" id="modalViolationStatus">Tidak ada catatan pelanggaran terdeteksi.</p>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+                    <p class="text-xs font-bold text-slate-700 flex items-center"><i class="fas fa-shield-alt text-blue-500 mr-2"></i> Status Pelanggaran Siswa:</p>
+                    <p class="text-xs text-slate-600" id="modalViolationStatus">Tidak ada catatan pelanggaran terdeteksi.</p>
                 </div>
             </div>
-            <div class="p-4 bg-slate-900 border-t border-slate-800 flex justify-end">
-                <button onclick="closeStudentModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-5 py-2.5 rounded-xl text-xs font-bold transition">Tutup</button>
+            <div class="p-4 bg-slate-50 border-t border-slate-200 flex justify-end rounded-b-3xl">
+                <button onclick="closeStudentModal()" class="bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 px-5 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">Tutup</button>
             </div>
         </div>
     </div>
 
     <!-- Login Overlay -->
-    <div id="loginOverlay" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md flex items-center justify-center z-50 p-4">
-        <div class="bg-slate-900 p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-800 text-white">
+    <div id="loginOverlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md flex items-center justify-center z-50 p-4">
+        <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 text-slate-800 relative">
             <div class="text-center mb-6 sm:mb-8">
-                <div class="w-16 h-16 bg-blue-500/10 text-blue-400 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-inner border border-blue-500/20">
+                <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm border border-blue-100">
                     <i class="fas fa-shield-alt text-2xl"></i>
                 </div>
-                <h2 class="text-2xl font-black text-white tracking-tight">Login Administrator</h2>
-                <p class="text-xs text-slate-400 mt-1">Masukkan akun admin terdaftar pada database SMANJO</p>
+                <h2 class="text-2xl font-black text-slate-900 tracking-tight">Login Administrator</h2>
+                <p class="text-xs text-slate-500 mt-1">Masukkan akun admin terdaftar pada database SMANJO</p>
             </div>
             
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Username Admin</label>
-                    <input type="text" id="adminUser" placeholder="Masukkan username" class="w-full border border-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none bg-slate-800 text-white">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Username Admin</label>
+                    <input type="text" id="adminUser" placeholder="Masukkan username" class="w-full border border-slate-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none bg-slate-50 text-slate-800 transition">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Password</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Password</label>
                     <div class="relative">
-                        <input type="password" id="adminPass" placeholder="Masukkan password" class="w-full border border-slate-700 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none bg-slate-800 text-white pr-12">
-                        <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 focus:outline-none p-1">
+                        <input type="password" id="adminPass" placeholder="Masukkan password" class="w-full border border-slate-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none bg-slate-50 text-slate-800 transition pr-12">
+                        <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none p-1 transition">
                             <i id="togglePasswordIcon" class="fas fa-eye text-sm"></i>
                         </button>
                     </div>
@@ -480,7 +497,7 @@
                 <button id="btnLogin" onclick="login()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-500/30 transition mt-2 flex justify-center items-center">
                     <span>Masuk Dashboard</span>
                 </button>
-                <p id="loginMsg" class="text-rose-400 text-xs font-medium text-center hidden pt-2"></p>
+                <p id="loginMsg" class="text-rose-500 text-xs font-medium text-center hidden pt-2"></p>
             </div>
         </div>
     </div>
@@ -657,24 +674,19 @@
             document.getElementById('loginOverlay').classList.remove('hidden');
         }
 
-        // --- UPDATE TAB SWITCHING LOGIC ---
         function switchTab(tabId) {
-            // Sembunyikan semua tab (Termasuk tab selesai)
             const allTabs = ['dashboard', 'online', 'selesai', 'nilai', 'dbUtama', 'dbNilai'];
             allTabs.forEach(id => {
                 document.getElementById('tab-' + id).classList.add('hidden');
             });
             
-            // Tampilkan tab yang dipilih
             document.getElementById('tab-' + tabId).classList.remove('hidden');
             
-            // Reset style semua navigasi
             allTabs.forEach(id => {
                 let navEl = document.getElementById('nav-' + id);
-                if(navEl) navEl.className = "flex items-center p-3 rounded-2xl text-slate-300 hover:bg-slate-800 hover:text-white transition group";
+                if(navEl) navEl.className = "flex items-center p-3 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition group";
             });
             
-            // Aktifkan style untuk menu yang dipilih
             let activeNav = document.getElementById('nav-' + tabId);
             if(activeNav) activeNav.className = "flex items-center p-3 rounded-2xl bg-blue-600 text-white font-semibold shadow-lg shadow-blue-500/25 transition group";
             
@@ -706,7 +718,6 @@
             }, 1000);
 
             syncInterval = setInterval(() => {
-                // Sync data if Dashboard, Online OR Selesai tab is active
                 if(!document.getElementById('tab-dashboard').classList.contains('hidden') || 
                    !document.getElementById('tab-online').classList.contains('hidden') || 
                    !document.getElementById('tab-selesai').classList.contains('hidden')) {
@@ -767,26 +778,26 @@
             const detailContainer = document.getElementById('card-ujian-detail');
             detailContainer.innerHTML = '';
             if (!data.ujianAktifDetail || data.ujianAktifDetail.length === 0) {
-                detailContainer.innerHTML = '<div class="col-span-full bg-slate-800/60 border border-slate-700/80 p-4 rounded-2xl text-center text-xs text-slate-400 font-medium">Tidak ada sesi ujian atau mapel yang aktif saat ini.</div>';
+                detailContainer.innerHTML = '<div class="col-span-full bg-slate-50 border border-slate-200 p-4 rounded-2xl text-center text-xs text-slate-500 font-medium">Tidak ada sesi ujian atau mapel yang aktif saat ini.</div>';
             } else {
                 data.ujianAktifDetail.forEach(item => {
                     let waktuMulaiStr = new Date(item.mulai).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
                     let waktuSelesaiStr = new Date(item.selesai).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
                     
                     detailContainer.innerHTML += `
-                        <div class="bg-slate-800/60 p-4 rounded-2xl border border-slate-700/80 flex flex-col justify-between hover:border-slate-600 transition shadow-sm">
+                        <div class="bg-white p-4 rounded-2xl border border-slate-200 flex flex-col justify-between hover:border-slate-300 transition shadow-sm">
                             <div>
                                 <div class="flex justify-between items-center mb-2">
-                                    <span class="font-extrabold text-white text-base tracking-wide">${item.kode}</span>
-                                    <span class="text-[10px] bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">${item.status}</span>
+                                    <span class="font-extrabold text-slate-800 text-base tracking-wide">${item.kode}</span>
+                                    <span class="text-[10px] bg-blue-50 text-blue-600 border border-blue-100 px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">${item.status}</span>
                                 </div>
-                                <div class="text-slate-400 space-y-1 text-xs mb-3">
-                                    <div class="flex items-center"><i class="far fa-clock w-4 mr-1 text-slate-500"></i> Durasi: <span class="font-bold text-slate-200 ml-1">${item.durasi} Menit</span></div>
-                                    <div class="flex items-center"><i class="far fa-calendar-alt w-4 mr-1 text-slate-500"></i> Pukul: <span class="semibold text-slate-200 ml-1">${waktuMulaiStr} - ${waktuSelesaiStr} WIB</span></div>
+                                <div class="text-slate-500 space-y-1 text-xs mb-3">
+                                    <div class="flex items-center"><i class="far fa-clock w-4 mr-1 text-slate-400"></i> Durasi: <span class="font-bold text-slate-700 ml-1">${item.durasi} Menit</span></div>
+                                    <div class="flex items-center"><i class="far fa-calendar-alt w-4 mr-1 text-slate-400"></i> Pukul: <span class="font-semibold text-slate-700 ml-1">${waktuMulaiStr} - ${waktuSelesaiStr} WIB</span></div>
                                 </div>
                             </div>
-                            <div class="pt-2 border-t border-slate-700/60 flex justify-end">
-                                <a href="https://docs.google.com/spreadsheets/d/${item.idSoal}/edit" target="_blank" class="text-xs bg-slate-800 border border-slate-700 text-blue-400 hover:bg-slate-700 px-3.5 py-1.5 rounded-xl font-bold transition flex items-center shadow-sm">
+                            <div class="pt-2 border-t border-slate-100 flex justify-end">
+                                <a href="https://docs.google.com/spreadsheets/d/${item.idSoal}/edit" target="_blank" class="text-xs bg-slate-50 border border-slate-200 text-blue-600 hover:bg-slate-100 px-3.5 py-1.5 rounded-xl font-bold transition flex items-center shadow-sm">
                                     <i class="fas fa-external-link-alt mr-1.5"></i> Buka File Soal
                                 </a>
                             </div>
@@ -795,50 +806,62 @@
                 });
             }
 
-            // 2. Render Detail Siswa Selesai Mengerjakan (DI TAB BARU - SELESAI TAB)
+            // 2. Render Detail Siswa Selesai Mengerjakan (HORISONTAL / MEMANJANG)
             const selesaiContainer = document.getElementById('card-siswa-selesai-tab');
             selesaiContainer.innerHTML = '';
             
             if (!data.siswaSelesai || data.siswaSelesai.length === 0) {
-                selesaiContainer.innerHTML = '<div class="col-span-full bg-slate-800/60 border border-slate-700/80 p-10 rounded-2xl text-center text-sm text-slate-400 font-medium flex flex-col items-center justify-center"><i class="fas fa-clipboard-check text-4xl mb-3 text-slate-600"></i> Belum ada catatan siswa yang selesai ujian terbaru.</div>';
+                selesaiContainer.innerHTML = '<div class="col-span-full bg-slate-50 border border-slate-200 p-10 rounded-2xl text-center text-sm text-slate-500 font-medium flex flex-col items-center justify-center"><i class="fas fa-clipboard-check text-4xl mb-3 text-slate-300"></i> Belum ada catatan siswa yang selesai ujian terbaru.</div>';
             } else {
                 data.siswaSelesai.forEach(item => {
                     selesaiContainer.innerHTML += `
-                        <div class="bg-slate-800/60 p-4 rounded-2xl border border-slate-700/80 flex flex-col justify-between hover:border-slate-600 transition shadow-sm">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="font-bold text-white text-sm truncate pr-2">${item.nama || 'Anonim'}</span>
-                                <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full font-bold">Selesai</span>
+                        <div class="bg-white p-3 rounded-xl border border-slate-200 flex flex-row items-center justify-between hover:shadow-md transition shadow-sm gap-2">
+                            <div class="flex items-center space-x-3 min-w-0">
+                                <div class="relative flex-shrink-0">
+                                    <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-sm">
+                                        ${(item.nama || 'A').charAt(0).toUpperCase()}
+                                    </div>
+                                    <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-white shadow-sm" title="Selesai"></span>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="font-bold text-slate-800 text-xs whitespace-normal leading-tight">${item.nama || 'Anonim'}</div>
+                                    <div class="text-[10px] text-slate-500 mt-0.5">${item.kelas || '-'}</div>
+                                </div>
                             </div>
-                            <div class="text-slate-400 space-y-1.5 text-xs">
-                                <div class="flex items-center justify-between"><span>Kelas:</span> <span class="font-medium text-slate-200">${item.kelas || '-'}</span></div>
-                                <div class="flex items-center justify-between"><span>Mapel:</span> <span class="font-bold text-blue-400">${item.kodeUjian || '-'}</span></div>
-                                <div class="flex items-center justify-between"><span>Waktu:</span> <span class="font-medium text-slate-200">${item.waktuSelesai || '-'}</span></div>
-                                <div class="flex items-center justify-between"><span>Nilai:</span> <span class="font-black text-emerald-400">${item.nilai !== undefined ? item.nilai : '-'}</span></div>
+                            <div class="flex flex-col items-end text-right flex-shrink-0 pl-3 border-l border-slate-100">
+                                <span class="font-bold text-blue-600 text-[10px] mb-1 truncate max-w-[60px]">${item.kodeUjian || '-'}</span>
+                                <span class="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded text-[10px] border border-emerald-100 shadow-sm">Nilai: ${item.nilai !== undefined ? item.nilai : '-'}</span>
                             </div>
                         </div>
                     `;
                 });
             }
 
-            // 2.5 Render Detail Siswa Sedang Online DI TAB ONLINE
+            // 2.5 Render Detail Siswa Sedang Online (HORISONTAL / MEMANJANG)
             const onlineContainer = document.getElementById('card-siswa-online');
             onlineContainer.innerHTML = '';
             
             if (!data.siswaOnline || data.siswaOnline.length === 0) {
-                onlineContainer.innerHTML = '<div class="col-span-full bg-slate-800/60 border border-slate-700/80 p-10 rounded-2xl text-center text-sm text-slate-400 font-medium flex flex-col items-center justify-center"><i class="fas fa-bed text-4xl mb-3 text-slate-600"></i> Belum ada siswa yang terpantau aktif di dalam sistem.</div>';
+                onlineContainer.innerHTML = '<div class="col-span-full bg-slate-50 border border-slate-200 p-10 rounded-2xl text-center text-sm text-slate-500 font-medium flex flex-col items-center justify-center"><i class="fas fa-bed text-4xl mb-3 text-slate-300"></i> Belum ada siswa yang terpantau aktif di dalam sistem.</div>';
             } else {
                 data.siswaOnline.forEach(item => {
                     onlineContainer.innerHTML += `
-                        <div class="bg-slate-800/60 p-4 rounded-2xl border border-slate-700/80 flex flex-col justify-between hover:border-slate-600 transition shadow-sm">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="font-bold text-white text-sm truncate pr-2">${item.nama || 'Anonim'}</span>
-                                <span class="text-[10px] bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-2 py-0.5 rounded-full font-bold">Online</span>
+                        <div class="bg-white p-3 rounded-xl border border-slate-200 flex flex-row items-center justify-between hover:shadow-md transition shadow-sm gap-2">
+                            <div class="flex items-center space-x-3 min-w-0">
+                                <div class="relative flex-shrink-0">
+                                    <div class="w-9 h-9 rounded-full bg-cyan-100 text-cyan-600 flex items-center justify-center font-bold text-sm">
+                                        ${(item.nama || 'A').charAt(0).toUpperCase()}
+                                    </div>
+                                    <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-cyan-400 border-2 border-white animate-pulse shadow-sm" title="Online"></span>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <div class="font-bold text-slate-800 text-xs whitespace-normal leading-tight">${item.nama || 'Anonim'}</div>
+                                    <div class="text-[10px] text-slate-500 mt-0.5 truncate">${item.kelas || '-'} • ${item.nisn || '-'}</div>
+                                </div>
                             </div>
-                            <div class="text-slate-400 space-y-1.5 text-xs">
-                                <div class="flex items-center justify-between"><span>Kelas:</span> <span class="font-medium text-slate-200">${item.kelas || '-'}</span></div>
-                                <div class="flex items-center justify-between"><span>NISN:</span> <span class="font-medium text-slate-200">${item.nisn || '-'}</span></div>
-                                <div class="flex items-center justify-between"><span>Mapel:</span> <span class="font-bold text-blue-400">${item.kodeUjian || '-'}</span></div>
-                                <div class="flex items-center justify-between"><span>Terjawab:</span> <span class="font-medium text-slate-200 bg-slate-700 px-2 rounded-md">${item.terjawab || 0} Soal</span></div>
+                            <div class="flex flex-col items-end text-right flex-shrink-0 pl-3 border-l border-slate-100">
+                                <span class="font-bold text-blue-600 text-[10px] mb-1 truncate max-w-[60px]">${item.kodeUjian || '-'}</span>
+                                <span class="font-bold text-slate-600 bg-slate-50 px-2 py-0.5 rounded text-[10px] border border-slate-200 shadow-sm">${item.terjawab || 0} Terjawab</span>
                             </div>
                         </div>
                     `;
@@ -866,14 +889,14 @@
             } else {
                 window.listPelanggaran.forEach(p => {
                     pelanggaranTable.innerHTML += `
-                        <tr class="hover:bg-slate-800/40 transition">
+                        <tr class="hover:bg-slate-50 transition border-b border-slate-100 last:border-0">
                             <td class="p-3">
-                                <div class="font-bold text-slate-200 text-sm">${p.nama}</div>
-                                <div class="text-xs text-slate-400">${p.kelas} (${p.nisn})</div>
+                                <div class="font-bold text-slate-800 text-sm">${p.nama}</div>
+                                <div class="text-xs text-slate-500">${p.kelas} (${p.nisn})</div>
                             </td>
-                            <td class="p-3 text-xs font-bold text-blue-400">${p.kodeUjian}</td>
+                            <td class="p-3 text-xs font-bold text-blue-600">${p.kodeUjian}</td>
                             <td class="p-3 text-center">
-                                <span class="bg-rose-500/10 text-rose-400 border border-rose-500/20 px-3 py-1 rounded-full text-xs font-extrabold">Ke-${p.kesempatanKe}</span>
+                                <span class="bg-rose-50 text-rose-600 border border-rose-100 px-3 py-1 rounded-full text-xs font-extrabold">Ke-${p.kesempatanKe}</span>
                             </td>
                         </tr>
                     `;
@@ -892,12 +915,12 @@
                 let count = data.siswaPerKelas[kelas];
                 let percent = (count / maxCount) * 100;
                 classContainer.innerHTML += `
-                    <div class="bg-slate-800/60 p-4 rounded-2xl border border-slate-700/80 shadow-sm hover:border-slate-600 transition">
+                    <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:border-slate-300 transition">
                         <div class="flex justify-between text-sm mb-1.5">
-                            <span class="font-bold text-slate-200">${kelas}</span>
-                            <span class="text-blue-400 font-extrabold text-xs bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-md">${count} Siswa</span>
+                            <span class="font-bold text-slate-700">${kelas}</span>
+                            <span class="text-blue-600 font-extrabold text-xs bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-md">${count} Siswa</span>
                         </div>
-                        <div class="w-full bg-slate-700 rounded-full h-2.5 overflow-hidden">
+                        <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
                             <div class="bg-blue-500 h-2.5 rounded-full transition-all duration-500" style="width: ${percent}%"></div>
                         </div>
                     </div>
@@ -912,14 +935,14 @@
             } else {
                 window.listSiswaOnline.forEach((s, idx) => {
                     progTable.innerHTML += `
-                        <tr onclick="inspectStudent(${idx})" class="hover:bg-blue-950/40 transition cursor-pointer" title="Klik untuk inspeksi detail">
+                        <tr onclick="inspectStudent(${idx})" class="hover:bg-slate-50 transition cursor-pointer border-b border-slate-100 last:border-0" title="Klik untuk inspeksi detail">
                             <td class="p-3">
-                                <div class="font-bold text-slate-200 text-sm flex items-center">${s.nama} <i class="fas fa-chevron-right text-[10px] text-blue-400 ml-2"></i></div>
-                                <div class="text-xs text-slate-400">${s.nisn}</div>
+                                <div class="font-bold text-slate-800 text-sm flex items-center">${s.nama} <i class="fas fa-chevron-right text-[10px] text-blue-500 ml-2 opacity-50"></i></div>
+                                <div class="text-xs text-slate-500">${s.nisn}</div>
                             </td>
-                            <td class="p-3 text-xs font-bold text-blue-400">${s.kodeUjian}</td>
+                            <td class="p-3 text-xs font-bold text-blue-600">${s.kodeUjian}</td>
                             <td class="p-3 text-center">
-                                <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-3 py-1 rounded-full text-xs font-extrabold">${s.terjawab} Soal</span>
+                                <span class="bg-blue-50 text-blue-600 border border-blue-100 px-3 py-1 rounded-full text-xs font-extrabold shadow-sm">${s.terjawab} Soal</span>
                             </td>
                         </tr>
                     `;
@@ -940,13 +963,13 @@
             const violationContainer = document.getElementById('modalViolationStatus');
 
             if (studentViolations.length > 0) {
-                let vText = `<span class="text-rose-400 font-bold">Terdeteksi ${studentViolations.length} Pelanggaran:</span><br>`;
+                let vText = `<span class="text-rose-600 font-bold">Terdeteksi ${studentViolations.length} Pelanggaran:</span><br>`;
                 studentViolations.forEach(v => {
                     vText += `• Ujian ${v.kodeUjian} (Kesempatan Ke-${v.kesempatanKe})<br>`;
                 });
                 violationContainer.innerHTML = vText;
             } else {
-                violationContainer.innerHTML = '<span class="text-emerald-400 font-semibold"><i class="fas fa-check-circle mr-1"></i> Bersih (Tidak ada pelanggaran tata tertib).</span>';
+                violationContainer.innerHTML = '<span class="text-emerald-600 font-semibold"><i class="fas fa-check-circle mr-1"></i> Bersih (Tidak ada pelanggaran tata tertib).</span>';
             }
             document.getElementById('studentModal').classList.remove('hidden');
         }
@@ -971,7 +994,7 @@
                     labels: ['Selesai Ujian', 'Sedang Mengerjakan (Online)', 'Belum Mulai'],
                     datasets: [{
                         data: [selesai, online, belumSelesai],
-                        backgroundColor: ['#10b981', '#38bdf8', '#334155'], 
+                        backgroundColor: ['#10b981', '#38bdf8', '#e2e8f0'], 
                         borderWidth: 0,
                         hoverOffset: 4
                     }]
@@ -983,7 +1006,7 @@
                         legend: {
                             position: 'bottom',
                             labels: {
-                                color: '#94a3b8',
+                                color: '#64748b',
                                 boxWidth: 12,
                                 font: { size: 11, family: 'sans-serif' }
                             }
@@ -1002,7 +1025,7 @@
             if(data.siswaOnline && data.siswaOnline.length > 0) {
                 data.siswaOnline.slice(0, 3).forEach(s => {
                     feeds.push({
-                        icon: 'fa-user-pen text-blue-400 bg-blue-500/10 border border-blue-500/20',
+                        icon: 'fa-user-pen text-blue-600 bg-blue-100 border border-blue-200',
                         title: `${s.nama} (${s.kelas})`,
                         desc: `Sedang aktif mengerjakan ujian ${s.kodeUjian} (${s.terjawab} soal)`,
                         time: 'Baru saja'
@@ -1013,7 +1036,7 @@
             if(data.listPelanggaran && data.listPelanggaran.length > 0) {
                 data.listPelanggaran.slice(0, 2).forEach(p => {
                     feeds.push({
-                        icon: 'fa-triangle-exclamation text-rose-400 bg-rose-500/10 border border-rose-500/20',
+                        icon: 'fa-triangle-exclamation text-rose-600 bg-rose-100 border border-rose-200',
                         title: `Pelanggaran: ${p.nama}`,
                         desc: `Melanggar tata tertib ujian ${p.kodeUjian} (Kesempatan Ke-${p.kesempatanKe})`,
                         time: p.waktu || 'Hari ini'
@@ -1023,11 +1046,11 @@
 
             if(feeds.length === 0) {
                 container.innerHTML = `
-                    <div class="flex items-center space-x-3 text-xs bg-slate-800/50 p-3 rounded-2xl border border-slate-800">
-                        <div class="w-8 h-8 rounded-xl bg-slate-800 text-slate-400 flex items-center justify-center flex-shrink-0 font-bold"><i class="fas fa-info text-xs"></i></div>
+                    <div class="flex items-center space-x-3 text-xs bg-slate-50 p-3 rounded-2xl border border-slate-200">
+                        <div class="w-8 h-8 rounded-xl bg-slate-100 text-slate-500 flex items-center justify-center flex-shrink-0 font-bold border border-slate-200"><i class="fas fa-info text-xs"></i></div>
                         <div>
-                            <p class="font-semibold text-slate-200">Tidak ada aktivitas baru</p>
-                            <p class="text-[10px] text-slate-400 mt-0.5">Sistem memantau secara real-time.</p>
+                            <p class="font-semibold text-slate-800">Tidak ada aktivitas baru</p>
+                            <p class="text-[10px] text-slate-500 mt-0.5">Sistem memantau secara real-time.</p>
                         </div>
                     </div>
                 `;
@@ -1036,14 +1059,14 @@
 
             feeds.forEach(f => {
                 container.innerHTML += `
-                    <div class="flex items-start space-x-3 text-xs bg-slate-800/50 p-3 rounded-2xl border border-slate-800">
+                    <div class="flex items-start space-x-3 text-xs bg-slate-50 p-3 rounded-2xl border border-slate-200 shadow-sm">
                         <div class="w-8 h-8 rounded-xl ${f.icon} flex items-center justify-center flex-shrink-0 font-bold"><i class="fas ${f.icon.split(' ')[0]} text-xs"></i></div>
                         <div class="flex-1">
                             <div class="flex justify-between items-center">
-                                <p class="font-semibold text-slate-200">${f.title}</p>
-                                <span class="text-[9px] text-slate-400">${f.time}</span>
+                                <p class="font-semibold text-slate-800">${f.title}</p>
+                                <span class="text-[9px] text-slate-500">${f.time}</span>
                             </div>
-                            <p class="text-[10px] text-slate-400 mt-0.5">${f.desc}</p>
+                            <p class="text-[10px] text-slate-500 mt-0.5">${f.desc}</p>
                         </div>
                     </div>
                 `;
@@ -1184,7 +1207,7 @@
             if(!kode) { alert("Masukkan atau pilih kode ujian terlebih dahulu!"); return; }
             
             const tbody = document.getElementById('nilaiTable');
-            tbody.innerHTML = '<tr><td colspan="5" class="text-center p-8"><i class="fas fa-spinner fa-spin text-blue-400 text-2xl"></i></td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center p-8"><i class="fas fa-spinner fa-spin text-blue-500 text-2xl"></i></td></tr>';
 
             fetch(GAS_URL, {
                 method: 'POST',
@@ -1196,7 +1219,7 @@
                 })
             }).then(res => res.json()).then(res => {
                 if(res.error) {
-                    tbody.innerHTML = `<tr><td colspan="5" class="text-center p-8 text-rose-400 font-medium">${res.error}</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="5" class="text-center p-8 text-rose-500 font-medium">${res.error}</td></tr>`;
                     return;
                 }
                 if(res.data.length === 0) {
@@ -1208,19 +1231,19 @@
                 res.data.forEach(n => {
                     let dateStr = new Date(n.waktu).toLocaleString('id-ID');
                     tbody.innerHTML += `
-                        <tr class="hover:bg-slate-800/40 transition border-b border-slate-800/60 last:border-0">
-                            <td class="p-3.5 text-xs text-slate-400">${dateStr}</td>
-                            <td class="p-3.5 font-bold text-slate-200 text-sm">${n.nisn}</td>
-                            <td class="p-3.5 font-semibold text-white text-sm">${n.nama}</td>
-                            <td class="p-3.5 text-sm text-slate-300">${n.kelas}</td>
+                        <tr class="hover:bg-slate-50 transition border-b border-slate-100 last:border-0">
+                            <td class="p-3.5 text-xs text-slate-500">${dateStr}</td>
+                            <td class="p-3.5 font-bold text-slate-700 text-sm">${n.nisn}</td>
+                            <td class="p-3.5 font-semibold text-slate-800 text-sm">${n.nama}</td>
+                            <td class="p-3.5 text-sm text-slate-600">${n.kelas}</td>
                             <td class="p-3.5 text-center">
-                                <span class="font-black text-sm px-3 py-1 rounded-lg ${n.nilai >= 75 ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'}">${n.nilai}</span>
+                                <span class="font-black text-sm px-3 py-1 rounded-lg ${n.nilai >= 75 ? 'bg-blue-50 text-blue-600 border border-blue-100' : 'bg-rose-50 text-rose-600 border border-rose-100'} shadow-sm">${n.nilai}</span>
                             </td>
                         </tr>
                     `;
                 });
             }).catch(err => {
-                tbody.innerHTML = '<tr><td colspan="5" class="text-center p-8 text-rose-400 font-medium">Terjadi kesalahan koneksi jaringan.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center p-8 text-rose-500 font-medium">Terjadi kesalahan koneksi jaringan.</td></tr>';
             });
         }
     </script>
