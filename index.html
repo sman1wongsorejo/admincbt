@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin - CBT SMANJO</title>
+    <title>Dashboard Admin Terpadu - CBT SMANJO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -25,19 +25,19 @@
     <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-72 bg-white text-slate-800 flex flex-col shadow-xl z-40 sidebar-transition -translate-x-full md:translate-x-0 flex-shrink-0 border-r border-slate-200">
         <div class="p-5 border-b border-slate-200 flex items-center justify-between flex-shrink-0">
             <div id="sidebarHeaderContent" class="flex items-center space-x-3 overflow-hidden">
-                <div class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-sky-500 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 flex-shrink-0">
+                <div class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-teal-500 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 flex-shrink-0">
                     <i class="fas fa-graduation-cap text-white text-lg"></i>
                 </div>
                 <div class="sidebar-text truncate">
-                    <h1 class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-sky-600 tracking-wide">CBT SMANJO</h1>
-                    <p class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Admin Panel v3.2</p>
+                    <h1 class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-teal-600 tracking-wide">CBT SMANJO</h1>
+                    <p class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Unified Admin v4.0</p>
                 </div>
             </div>
             <button onclick="toggleSidebar()" class="text-slate-500 hover:text-slate-800 p-2.5 rounded-xl hover:bg-slate-100 transition flex-shrink-0 md:hidden border border-slate-200" title="Tutup Menu"><i class="fas fa-times text-sm"></i></button>
             <button onclick="toggleSidebar()" class="hidden md:flex items-center justify-center w-9 h-9 text-slate-500 hover:text-slate-800 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 shadow-sm transition-all duration-200 group" title="Sembunyikan/Tampilkan Sidebar"><i id="toggleIcon" class="fas fa-chevron-left text-xs transition-transform duration-300"></i></button>
         </div>
 
-        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+        <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto">
             <a href="#" onclick="switchTab('dashboard')" id="nav-dashboard" class="flex items-center p-3 rounded-2xl bg-blue-600 text-white font-semibold shadow-lg shadow-blue-500/25 transition group">
                 <i class="fas fa-chart-pie w-6 text-center text-lg flex-shrink-0"></i>
                 <span class="sidebar-text ml-3 text-sm">Dashboard Utama</span>
@@ -59,18 +59,32 @@
                 <span class="sidebar-text ml-3 text-sm">Denah Ujian</span>
             </a>
 
-            <div class="pt-6 pb-2">
-                <p class="sidebar-text px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">Pintasan Database</p>
+            <div class="pt-4 pb-1">
+                <p class="sidebar-text px-3 text-[10px] font-bold uppercase tracking-wider text-blue-600">Database CBT Reguler</p>
                 <hr class="sidebar-divider border-slate-200 my-2 hidden">
             </div>
 
-            <a href="#" onclick="switchTab('dbUtama')" id="nav-dbUtama" class="flex items-center p-3 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition group">
-                <i class="fas fa-database w-6 text-center text-lg flex-shrink-0 text-blue-500"></i>
-                <span class="sidebar-text ml-3 text-sm">Database Utama</span>
+            <a href="#" onclick="switchTab('dbUtama')" id="nav-dbUtama" class="flex items-center p-2.5 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition group">
+                <i class="fas fa-database w-6 text-center text-base flex-shrink-0 text-blue-500"></i>
+                <span class="sidebar-text ml-3 text-xs font-semibold">DB Utama Reguler</span>
             </a>
-            <a href="#" onclick="switchTab('dbNilai')" id="nav-dbNilai" class="flex items-center p-3 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-sky-600 transition group">
-                <i class="fas fa-table w-6 text-center text-lg flex-shrink-0 text-sky-500"></i>
-                <span class="sidebar-text ml-3 text-sm">Folder Hasil Ujian</span>
+            <a href="#" onclick="switchTab('dbNilai')" id="nav-dbNilai" class="flex items-center p-2.5 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-sky-600 transition group">
+                <i class="fas fa-table w-6 text-center text-base flex-shrink-0 text-sky-500"></i>
+                <span class="sidebar-text ml-3 text-xs font-semibold">Hasil Ujian Reguler</span>
+            </a>
+
+            <div class="pt-4 pb-1">
+                <p class="sidebar-text px-3 text-[10px] font-bold uppercase tracking-wider text-teal-600">Database CBT ABK</p>
+                <hr class="sidebar-divider border-slate-200 my-2 hidden">
+            </div>
+
+            <a href="#" onclick="switchTab('dbUtamaAbk')" id="nav-dbUtamaAbk" class="flex items-center p-2.5 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-teal-600 transition group">
+                <i class="fas fa-universal-access w-6 text-center text-base flex-shrink-0 text-teal-500"></i>
+                <span class="sidebar-text ml-3 text-xs font-semibold">DB Utama ABK</span>
+            </a>
+            <a href="#" onclick="switchTab('dbNilaiAbk')" id="nav-dbNilaiAbk" class="flex items-center p-2.5 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-emerald-600 transition group">
+                <i class="fas fa-clipboard-list w-6 text-center text-base flex-shrink-0 text-emerald-500"></i>
+                <span class="sidebar-text ml-3 text-xs font-semibold">Hasil Ujian ABK</span>
             </a>
         </nav>
 
@@ -83,7 +97,7 @@
     </aside>
 
     <main class="flex-1 flex flex-col overflow-hidden w-full bg-slate-50">
-        <header class="bg-white border-b border-slate-200 px-4 sm:px-8 py-4 flex justify-between items-center z-10 shadow-sm flex-shrink-0">
+        <header class="bg-white border-b border-slate-200 px-4 sm:px-8 py-3.5 flex flex-wrap justify-between items-center z-10 shadow-sm flex-shrink-0 gap-3">
             <div class="flex items-center space-x-3 sm:space-x-4">
                 <button onclick="toggleSidebar()" class="md:hidden flex items-center justify-center w-10 h-10 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-xl transition border border-slate-200 shadow-sm">
                     <i class="fas fa-bars-staggered text-sm"></i>
@@ -93,13 +107,28 @@
                     <p id="welcomeGreeting" class="text-xs font-medium text-slate-500 hidden mt-0.5">Selamat datang, <span id="adminNameDisplay" class="font-bold text-blue-600">Admin</span> 👋</p>
                 </div>
             </div>
+
+            <!-- SAKELAR FILTER SERVER TERPADU -->
+            <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-inner">
+                <button onclick="setServerFilter('ALL')" id="filter-ALL" class="px-3 py-1.5 rounded-lg text-xs font-extrabold transition bg-blue-600 text-white shadow-sm">
+                    Semua (Gabungan)
+                </button>
+                <button onclick="setServerFilter('REG')" id="filter-REG" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition">
+                    CBT Reguler
+                </button>
+                <button onclick="setServerFilter('ABK')" id="filter-ABK" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition">
+                    CBT ABK
+                </button>
+            </div>
+
             <div class="flex items-center space-x-2 sm:space-x-3">
-                <div class="hidden md:flex items-center space-x-2 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-full text-xs font-medium text-slate-600 shadow-sm">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" id="serverPingDot"></span>
-                    <span id="serverStatusText">GAS Server: Optimal</span>
+                <div class="hidden xl:flex items-center space-x-3 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-full text-[11px] font-semibold text-slate-600 shadow-sm">
+                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" id="dotReg"></span><span id="statusRegText">Reguler: OK</span></span>
+                    <span class="text-slate-300">|</span>
+                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse" id="dotAbk"></span><span id="statusAbkText">ABK: OK</span></span>
                 </div>
                 <span class="text-xs font-medium px-3 py-1.5 bg-slate-50 text-slate-600 rounded-full border border-slate-200 shadow-sm hidden sm:inline-flex items-center" id="lastSync">
-                    <i class="fas fa-circle text-emerald-500 text-[8px] mr-2 animate-pulse"></i> Sinkron dalam <span id="syncCountdown" class="font-bold ml-1 text-slate-800">15</span>s
+                    <i class="fas fa-circle text-emerald-500 text-[8px] mr-2 animate-pulse"></i> Sinkron <span id="syncCountdown" class="font-bold ml-1 text-slate-800">15</span>s
                 </span>
                 <button onclick="manualSync()" class="bg-slate-50 border border-slate-200 hover:bg-slate-100 p-2.5 rounded-xl text-slate-600 shadow-sm transition" title="Refresh Data Sekarang"><i class="fas fa-sync-alt"></i></button>
             </div>
@@ -111,29 +140,33 @@
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                     <div class="bg-gradient-to-br from-blue-600 to-indigo-600 text-white rounded-2xl p-4 shadow-lg shadow-blue-500/20 relative overflow-hidden group hover:-translate-y-1 transition duration-300 flex items-center justify-between border border-blue-400/30">
                         <div>
-                            <p class="text-blue-100 text-[11px] font-semibold mb-1 uppercase tracking-wider">Total Siswa</p>
+                            <p class="text-blue-100 text-[11px] font-semibold mb-0.5 uppercase tracking-wider">Total Siswa</p>
                             <h3 class="text-2xl sm:text-3xl font-black tracking-tight" id="card-total">0</h3>
+                            <p class="text-[10px] text-blue-100/90 font-medium mt-1" id="sub-total">Reg: 0 • ABK: 0</p>
                         </div>
                         <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center text-white text-lg shadow-inner"><i class="fas fa-user-group"></i></div>
                     </div>
-                    <div class="bg-gradient-to-br from-sky-500 to-blue-600 text-white rounded-2xl p-4 shadow-lg shadow-sky-500/20 relative overflow-hidden group hover:-translate-y-1 transition duration-300 flex items-center justify-between border border-sky-400/30">
+                    <div class="bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-2xl p-4 shadow-lg shadow-emerald-500/20 relative overflow-hidden group hover:-translate-y-1 transition duration-300 flex items-center justify-between border border-emerald-400/30">
                         <div>
-                            <p class="text-sky-100 text-[11px] font-semibold mb-1 uppercase tracking-wider">Siswa Selesai</p>
+                            <p class="text-emerald-100 text-[11px] font-semibold mb-0.5 uppercase tracking-wider">Siswa Selesai</p>
                             <h3 class="text-2xl sm:text-3xl font-black tracking-tight" id="card-selesai">0</h3>
+                            <p class="text-[10px] text-emerald-100/90 font-medium mt-1" id="sub-selesai">Reg: 0 • ABK: 0</p>
                         </div>
                         <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center text-white text-lg shadow-inner"><i class="fas fa-circle-check"></i></div>
                     </div>
                     <div class="bg-gradient-to-br from-cyan-500 to-blue-500 text-white rounded-2xl p-4 shadow-lg shadow-cyan-500/20 relative overflow-hidden group hover:-translate-y-1 transition duration-300 flex items-center justify-between border border-cyan-400/30">
                         <div>
-                            <p class="text-cyan-100 text-[11px] font-semibold mb-1 uppercase tracking-wider">Siswa Online</p>
+                            <p class="text-cyan-100 text-[11px] font-semibold mb-0.5 uppercase tracking-wider">Siswa Online</p>
                             <h3 class="text-2xl sm:text-3xl font-black tracking-tight" id="card-online">0</h3>
+                            <p class="text-[10px] text-cyan-100/90 font-medium mt-1" id="sub-online">Reg: 0 • ABK: 0</p>
                         </div>
                         <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center text-white text-lg shadow-inner animate-pulse"><i class="fas fa-tower-broadcast"></i></div>
                     </div>
                     <div class="bg-gradient-to-br from-slate-700 to-slate-800 text-white rounded-2xl p-4 shadow-lg shadow-slate-500/20 relative overflow-hidden group hover:-translate-y-1 transition duration-300 flex items-center justify-between border border-slate-600/50">
                         <div>
-                            <p class="text-slate-300 text-[11px] font-semibold mb-1 uppercase tracking-wider">Pelanggaran</p>
+                            <p class="text-slate-300 text-[11px] font-semibold mb-0.5 uppercase tracking-wider">Pelanggaran</p>
                             <h3 class="text-2xl sm:text-3xl font-black tracking-tight text-white" id="card-pelanggaran">0</h3>
+                            <p class="text-[10px] text-slate-300/90 font-medium mt-1" id="sub-pelanggaran">Reg: 0 • ABK: 0</p>
                         </div>
                         <div class="w-12 h-12 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center text-rose-300 text-lg shadow-inner border border-white/5"><i class="fas fa-triangle-exclamation"></i></div>
                     </div>
@@ -145,8 +178,8 @@
                         <div class="flex items-center space-x-3">
                             <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold border border-blue-100"><i class="fas fa-bolt text-base"></i></div>
                             <div>
-                                <h3 class="font-bold text-slate-800 text-base">Sesi Ujian & Mapel Aktif</h3>
-                                <p class="text-xs text-slate-500">Daftar ujian yang sedang berlangsung saat ini.</p>
+                                <h3 class="font-bold text-slate-800 text-base">Sesi Ujian & Mapel Aktif (Reguler & ABK)</h3>
+                                <p class="text-xs text-slate-500">Daftar ujian yang sedang berlangsung pada kedua server saat ini.</p>
                             </div>
                         </div>
                         <span class="text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-600 px-3 py-1 rounded-full border border-blue-200">Live Session</span>
@@ -159,7 +192,7 @@
                     <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm flex flex-col justify-between">
                         <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
                             <h3 class="font-bold text-slate-800 flex items-center text-sm sm:text-base"><i class="fas fa-chart-pie text-blue-500 mr-2"></i> Proporsi Status Pengerjaan</h3>
-                            <span class="text-xs text-slate-500 font-medium">Live Statistik</span>
+                            <span class="text-xs text-slate-500 font-medium" id="chartScopeLabel">Semua Peserta</span>
                         </div>
                         <div class="relative h-60 flex items-center justify-center"><canvas id="progressChart"></canvas></div>
                     </div>
@@ -198,8 +231,8 @@
                                 <thead class="sticky top-0 bg-slate-100">
                                     <tr class="text-slate-600 text-xs uppercase tracking-wider">
                                         <th class="p-3 rounded-tl-xl">Siswa</th>
-                                        <th class="p-3">Ujian</th>
-                                        <th class="p-3 text-center rounded-tr-xl">Soal Terjawab</th>
+                                        <th class="p-3">Sistem / Ujian</th>
+                                        <th class="p-3 text-center rounded-tr-xl">Terjawab</th>
                                     </tr>
                                 </thead>
                                 <tbody id="liveProgressTable" class="divide-y divide-slate-100">
@@ -224,8 +257,8 @@
                                 <thead class="sticky top-0 bg-slate-100">
                                     <tr class="text-slate-600 text-xs uppercase tracking-wider">
                                         <th class="p-3 rounded-tl-xl">Siswa / Kelas</th>
-                                        <th class="p-3">Mapel (Ujian)</th>
-                                        <th class="p-3 text-center rounded-tr-xl">Kesempatan Ke-</th>
+                                        <th class="p-3">Sistem / Mapel</th>
+                                        <th class="p-3 text-center rounded-tr-xl">Ke-</th>
                                     </tr>
                                 </thead>
                                 <tbody id="pelanggaranTable" class="divide-y divide-slate-100">
@@ -291,25 +324,61 @@
 
             <!-- NILAI TAB -->
             <div id="tab-nilai" class="hidden space-y-6">
-                <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b border-slate-100">
+                <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-5">
+                    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 pb-4 border-b border-slate-100">
                         <div>
                             <h3 class="font-bold text-slate-800 text-lg">Rekap Nilai Siswa</h3>
-                            <p class="text-xs text-slate-500">Pilih kode ujian dari daftar untuk melihat hasil penilaian lengkap.</p>
+                            <p class="text-xs text-slate-500">Pilih server (Reguler / ABK) dan kode ujian untuk melihat hasil & statistik lengkap.</p>
                         </div>
-                        <div class="flex items-center space-x-2 w-full sm:w-auto">
-                            <input list="daftarKode" id="inputKodeUjian" placeholder="Pilih atau Ketik Kode Ujian..." class="border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none w-full sm:w-64 bg-slate-50 text-slate-800 cursor-pointer transition" autocomplete="off">
+                        <div class="flex flex-wrap items-center gap-2 w-full lg:w-auto">
+                            <select id="selectServerNilai" onchange="updateDatalistKode()" class="border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-bold focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none bg-slate-50 text-slate-800 cursor-pointer">
+                                <option value="REG">CBT Reguler</option>
+                                <option value="ABK">CBT Khusus ABK</option>
+                            </select>
+                            <input list="daftarKode" id="inputKodeUjian" placeholder="Pilih / Ketik Kode Ujian..." class="border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none w-full sm:w-56 bg-slate-50 text-slate-800 cursor-pointer transition" autocomplete="off">
                             <datalist id="daftarKode"></datalist>
-                            <button onclick="fetchNilai()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-md shadow-blue-500/20 transition whitespace-nowrap">
+                            <button onclick="fetchNilai()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-md shadow-blue-500/20 transition whitespace-nowrap">
                                 <i class="fas fa-search mr-1"></i> Tampilkan
+                            </button>
+                            <button onclick="exportNilaiCsv()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-md shadow-emerald-500/20 transition whitespace-nowrap">
+                                <i class="fas fa-file-excel mr-1"></i> Unduh CSV
                             </button>
                         </div>
                     </div>
+
+                    <!-- Ringkasan Statistik Nilai (Muncul setelah data dimuat) -->
+                    <div id="nilaiStatsBar" class="hidden grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5">
+                            <p class="text-[10px] font-bold uppercase text-slate-500">Jumlah Peserta</p>
+                            <p class="text-xl font-black text-slate-800 mt-0.5" id="statNilaiCount">0</p>
+                        </div>
+                        <div class="bg-blue-50/70 border border-blue-100 rounded-2xl p-3.5">
+                            <p class="text-[10px] font-bold uppercase text-blue-600">Rata-rata Nilai</p>
+                            <p class="text-xl font-black text-blue-700 mt-0.5" id="statNilaiAvg">0.00</p>
+                        </div>
+                        <div class="bg-emerald-50/70 border border-emerald-100 rounded-2xl p-3.5">
+                            <p class="text-[10px] font-bold uppercase text-emerald-600">Nilai Tertinggi</p>
+                            <p class="text-xl font-black text-emerald-700 mt-0.5" id="statNilaiMax">0.00</p>
+                        </div>
+                        <div class="bg-rose-50/70 border border-rose-100 rounded-2xl p-3.5">
+                            <p class="text-[10px] font-bold uppercase text-rose-600">Nilai Terendah</p>
+                            <p class="text-xl font-black text-rose-700 mt-0.5" id="statNilaiMin">0.00</p>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <div class="relative w-full sm:w-64">
+                            <input type="text" id="searchNilaiInput" onkeyup="filterTabelNilai()" placeholder="Cari nama, NISN, atau kelas..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-xs text-slate-800 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none">
+                            <i class="fas fa-search absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                        </div>
+                    </div>
+
                     <div class="overflow-x-auto border border-slate-100 rounded-xl">
                         <table class="w-full text-left text-sm">
                             <thead class="bg-slate-100">
                                 <tr class="text-slate-600 uppercase text-xs tracking-wider">
                                     <th class="p-3.5 rounded-tl-xl">Waktu Selesai</th>
+                                    <th class="p-3.5">Sistem</th>
                                     <th class="p-3.5">NISN</th>
                                     <th class="p-3.5">Nama Lengkap</th>
                                     <th class="p-3.5">Kelas</th>
@@ -317,7 +386,7 @@
                                 </tr>
                             </thead>
                             <tbody id="nilaiTable" class="divide-y divide-slate-100">
-                                <tr><td colspan="5" class="text-center p-8 text-slate-500">Pilih kode ujian di atas dan klik tampilkan data.</td></tr>
+                                <tr><td colspan="6" class="text-center p-8 text-slate-500">Pilih server dan kode ujian di atas lalu klik tampilkan data.</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -330,9 +399,13 @@
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-slate-100">
                         <div>
                             <h3 class="font-bold text-slate-800 text-lg">Denah Tempat Duduk Ujian</h3>
-                            <p class="text-xs text-slate-500">Pilih Ruang dan Pasangan Kelas (Maksimal 15 Pasangan / 30 Siswa per Ruangan).</p>
+                            <p class="text-xs text-slate-500">Pilih Sumber Database (Reguler / ABK) dan Pasangan Kelas (Maksimal 15 Pasangan / 30 Siswa per Ruangan).</p>
                         </div>
-                        <div class="flex flex-wrap gap-2">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <select id="selectServerDenah" onchange="onChangeServerDenah()" class="border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs font-bold bg-slate-50 text-slate-800 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none">
+                                <option value="REG">Peserta CBT Reguler</option>
+                                <option value="ABK">Peserta CBT ABK</option>
+                            </select>
                             <button onclick="generateDenahFromDropdowns()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-md transition flex items-center">
                                 <i class="fas fa-cogs mr-2"></i> Generate Denah Ruangan
                             </button>
@@ -350,10 +423,7 @@
                             </button>
                         </div>
 
-                        <!-- Container Daftar Dropdown Ruangan -->
-                        <div id="roomDropdownsContainer" class="space-y-3">
-                            <!-- Diisi via JavaScript -->
-                        </div>
+                        <div id="roomDropdownsContainer" class="space-y-3"></div>
                     </div>
                     
                     <!-- Panel Tombol Cetak / Download Dokumen Ruang Ujian -->
@@ -390,11 +460,11 @@
                 </div>
             </div>
 
-            <!-- EMBED TAB: DATABASE UTAMA -->
+            <!-- EMBED TAB: DATABASE UTAMA REGULER -->
             <div id="tab-dbUtama" class="hidden h-[calc(100vh-140px)]">
                 <div class="bg-white rounded-3xl border border-slate-200 shadow-sm h-full flex flex-col overflow-hidden">
                     <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-white flex-shrink-0 z-10">
-                        <h3 class="font-bold text-slate-800 flex items-center"><i class="fas fa-database text-blue-500 mr-2"></i> Database Utama (Google Sheets)</h3>
+                        <h3 class="font-bold text-slate-800 flex items-center"><i class="fas fa-database text-blue-500 mr-2"></i> Database Utama Reguler (Google Sheets)</h3>
                         <a href="https://docs.google.com/spreadsheets/d/1PtrDYq0WhbmBtbpIh_Lh7Lq7e32xC7wrUBZbSjzUoMY/edit" target="_blank" class="text-xs bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg font-bold transition flex items-center border border-blue-200 shadow-sm">
                             <i class="fas fa-external-link-alt mr-1"></i> Buka Fullscreen
                         </a>
@@ -405,17 +475,47 @@
                 </div>
             </div>
 
-            <!-- EMBED TAB: FOLDER HASIL UJIAN -->
+            <!-- EMBED TAB: FOLDER HASIL UJIAN REGULER -->
             <div id="tab-dbNilai" class="hidden h-[calc(100vh-140px)]">
                 <div class="bg-white rounded-3xl border border-slate-200 shadow-sm h-full flex flex-col overflow-hidden">
                     <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-white flex-shrink-0 z-10">
-                        <h3 class="font-bold text-slate-800 flex items-center"><i class="fas fa-table text-sky-500 mr-2"></i> Folder Hasil Ujian & Nilai</h3>
+                        <h3 class="font-bold text-slate-800 flex items-center"><i class="fas fa-table text-sky-500 mr-2"></i> Folder Hasil Ujian Reguler</h3>
                         <a href="https://docs.google.com/spreadsheets/d/1hx6CXRF8NM9LSnz8Gi5XhWhXtEJap0ZQbluTlqPfn4Q/edit" target="_blank" class="text-xs bg-sky-50 text-sky-600 hover:bg-sky-100 px-3 py-1.5 rounded-lg font-bold transition flex items-center border border-sky-200 shadow-sm">
                             <i class="fas fa-external-link-alt mr-1"></i> Buka Fullscreen
                         </a>
                     </div>
                     <div class="flex-1 w-full bg-slate-50 overflow-hidden relative">
                         <iframe src="https://docs.google.com/spreadsheets/d/1hx6CXRF8NM9LSnz8Gi5XhWhXtEJap0ZQbluTlqPfn4Q/edit?usp=sharing&single=true&widget=true&headers=false" class="iframe-container"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EMBED TAB: DATABASE UTAMA ABK -->
+            <div id="tab-dbUtamaAbk" class="hidden h-[calc(100vh-140px)]">
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm h-full flex flex-col overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-white flex-shrink-0 z-10">
+                        <h3 class="font-bold text-slate-800 flex items-center"><i class="fas fa-universal-access text-teal-500 mr-2"></i> Database Utama Khusus ABK (Google Sheets)</h3>
+                        <a href="https://docs.google.com/spreadsheets/d/11zhnch5CV5fI6d1gE5AJ7ZQIvg588eUFwDULdmycYbA/edit" target="_blank" class="text-xs bg-teal-50 text-teal-600 hover:bg-teal-100 px-3 py-1.5 rounded-lg font-bold transition flex items-center border border-teal-200 shadow-sm">
+                            <i class="fas fa-external-link-alt mr-1"></i> Buka Fullscreen
+                        </a>
+                    </div>
+                    <div class="flex-1 w-full bg-slate-50 overflow-hidden relative">
+                        <iframe src="https://docs.google.com/spreadsheets/d/11zhnch5CV5fI6d1gE5AJ7ZQIvg588eUFwDULdmycYbA/edit?usp=sharing&single=true&widget=true&headers=false" class="iframe-container"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EMBED TAB: FOLDER HASIL UJIAN ABK -->
+            <div id="tab-dbNilaiAbk" class="hidden h-[calc(100vh-140px)]">
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm h-full flex flex-col overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-white flex-shrink-0 z-10">
+                        <h3 class="font-bold text-slate-800 flex items-center"><i class="fas fa-clipboard-list text-emerald-500 mr-2"></i> Folder Hasil Ujian Khusus ABK</h3>
+                        <a href="https://docs.google.com/spreadsheets/d/1a4nxHK8qIST-f_Lo1FJgDYmatgCIvz-zGJ5_taWItmY/edit" target="_blank" class="text-xs bg-emerald-50 text-emerald-600 hover:bg-emerald-100 px-3 py-1.5 rounded-lg font-bold transition flex items-center border border-emerald-200 shadow-sm">
+                            <i class="fas fa-external-link-alt mr-1"></i> Buka Fullscreen
+                        </a>
+                    </div>
+                    <div class="flex-1 w-full bg-slate-50 overflow-hidden relative">
+                        <iframe src="https://docs.google.com/spreadsheets/d/1a4nxHK8qIST-f_Lo1FJgDYmatgCIvz-zGJ5_taWItmY/edit?usp=sharing&single=true&widget=true&headers=false" class="iframe-container"></iframe>
                     </div>
                 </div>
             </div>
@@ -438,7 +538,7 @@
             <div class="p-6 space-y-4">
                 <div class="grid grid-cols-2 gap-3">
                     <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
-                        <p class="text-[10px] text-slate-500 font-bold uppercase">Mata Ujian Aktif</p>
+                        <p class="text-[10px] text-slate-500 font-bold uppercase">Sistem & Ujian</p>
                         <p class="text-sm font-bold text-blue-600 mt-1" id="modalExamCode">-</p>
                     </div>
                     <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
@@ -461,11 +561,11 @@
     <div id="loginOverlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md flex items-center justify-center z-50 p-4">
         <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-md border border-slate-200 text-slate-800 relative">
             <div class="text-center mb-6 sm:mb-8">
-                <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm border border-blue-100">
+                <div class="w-16 h-16 bg-gradient-to-tr from-blue-50 to-teal-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm border border-blue-100">
                     <i class="fas fa-shield-alt text-2xl"></i>
                 </div>
                 <h2 class="text-2xl font-black text-slate-900 tracking-tight">Login Administrator</h2>
-                <p class="text-xs text-slate-500 mt-1">Masukkan akun admin terdaftar pada database SMANJO</p>
+                <p class="text-xs text-slate-500 mt-1">Akses terpadu untuk CBT Reguler & CBT Khusus ABK SMANJO</p>
             </div>
 
             <div class="space-y-4">
@@ -483,7 +583,7 @@
                     </div>
                 </div>
                 <button id="btnLogin" onclick="login()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-500/30 transition mt-2 flex justify-center items-center">
-                    <span>Masuk Dashboard</span>
+                    <span>Masuk Dashboard Terpadu</span>
                 </button>
                 <p id="loginMsg" class="text-rose-500 text-xs font-medium text-center hidden pt-2"></p>
             </div>
@@ -491,18 +591,27 @@
     </div>
 
     <script>
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbyGi8A3MIDN-aOLnPfBbupq-Xv74shn4W5_i5NnWPlr6ww5rJbUFefngSuXe7tHxROy/exec"; 
+        const API_URLS = {
+            REG: "https://script.google.com/macros/s/AKfycbyGi8A3MIDN-aOLnPfBbupq-Xv74shn4W5_i5NnWPlr6ww5rJbUFefngSuXe7tHxROy/exec",
+            ABK: "https://script.google.com/macros/s/AKfycbz-SgNce9ll_gsSf2lQhUkzpS7VkB_ho3ljlBjnHgM4hrfk6T0oESowd0HQ9409AnyK/exec"
+        };
 
         let ADMIN_USER = localStorage.getItem('cbt_admin_user') || "";
         let ADMIN_PASS = localStorage.getItem('cbt_admin_pass') || "";
+        let CURRENT_FILTER = "ALL"; // ALL | REG | ABK
         let syncInterval;
         let countdownTimer;
         let countdownValue = 15;
         let isSidebarOpen = false;
+
+        window.dataReg = null;
+        window.dataAbk = null;
         window.listPelanggaran = [];
         window.listSiswaOnline = [];
         window.currentDenahData = [];
-        window.rawStudentsData = []; 
+        window.rawStudentsReg = [];
+        window.rawStudentsAbk = [];
+        window.currentNilaiRows = [];
         let progressChartInstance = null;
 
         const STANDARD_CLASSES = [
@@ -510,6 +619,83 @@
             "XI1", "XI2", "XI3", "XI4",
             "XII1", "XII2", "XII3", "XII4"
         ];
+
+        function badgeSistem(srv) {
+            if (srv === 'ABK') {
+                return '<span class="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200">ABK</span>';
+            }
+            return '<span class="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">REG</span>';
+        }
+
+        function setServerFilter(mode) {
+            CURRENT_FILTER = mode;
+            ['ALL', 'REG', 'ABK'].forEach(m => {
+                const btn = document.getElementById('filter-' + m);
+                if (m === mode) {
+                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-extrabold transition bg-blue-600 text-white shadow-sm";
+                } else {
+                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition";
+                }
+            });
+            renderUnifiedDashboard();
+        }
+
+        async function callGas(serverKey, payload) {
+            const res = await fetch(API_URLS[serverKey], {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+            });
+            return await res.json();
+        }
+
+        async function syncBothServers(isSilent = false) {
+            const payload = {
+                action: 'getDashboardData',
+                usernameAdmin: ADMIN_USER,
+                passwordAdmin: ADMIN_PASS
+            };
+
+            const [resReg, resAbk] = await Promise.allSettled([
+                callGas('REG', payload),
+                callGas('ABK', payload)
+            ]);
+
+            const validReg = (resReg.status === 'fulfilled' && !resReg.value.error) ? resReg.value : null;
+            const validAbk = (resAbk.status === 'fulfilled' && !resAbk.value.error) ? resAbk.value : null;
+
+            updateDualServerStatus(!!validReg, !!validAbk);
+
+            if (!validReg && !validAbk) {
+                const errMsg = (resReg.status === 'fulfilled' && resReg.value.error) ? resReg.value.error : "Username/Password admin tidak cocok di kedua server.";
+                throw new Error(errMsg);
+            }
+
+            window.dataReg = validReg;
+            window.dataAbk = validAbk;
+
+            if (validReg && validReg.listSiswaMaster) window.rawStudentsReg = validReg.listSiswaMaster;
+            if (validAbk && validAbk.listSiswaMaster) window.rawStudentsAbk = validAbk.listSiswaMaster;
+
+            renderUnifiedDashboard();
+            updateDatalistKode();
+        }
+
+        function updateDualServerStatus(regOk, abkOk) {
+            const dotReg = document.getElementById('dotReg');
+            const txtReg = document.getElementById('statusRegText');
+            const dotAbk = document.getElementById('dotAbk');
+            const txtAbk = document.getElementById('statusAbkText');
+
+            if (dotReg && txtReg) {
+                dotReg.className = regOk ? "w-2 h-2 rounded-full bg-emerald-500 animate-pulse" : "w-2 h-2 rounded-full bg-rose-500";
+                txtReg.textContent = regOk ? "Reguler: OK" : "Reguler: Off";
+            }
+            if (dotAbk && txtAbk) {
+                dotAbk.className = abkOk ? "w-2 h-2 rounded-full bg-teal-500 animate-pulse" : "w-2 h-2 rounded-full bg-rose-500";
+                txtAbk.textContent = abkOk ? "ABK: OK" : "ABK: Off";
+            }
+        }
 
         function filterProgress() {
             let input = document.getElementById('searchProgress');
@@ -581,35 +767,32 @@
             }
         }
 
-        function loadKodeUjianOtomatis() {
-            fetch(GAS_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action: 'getDropdownData' })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.kodeUjian && data.kodeUjian.length > 0) {
-                    const dataListEl = document.getElementById('daftarKode');
-                    dataListEl.innerHTML = '';
-                    data.kodeUjian.forEach(kode => {
-                        dataListEl.innerHTML += `<option value="${kode}">`;
-                    });
-                }
-            })
-            .catch(err => console.warn("Gagal memuat dropdown:", err));
+        function updateDatalistKode() {
+            const srv = document.getElementById('selectServerNilai').value;
+            const srcData = srv === 'ABK' ? window.dataAbk : window.dataReg;
+            const dataListEl = document.getElementById('daftarKode');
+            dataListEl.innerHTML = '';
+
+            if (srcData && srcData.ujianAktif && srcData.ujianAktif.length > 0) {
+                srcData.ujianAktif.forEach(kode => {
+                    dataListEl.innerHTML += `<option value="${kode}">`;
+                });
+            }
         }
 
-        if (GAS_URL && ADMIN_USER && ADMIN_PASS) {
+        if (ADMIN_USER && ADMIN_PASS) {
             document.getElementById('adminUser').value = ADMIN_USER;
             document.getElementById('adminPass').value = ADMIN_PASS;
             document.getElementById('loginOverlay').classList.add('hidden');
-            fetchDashboardData();
-            startAutoSync();
-            loadKodeUjianOtomatis(); 
-            initDenahDropdowns();
+            syncBothServers(false).then(() => {
+                startAutoSync();
+                initDenahDropdowns();
+            }).catch(() => {
+                document.getElementById('loginOverlay').classList.remove('hidden');
+            });
         }
 
-        function login() {
+        async function login() {
             ADMIN_USER = document.getElementById('adminUser').value.trim();
             ADMIN_PASS = document.getElementById('adminPass').value.trim();
 
@@ -620,36 +803,24 @@
 
             const btn = document.getElementById('btnLogin');
             const originalBtnHtml = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Memvalidasi...';
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Menghubungkan Kedua CBT...';
             btn.disabled = true;
 
-            fetch(GAS_URL, {
-                method: 'POST',
-                body: JSON.stringify({ 
-                    action: 'getDashboardData', 
-                    usernameAdmin: ADMIN_USER, 
-                    passwordAdmin: ADMIN_PASS 
-                })
-            }).then(res => res.json()).then(res => {
+            try {
+                await syncBothServers(false);
                 btn.innerHTML = originalBtnHtml;
                 btn.disabled = false;
 
-                if(res.error) {
-                    showLoginError(res.error);
-                } else {
-                    localStorage.setItem('cbt_admin_user', ADMIN_USER);
-                    localStorage.setItem('cbt_admin_pass', ADMIN_PASS);
-                    document.getElementById('loginOverlay').classList.add('hidden');
-                    renderDashboard(res);
-                    startAutoSync();
-                    loadKodeUjianOtomatis();
-                    initDenahDropdowns();
-                }
-            }).catch(err => {
+                localStorage.setItem('cbt_admin_user', ADMIN_USER);
+                localStorage.setItem('cbt_admin_pass', ADMIN_PASS);
+                document.getElementById('loginOverlay').classList.add('hidden');
+                startAutoSync();
+                initDenahDropdowns();
+            } catch (err) {
                 btn.innerHTML = originalBtnHtml;
                 btn.disabled = false;
-                showLoginError("Gagal terkoneksi ke server. Periksa jaringan Anda.");
-            });
+                showLoginError(err.message || "Gagal terkoneksi ke server.");
+            }
         }
 
         function showLoginError(msg) {
@@ -669,16 +840,22 @@
         }
 
         function switchTab(tabId) {
-            const allTabs = ['dashboard', 'online', 'selesai', 'nilai', 'denah', 'dbUtama', 'dbNilai'];
+            const allTabs = ['dashboard', 'online', 'selesai', 'nilai', 'denah', 'dbUtama', 'dbNilai', 'dbUtamaAbk', 'dbNilaiAbk'];
             allTabs.forEach(id => {
-                document.getElementById('tab-' + id).classList.add('hidden');
+                const el = document.getElementById('tab-' + id);
+                if (el) el.classList.add('hidden');
             });
 
             document.getElementById('tab-' + tabId).classList.remove('hidden');
 
             allTabs.forEach(id => {
                 let navEl = document.getElementById('nav-' + id);
-                if(navEl) navEl.className = "flex items-center p-3 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition group";
+                if(navEl) {
+                    const isDb = id.startsWith('db');
+                    navEl.className = isDb
+                        ? "flex items-center p-2.5 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition group"
+                        : "flex items-center p-3 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition group";
+                }
             });
 
             let activeNav = document.getElementById('nav-' + tabId);
@@ -690,8 +867,10 @@
                 'selesai': 'Detail Siswa Selesai',
                 'nilai': 'Rekap Nilai Siswa',
                 'denah': 'Denah Tempat Duduk CBT',
-                'dbUtama': 'Database Utama',
-                'dbNilai': 'Folder Hasil Ujian'
+                'dbUtama': 'Database Utama Reguler',
+                'dbNilai': 'Folder Hasil Ujian Reguler',
+                'dbUtamaAbk': 'Database Utama Khusus ABK',
+                'dbNilaiAbk': 'Folder Hasil Ujian Khusus ABK'
             };
             document.getElementById('pageTitle').textContent = titles[tabId];
 
@@ -716,77 +895,56 @@
                 }
             }, 1000);
 
+            if(syncInterval) clearInterval(syncInterval);
             syncInterval = setInterval(() => {
                 if(!document.getElementById('tab-dashboard').classList.contains('hidden') || 
                    !document.getElementById('tab-online').classList.contains('hidden') || 
                    !document.getElementById('tab-selesai').classList.contains('hidden')) {
-                    fetchDashboardData(true);
+                    syncBothServers(true).catch(() => {});
                 }
             }, 15000);
         }
 
         function manualSync() {
-            fetchDashboardData(false);
-            loadKodeUjianOtomatis();
-            initDenahDropdowns();
+            syncBothServers(false).catch(() => {});
             countdownValue = 15;
         }
 
-        function fetchDashboardData(isSilent = false) {
-            fetch(GAS_URL, {
-                method: 'POST',
-                body: JSON.stringify({ 
-                    action: 'getDashboardData', 
-                    usernameAdmin: ADMIN_USER,
-                    passwordAdmin: ADMIN_PASS 
-                })
-            }).then(res => res.json()).then(res => {
-                if(res.error) { logout(); return; }
-                renderDashboard(res);
-                updateServerStatus(true);
-            }).catch(err => {
-                updateServerStatus(false);
-            });
-        }
+        function renderUnifiedDashboard() {
+            const r = window.dataReg;
+            const a = window.dataAbk;
+            const mode = CURRENT_FILTER;
 
-        function updateServerStatus(isOnline) {
-            const dot = document.getElementById('serverPingDot');
-            const txt = document.getElementById('serverStatusText');
-            if(isOnline) {
-                dot.className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
-                txt.textContent = "GAS Server: Optimal";
-            } else {
-                dot.className = "w-2 h-2 rounded-full bg-rose-500";
-                txt.textContent = "GAS Server: Gangguan";
+            const adminName = (r && r.namaAdmin) || (a && a.namaAdmin) || localStorage.getItem('cbt_admin_name') || "Admin";
+            localStorage.setItem('cbt_admin_name', adminName);
+            document.getElementById('adminNameDisplay').textContent = adminName;
+            document.getElementById('welcomeGreeting').classList.remove('hidden');
+
+            // 1. Gabungkan Sesi Ujian Aktif
+            let combinedUjianDetail = [];
+            if ((mode === 'ALL' || mode === 'REG') && r && r.ujianAktifDetail) {
+                r.ujianAktifDetail.forEach(u => combinedUjianDetail.push({ ...u, _srv: 'REG' }));
             }
-        }
-
-        function renderDashboard(data) {
-            if(data.namaAdmin) {
-                localStorage.setItem('cbt_admin_name', data.namaAdmin);
-                document.getElementById('adminNameDisplay').textContent = data.namaAdmin;
-                document.getElementById('welcomeGreeting').classList.remove('hidden');
-            } else {
-                let savedName = localStorage.getItem('cbt_admin_name');
-                if (savedName) {
-                    document.getElementById('adminNameDisplay').textContent = savedName;
-                    document.getElementById('welcomeGreeting').classList.remove('hidden');
-                }
+            if ((mode === 'ALL' || mode === 'ABK') && a && a.ujianAktifDetail) {
+                a.ujianAktifDetail.forEach(u => combinedUjianDetail.push({ ...u, _srv: 'ABK' }));
             }
 
             const detailContainer = document.getElementById('card-ujian-detail');
             detailContainer.innerHTML = '';
-            if (!data.ujianAktifDetail || data.ujianAktifDetail.length === 0) {
+            if (combinedUjianDetail.length === 0) {
                 detailContainer.innerHTML = '<div class="col-span-full bg-slate-50 border border-slate-200 p-4 rounded-2xl text-center text-xs text-slate-500 font-medium">Tidak ada sesi ujian atau mapel yang aktif saat ini.</div>';
             } else {
-                data.ujianAktifDetail.forEach(item => {
+                combinedUjianDetail.forEach(item => {
                     let waktuMulaiStr = new Date(item.mulai).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
                     let waktuSelesaiStr = new Date(item.selesai).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
                     detailContainer.innerHTML += `
                         <div class="bg-white p-4 rounded-2xl border border-slate-200 flex flex-col justify-between hover:border-slate-300 transition shadow-sm">
                             <div>
-                                <div class="flex justify-between items-center mb-2">
-                                    <span class="font-extrabold text-slate-800 text-base tracking-wide">${item.kode}</span>
+                                <div class="flex justify-between items-center mb-2 gap-2">
+                                    <div class="flex items-center gap-2">
+                                        ${badgeSistem(item._srv)}
+                                        <span class="font-extrabold text-slate-800 text-base tracking-wide">${item.kode}</span>
+                                    </div>
                                     <span class="text-[10px] bg-blue-50 text-blue-600 border border-blue-100 px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">${item.status}</span>
                                 </div>
                                 <div class="text-slate-500 space-y-1 text-xs mb-3">
@@ -804,12 +962,21 @@
                 });
             }
 
+            // 2. Gabungkan Siswa Selesai
+            let combinedSelesai = [];
+            if ((mode === 'ALL' || mode === 'REG') && r && r.siswaSelesai) {
+                r.siswaSelesai.forEach(s => combinedSelesai.push({ ...s, _srv: 'REG' }));
+            }
+            if ((mode === 'ALL' || mode === 'ABK') && a && a.siswaSelesai) {
+                a.siswaSelesai.forEach(s => combinedSelesai.push({ ...s, _srv: 'ABK' }));
+            }
+
             const selesaiContainer = document.getElementById('card-siswa-selesai-tab');
             selesaiContainer.innerHTML = '';
-            if (!data.siswaSelesai || data.siswaSelesai.length === 0) {
+            if (combinedSelesai.length === 0) {
                 selesaiContainer.innerHTML = '<div class="col-span-full bg-slate-50 border border-slate-200 p-10 rounded-2xl text-center text-sm text-slate-500 font-medium flex flex-col items-center justify-center"><i class="fas fa-clipboard-check text-4xl mb-3 text-slate-300"></i> Belum ada catatan siswa yang selesai ujian terbaru.</div>';
             } else {
-                data.siswaSelesai.forEach(item => {
+                combinedSelesai.forEach(item => {
                     selesaiContainer.innerHTML += `
                         <div class="bg-white p-3 rounded-xl border border-slate-200 flex flex-row items-center justify-between hover:shadow-md transition shadow-sm gap-2">
                             <div class="flex items-center space-x-3 min-w-0">
@@ -819,11 +986,11 @@
                                 </div>
                                 <div class="min-w-0 flex-1">
                                     <div class="font-bold text-slate-800 text-xs whitespace-normal leading-tight">${item.nama || 'Anonim'}</div>
-                                    <div class="text-[10px] text-slate-500 mt-0.5">${item.kelas || '-'}</div>
+                                    <div class="text-[10px] text-slate-500 mt-0.5 flex items-center gap-1">${badgeSistem(item._srv)} <span>${item.kelas || '-'}</span></div>
                                 </div>
                             </div>
                             <div class="flex flex-col items-end text-right flex-shrink-0 pl-3 border-l border-slate-100">
-                                <span class="font-bold text-blue-600 text-[10px] mb-1 truncate max-w-[60px]">${item.kodeUjian || '-'}</span>
+                                <span class="font-bold text-blue-600 text-[10px] mb-1 truncate max-w-[70px]">${item.kodeUjian || '-'}</span>
                                 <span class="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded text-[10px] border border-emerald-100 shadow-sm">Nilai: ${item.nilai !== undefined ? item.nilai : '-'}</span>
                             </div>
                         </div>
@@ -831,12 +998,22 @@
                 });
             }
 
+            // 3. Gabungkan Siswa Online
+            let combinedOnline = [];
+            if ((mode === 'ALL' || mode === 'REG') && r && r.siswaOnline) {
+                r.siswaOnline.forEach(s => combinedOnline.push({ ...s, _srv: 'REG' }));
+            }
+            if ((mode === 'ALL' || mode === 'ABK') && a && a.siswaOnline) {
+                a.siswaOnline.forEach(s => combinedOnline.push({ ...s, _srv: 'ABK' }));
+            }
+            window.listSiswaOnline = combinedOnline;
+
             const onlineContainer = document.getElementById('card-siswa-online');
             onlineContainer.innerHTML = '';
-            if (!data.siswaOnline || data.siswaOnline.length === 0) {
+            if (combinedOnline.length === 0) {
                 onlineContainer.innerHTML = '<div class="col-span-full bg-slate-50 border border-slate-200 p-10 rounded-2xl text-center text-sm text-slate-500 font-medium flex flex-col items-center justify-center"><i class="fas fa-bed text-4xl mb-3 text-slate-300"></i> Belum ada siswa yang terpantau aktif di dalam sistem.</div>';
             } else {
-                data.siswaOnline.forEach(item => {
+                combinedOnline.forEach(item => {
                     onlineContainer.innerHTML += `
                         <div class="bg-white p-3 rounded-xl border border-slate-200 flex flex-row items-center justify-between hover:shadow-md transition shadow-sm gap-2">
                             <div class="flex items-center space-x-3 min-w-0">
@@ -846,11 +1023,11 @@
                                 </div>
                                 <div class="min-w-0 flex-1">
                                     <div class="font-bold text-slate-800 text-xs whitespace-normal leading-tight">${item.nama || 'Anonim'}</div>
-                                    <div class="text-[10px] text-slate-500 mt-0.5 truncate">${item.kelas || '-'} • ${item.nisn || '-'}</div>
+                                    <div class="text-[10px] text-slate-500 mt-0.5 flex items-center gap-1">${badgeSistem(item._srv)} <span>${item.nisn || '-'}</span></div>
                                 </div>
                             </div>
                             <div class="flex flex-col items-end text-right flex-shrink-0 pl-3 border-l border-slate-100">
-                                <span class="font-bold text-blue-600 text-[10px] mb-1 truncate max-w-[60px]">${item.kodeUjian || '-'}</span>
+                                <span class="font-bold text-blue-600 text-[10px] mb-1 truncate max-w-[70px]">${item.kodeUjian || '-'}</span>
                                 <span class="font-bold text-slate-600 bg-slate-50 px-2 py-0.5 rounded text-[10px] border border-slate-200 shadow-sm">${item.terjawab || 0} Terjawab</span>
                             </div>
                         </div>
@@ -858,40 +1035,83 @@
                 });
             }
 
-            document.getElementById('card-total').textContent = data.totalSiswa || 0;
-            document.getElementById('card-selesai').textContent = data.totalSelesai || 0;
-            document.getElementById('card-online').textContent = data.totalOnline || 0;
+            // 4. Gabungkan Pelanggaran
+            let combinedPelanggaran = [];
+            if ((mode === 'ALL' || mode === 'REG') && r && r.listPelanggaran) {
+                r.listPelanggaran.forEach(p => combinedPelanggaran.push({ ...p, _srv: 'REG' }));
+            }
+            if ((mode === 'ALL' || mode === 'ABK') && a && a.listPelanggaran) {
+                a.listPelanggaran.forEach(p => combinedPelanggaran.push({ ...p, _srv: 'ABK' }));
+            }
+            window.listPelanggaran = combinedPelanggaran;
 
-            window.listPelanggaran = data.listPelanggaran || [];
-            window.listSiswaOnline = data.siswaOnline || [];
-            document.getElementById('card-pelanggaran').textContent = window.listPelanggaran.length;
-            document.getElementById('badgePelanggaranCount').textContent = window.listPelanggaran.length + " Pelanggaran";
+            // 5. Statistik Kartu Atas
+            const totReg = r ? (r.totalSiswa || 0) : 0;
+            const totAbk = a ? (a.totalSiswa || 0) : 0;
+            const selReg = r ? (r.totalSelesai || 0) : 0;
+            const selAbk = a ? (a.totalSelesai || 0) : 0;
+            const onReg = r ? (r.totalOnline || 0) : 0;
+            const onAbk = a ? (a.totalOnline || 0) : 0;
+            const pelReg = r ? (r.listPelanggaran || []).length : 0;
+            const pelAbk = a ? (a.listPelanggaran || []).length : 0;
 
-            renderProgressChart(data.totalSiswa, data.totalSelesai, data.totalOnline);
-            renderActivityStream(data);
+            const dispTotal = mode === 'REG' ? totReg : mode === 'ABK' ? totAbk : (totReg + totAbk);
+            const dispSelesai = mode === 'REG' ? selReg : mode === 'ABK' ? selAbk : (selReg + selAbk);
+            const dispOnline = mode === 'REG' ? onReg : mode === 'ABK' ? onAbk : (onReg + onAbk);
+            const dispPel = mode === 'REG' ? pelReg : mode === 'ABK' ? pelAbk : (pelReg + pelAbk);
 
+            document.getElementById('card-total').textContent = dispTotal;
+            document.getElementById('sub-total').textContent = `Reg: ${totReg} • ABK: ${totAbk}`;
+
+            document.getElementById('card-selesai').textContent = dispSelesai;
+            document.getElementById('sub-selesai').textContent = `Reg: ${selReg} • ABK: ${selAbk}`;
+
+            document.getElementById('card-online').textContent = dispOnline;
+            document.getElementById('sub-online').textContent = `Reg: ${onReg} • ABK: ${onAbk}`;
+
+            document.getElementById('card-pelanggaran').textContent = dispPel;
+            document.getElementById('sub-pelanggaran').textContent = `Reg: ${pelReg} • ABK: ${pelAbk}`;
+            document.getElementById('badgePelanggaranCount').textContent = dispPel + " Pelanggaran";
+
+            document.getElementById('chartScopeLabel').textContent = mode === 'REG' ? 'CBT Reguler' : mode === 'ABK' ? 'CBT Khusus ABK' : 'Semua Peserta (Reg + ABK)';
+            renderProgressChart(dispTotal, dispSelesai, dispOnline);
+            renderActivityStream(combinedOnline, combinedPelanggaran);
+
+            // 6. Tabel Pelanggaran
             const pelanggaranTable = document.getElementById('pelanggaranTable');
             pelanggaranTable.innerHTML = '';
-            if(window.listPelanggaran.length === 0) {
+            if(combinedPelanggaran.length === 0) {
                 pelanggaranTable.innerHTML = '<tr><td colspan="3" class="text-center p-6 text-slate-500 text-xs">Tidak ada siswa yang melanggar.</td></tr>';
             } else {
-                window.listPelanggaran.forEach(p => {
+                combinedPelanggaran.forEach(p => {
                     pelanggaranTable.innerHTML += `
                         <tr class="hover:bg-slate-50 transition border-b border-slate-100 last:border-0">
                             <td class="p-3"><div class="font-bold text-slate-800 text-sm">${p.nama}</div><div class="text-xs text-slate-500">${p.kelas} (${p.nisn})</div></td>
-                            <td class="p-3 text-xs font-bold text-blue-600">${p.kodeUjian}</td>
+                            <td class="p-3 text-xs font-bold text-blue-600"><div class="flex items-center gap-1.5">${badgeSistem(p._srv)} <span>${p.kodeUjian}</span></div></td>
                             <td class="p-3 text-center"><span class="bg-rose-50 text-rose-600 border border-rose-100 px-3 py-1 rounded-full text-xs font-extrabold">Ke-${p.kesempatanKe}</span></td>
                         </tr>
                     `;
                 });
             }
 
+            // 7. Distribusi Siswa per Kelas (Gabungan)
+            let mergedKelas = {};
+            if ((mode === 'ALL' || mode === 'REG') && r && r.siswaPerKelas) {
+                for (let k in r.siswaPerKelas) mergedKelas[k] = (mergedKelas[k] || 0) + r.siswaPerKelas[k];
+            }
+            if ((mode === 'ALL' || mode === 'ABK') && a && a.siswaPerKelas) {
+                for (let k in a.siswaPerKelas) {
+                    let label = mergedKelas[k] ? `${k} (ABK)` : k;
+                    mergedKelas[label] = (mergedKelas[label] || 0) + a.siswaPerKelas[k];
+                }
+            }
+
             let maxCount = 1;
-            for (let kelas in data.siswaPerKelas) { if (data.siswaPerKelas[kelas] > maxCount) maxCount = data.siswaPerKelas[kelas]; }
+            for (let kelas in mergedKelas) { if (mergedKelas[kelas] > maxCount) maxCount = mergedKelas[kelas]; }
             const classContainer = document.getElementById('kelasDistList');
             classContainer.innerHTML = '';
-            for (let kelas in data.siswaPerKelas) {
-                let count = data.siswaPerKelas[kelas];
+            for (let kelas in mergedKelas) {
+                let count = mergedKelas[kelas];
                 let percent = (count / maxCount) * 100;
                 classContainer.innerHTML += `
                     <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm hover:border-slate-300 transition">
@@ -901,41 +1121,38 @@
                 `;
             }
 
+            // 8. Tabel Live Progress
             const progTable = document.getElementById('liveProgressTable');
             progTable.innerHTML = '';
-            if(window.listSiswaOnline.length === 0) {
+            if(combinedOnline.length === 0) {
                 progTable.innerHTML = '<tr><td colspan="3" class="text-center p-6 text-slate-500 text-xs">Belum ada siswa yang sedang online/mengerjakan.</td></tr>';
             } else {
-                window.listSiswaOnline.forEach((s, idx) => {
+                combinedOnline.forEach((s, idx) => {
                     progTable.innerHTML += `
                         <tr onclick="inspectStudent(${idx})" class="hover:bg-slate-50 transition cursor-pointer border-b border-slate-100 last:border-0" title="Klik untuk inspeksi detail">
                             <td class="p-3"><div class="font-bold text-slate-800 text-sm flex items-center">${s.nama} <i class="fas fa-chevron-right text-[10px] text-blue-500 ml-2 opacity-50"></i></div><div class="text-xs text-slate-500">${s.nisn}</div></td>
-                            <td class="p-3 text-xs font-bold text-blue-600">${s.kodeUjian}</td>
+                            <td class="p-3 text-xs font-bold text-blue-600"><div class="flex items-center gap-1.5">${badgeSistem(s._srv)} <span>${s.kodeUjian}</span></div></td>
                             <td class="p-3 text-center"><span class="bg-blue-50 text-blue-600 border border-blue-100 px-3 py-1 rounded-full text-xs font-extrabold shadow-sm">${s.terjawab} Soal</span></td>
                         </tr>
                     `;
                 });
             }
             filterProgress();
-
-            if (data.listSiswaMaster) {
-                window.rawStudentsData = data.listSiswaMaster;
-            }
         }
 
         function inspectStudent(index) {
             const s = window.listSiswaOnline[index];
             if (!s) return;
             document.getElementById('modalStudentName').textContent = s.nama;
-            document.getElementById('modalStudentClass').textContent = `NISN: ${s.nisn} | Kelas: ${s.kelas || 'Umum'}`;
-            document.getElementById('modalExamCode').textContent = s.kodeUjian || '-';
+            document.getElementById('modalStudentClass').textContent = `NISN: ${s.nisn} | Sistem: CBT ${s._srv === 'ABK' ? 'Khusus ABK' : 'Reguler'}`;
+            document.getElementById('modalExamCode').textContent = `[${s._srv}] ${s.kodeUjian || '-'}`;
             document.getElementById('modalAnswerCount').textContent = (s.terjawab || 0) + " Soal Terjawab";
 
-            const studentViolations = window.listPelanggaran.filter(p => p.nisn.toString() === s.nisn.toString());
+            const studentViolations = window.listPelanggaran.filter(p => p.nisn.toString() === s.nisn.toString() && p._srv === s._srv);
             const violationContainer = document.getElementById('modalViolationStatus');
 
             if (studentViolations.length > 0) {
-                let vText = `<span class="text-rose-600 font-bold">Terdeteksi ${studentViolations.length} Pelanggaran:</span><br>`;
+                let vText = `<span class="text-rose-600 font-bold">Terdeteksi ${studentViolations.length} Peringatan/Pelanggaran:</span><br>`;
                 studentViolations.forEach(v => { vText += `• Ujian ${v.kodeUjian} (Kesempatan Ke-${v.kesempatanKe})<br>`; });
                 violationContainer.innerHTML = vText;
             } else {
@@ -968,25 +1185,25 @@
             });
         }
 
-        function renderActivityStream(data) {
+        function renderActivityStream(onlineList, pelanggaranList) {
             const container = document.getElementById('activityStreamContainer');
             container.innerHTML = '';
             let feeds = [];
-            if(data.siswaOnline && data.siswaOnline.length > 0) {
-                data.siswaOnline.slice(0, 3).forEach(s => {
-                    feeds.push({ icon: 'fa-user-pen text-blue-600 bg-blue-100 border border-blue-200', title: `${s.nama} (${s.kelas})`, desc: `Sedang aktif mengerjakan ujian ${s.kodeUjian} (${s.terjawab} soal)`, time: 'Baru saja' });
+            if(onlineList && onlineList.length > 0) {
+                onlineList.slice(0, 3).forEach(s => {
+                    feeds.push({ icon: 'fa-user-pen text-blue-600 bg-blue-100 border border-blue-200', title: `[${s._srv}] ${s.nama}`, desc: `Sedang mengerjakan ujian ${s.kodeUjian} (${s.terjawab} soal terjawab)`, time: 'Baru saja' });
                 });
             }
-            if(data.listPelanggaran && data.listPelanggaran.length > 0) {
-                data.listPelanggaran.slice(0, 2).forEach(p => {
-                    feeds.push({ icon: 'fa-triangle-exclamation text-rose-600 bg-rose-100 border border-rose-200', title: `Pelanggaran: ${p.nama}`, desc: `Melanggar tata tertib ujian ${p.kodeUjian} (Kesempatan Ke-${p.kesempatanKe})`, time: p.waktu || 'Hari ini' });
+            if(pelanggaranList && pelanggaranList.length > 0) {
+                pelanggaranList.slice(0, 2).forEach(p => {
+                    feeds.push({ icon: 'fa-triangle-exclamation text-rose-600 bg-rose-100 border border-rose-200', title: `[${p._srv}] Peringatan: ${p.nama}`, desc: `Keluar layar pada ujian ${p.kodeUjian} (Ke-${p.kesempatanKe})`, time: p.waktu || 'Hari ini' });
                 });
             }
             if(feeds.length === 0) {
                 container.innerHTML = `
                     <div class="flex items-center space-x-3 text-xs bg-slate-50 p-3 rounded-2xl border border-slate-200">
                         <div class="w-8 h-8 rounded-xl bg-slate-100 text-slate-500 flex items-center justify-center flex-shrink-0 font-bold border border-slate-200"><i class="fas fa-info text-xs"></i></div>
-                        <div><p class="font-semibold text-slate-800">Tidak ada aktivitas baru</p><p class="text-[10px] text-slate-500 mt-0.5">Sistem memantau secara real-time.</p></div>
+                        <div><p class="font-semibold text-slate-800">Tidak ada aktivitas baru</p><p class="text-[10px] text-slate-500 mt-0.5">Sistem memantau Reguler & ABK secara real-time.</p></div>
                     </div>`;
                 return;
             }
@@ -1018,7 +1235,8 @@
 
             let groupedData = {};
             dataFilter.forEach(p => {
-                let kode = p.kodeUjian || "UMUM"; let kelas = p.kelas || "Tanpa Kelas";
+                let kode = `[${p._srv}] ${p.kodeUjian || "UMUM"}`;
+                let kelas = p.kelas || "Tanpa Kelas";
                 if (!groupedData[kode]) groupedData[kode] = {};
                 if (!groupedData[kode][kelas]) groupedData[kode][kelas] = [];
                 groupedData[kode][kelas].push(p);
@@ -1064,103 +1282,142 @@
         }
 
         function fetchNilai() {
+            const srv = document.getElementById('selectServerNilai').value;
             const kode = document.getElementById('inputKodeUjian').value.trim();
             if(!kode) { alert("Masukkan atau pilih kode ujian terlebih dahulu!"); return; }
+
             const tbody = document.getElementById('nilaiTable');
-            tbody.innerHTML = '<tr><td colspan="5" class="text-center p-8"><i class="fas fa-spinner fa-spin text-blue-500 text-2xl"></i></td></tr>';
-            fetch(GAS_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action: 'getNilaiUjian', usernameAdmin: ADMIN_USER, passwordAdmin: ADMIN_PASS, kodeUjian: kode })
-            }).then(res => res.json()).then(res => {
-                if(res.error) { tbody.innerHTML = `<tr><td colspan="5" class="text-center p-8 text-rose-500 font-medium">${res.error}</td></tr>`; return; }
-                if(res.data.length === 0) { tbody.innerHTML = '<tr><td colspan="5" class="text-center p-8 text-slate-500">Belum ada data nilai untuk kode ujian tersebut.</td></tr>'; return; }
-                tbody.innerHTML = '';
-                res.data.forEach(n => {
-                    let dateStr = new Date(n.waktu).toLocaleString('id-ID');
-                    tbody.innerHTML += `
-                        <tr class="hover:bg-slate-50 transition border-b border-slate-100 last:border-0">
-                            <td class="p-3.5 text-xs text-slate-500">${dateStr}</td><td class="p-3.5 font-bold text-slate-700 text-sm">${n.nisn}</td><td class="p-3.5 font-semibold text-slate-800 text-sm">${n.nama}</td><td class="p-3.5 text-sm text-slate-600">${n.kelas}</td>
-                            <td class="p-3.5 text-center"><span class="font-black text-sm px-3 py-1 rounded-lg ${n.nilai >= 75 ? 'bg-blue-50 text-blue-600 border border-blue-100' : 'bg-rose-50 text-rose-600 border border-rose-100'} shadow-sm">${n.nilai}</span></td>
-                        </tr>
-                    `;
-                });
-            }).catch(err => { tbody.innerHTML = '<tr><td colspan="5" class="text-center p-8 text-rose-500 font-medium">Terjadi kesalahan koneksi jaringan.</td></tr>'; });
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center p-8"><i class="fas fa-spinner fa-spin text-blue-500 text-2xl"></i></td></tr>';
+            document.getElementById('nilaiStatsBar').classList.add('hidden');
+
+            callGas(srv, { action: 'getNilaiUjian', usernameAdmin: ADMIN_USER, passwordAdmin: ADMIN_PASS, kodeUjian: kode })
+            .then(res => {
+                if(res.error) { tbody.innerHTML = `<tr><td colspan="6" class="text-center p-8 text-rose-500 font-medium">${res.error}</td></tr>`; return; }
+                if(!res.data || res.data.length === 0) {
+                    window.currentNilaiRows = [];
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center p-8 text-slate-500">Belum ada data nilai untuk kode ujian tersebut.</td></tr>';
+                    return;
+                }
+
+                window.currentNilaiRows = res.data.map(item => ({ ...item, _srv: srv, _kode: kode }));
+                renderNilaiRows(window.currentNilaiRows);
+
+                // Hitung Ringkasan Statistik Nilai
+                const scores = window.currentNilaiRows.map(x => parseFloat(x.nilai)).filter(n => !isNaN(n));
+                if (scores.length > 0) {
+                    const sum = scores.reduce((a, b) => a + b, 0);
+                    document.getElementById('statNilaiCount').textContent = scores.length;
+                    document.getElementById('statNilaiAvg').textContent = (sum / scores.length).toFixed(2);
+                    document.getElementById('statNilaiMax').textContent = Math.max(...scores).toFixed(2);
+                    document.getElementById('statNilaiMin').textContent = Math.min(...scores).toFixed(2);
+                    document.getElementById('nilaiStatsBar').classList.remove('hidden');
+                }
+            }).catch(err => {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center p-8 text-rose-500 font-medium">Terjadi kesalahan koneksi jaringan.</td></tr>';
+            });
+        }
+
+        function renderNilaiRows(rows) {
+            const tbody = document.getElementById('nilaiTable');
+            tbody.innerHTML = '';
+            rows.forEach(n => {
+                let dateStr = new Date(n.waktu).toLocaleString('id-ID');
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition border-b border-slate-100 last:border-0">
+                        <td class="p-3.5 text-xs text-slate-500">${dateStr}</td>
+                        <td class="p-3.5">${badgeSistem(n._srv)}</td>
+                        <td class="p-3.5 font-bold text-slate-700 text-sm">${n.nisn}</td>
+                        <td class="p-3.5 font-semibold text-slate-800 text-sm">${n.nama}</td>
+                        <td class="p-3.5 text-sm text-slate-600">${n.kelas}</td>
+                        <td class="p-3.5 text-center"><span class="font-black text-sm px-3 py-1 rounded-lg ${parseFloat(n.nilai) >= 75 ? 'bg-blue-50 text-blue-600 border border-blue-100' : 'bg-rose-50 text-rose-600 border border-rose-100'} shadow-sm">${n.nilai}</span></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function filterTabelNilai() {
+            const q = document.getElementById('searchNilaiInput').value.toLowerCase();
+            if (!window.currentNilaiRows || window.currentNilaiRows.length === 0) return;
+            const filtered = window.currentNilaiRows.filter(r =>
+                String(r.nama).toLowerCase().includes(q) ||
+                String(r.nisn).toLowerCase().includes(q) ||
+                String(r.kelas).toLowerCase().includes(q)
+            );
+            renderNilaiRows(filtered);
+        }
+
+        function exportNilaiCsv() {
+            if (!window.currentNilaiRows || window.currentNilaiRows.length === 0) {
+                alert("Tampilkan data nilai terlebih dahulu sebelum mengunduh!");
+                return;
+            }
+            const meta = window.currentNilaiRows[0];
+            let csv = "No,Sistem,Waktu Selesai,NISN,Nama Lengkap,Kelas,Nilai Akhir\n";
+            window.currentNilaiRows.forEach((r, idx) => {
+                const tgl = new Date(r.waktu).toLocaleString('id-ID').replace(/,/g, '');
+                csv += `${idx + 1},"${r._srv}","${tgl}","${r.nisn}","${r.nama}","${r.kelas}",${r.nilai}\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Rekap_Nilai_${meta._srv}_${meta._kode}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // DENAH UJIAN (MENDUKUNG SUMBER DATA REGULER MAUPUN ABK)
+        function getActiveDenahClasses() {
+            const srv = document.getElementById('selectServerDenah').value;
+            if (srv === 'ABK' && window.rawStudentsAbk && window.rawStudentsAbk.length > 0) {
+                const unik = [...new Set(window.rawStudentsAbk.map(s => (s.kelas || s.Kelas || '').toString().trim()).filter(Boolean))];
+                return unik.length > 0 ? unik : STANDARD_CLASSES;
+            }
+            return STANDARD_CLASSES;
+        }
+
+        function onChangeServerDenah() {
+            renderDefaultRoomDropdowns();
         }
 
         function initDenahDropdowns() {
             const container = document.getElementById('roomDropdownsContainer');
             if(container.innerHTML.trim() !== '') return;
-
-            fetch(GAS_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action: 'getDenah', usernameAdmin: ADMIN_USER, passwordAdmin: ADMIN_PASS })
-            })
-            .then(res => res.json())
-            .then(res => {
-                if(res.data) {
-                    let students = [];
-                    res.data.forEach(r => {
-                        if(r.pasangan) {
-                            r.pasangan.forEach(p => {
-                                if(p[0]) students.push(p[0]);
-                                if(p[1]) students.push(p[1]);
-                            });
-                        }
-                    });
-                    window.rawStudentsData = students;
-                }
-                if (!window.rawStudentsData || window.rawStudentsData.length === 0) {
-                    fetchMasterSiswaCadangan();
-                }
-                renderDefaultRoomDropdowns();
-            })
-            .catch(err => {
-                console.warn("Gagal ambil data denah:", err);
-                fetchMasterSiswaCadangan();
-                renderDefaultRoomDropdowns();
-            });
-        }
-
-        function fetchMasterSiswaCadangan() {
-            fetch(GAS_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action: 'getDashboardData', usernameAdmin: ADMIN_USER, passwordAdmin: ADMIN_PASS })
-            })
-            .then(res => res.json())
-            .then(res => {
-                if(res.listSiswaMaster && res.listSiswaMaster.length > 0) {
-                    window.rawStudentsData = res.listSiswaMaster;
-                }
-            })
-            .catch(e => console.warn("Gagal memuat master siswa cadangan:", e));
+            renderDefaultRoomDropdowns();
         }
 
         function renderDefaultRoomDropdowns() {
             const container = document.getElementById('roomDropdownsContainer');
             container.innerHTML = '';
+            const srv = document.getElementById('selectServerDenah').value;
 
-            let defaultPairs = [
-                ["X1", "X2"],
-                ["X3", "X4"],
-                ["XI1", "XI2"],
-                ["XI3", "XI4"],
-                ["XII1", "XII2"],
-                ["XII3", "XII4"]
-            ];
-
-            defaultPairs.forEach((pair, idx) => {
-                addRoomDropdownRow(pair[0], pair[1], idx + 1);
-            });
+            if (srv === 'ABK') {
+                const cls = getActiveDenahClasses();
+                addRoomDropdownRow(cls[0] || "X1", cls[1] || cls[0] || "X1", 1);
+            } else {
+                let defaultPairs = [
+                    ["X1", "X2"],
+                    ["X3", "X4"],
+                    ["XI1", "XI2"],
+                    ["XI3", "XI4"],
+                    ["XII1", "XII2"],
+                    ["XII3", "XII4"]
+                ];
+                defaultPairs.forEach((pair, idx) => {
+                    addRoomDropdownRow(pair[0], pair[1], idx + 1);
+                });
+            }
         }
 
-        function addRoomDropdownRow(selectedA = STANDARD_CLASSES[0], selectedB = STANDARD_CLASSES[1], roomNum = null) {
+        function addRoomDropdownRow(selectedA = null, selectedB = null, roomNum = null) {
             const container = document.getElementById('roomDropdownsContainer');
             const currentCount = container.querySelectorAll('.room-row-item').length + 1;
             const rNum = roomNum || currentCount;
             const roomName = `Ruang ${rNum < 10 ? '0' + rNum : rNum}`;
+            const classList = getActiveDenahClasses();
 
             let optionsHtml = '';
-            STANDARD_CLASSES.forEach(c => {
+            classList.forEach(c => {
                 optionsHtml += `<option value="${c}">${c}</option>`;
             });
 
@@ -1194,42 +1451,42 @@
             `;
             container.appendChild(div);
 
-            div.querySelector('.class-a-select').value = selectedA;
-            div.querySelector('.class-b-select').value = selectedB;
+            div.querySelector('.class-a-select').value = selectedA || classList[0];
+            div.querySelector('.class-b-select').value = selectedB || classList[1] || classList[0];
         }
 
         function generateDenahFromDropdowns() {
             const rows = document.querySelectorAll('.room-row-item');
             if(rows.length === 0) { alert("Tambahkan minimal satu ruangan terlebih dahulu!"); return; }
 
-            if(!window.rawStudentsData || window.rawStudentsData.length === 0) {
+            const srv = document.getElementById('selectServerDenah').value;
+            const sourceStudents = srv === 'ABK' ? window.rawStudentsAbk : window.rawStudentsReg;
+
+            if(!sourceStudents || sourceStudents.length === 0) {
                 const container = document.getElementById('denahContainer');
                 container.innerHTML = '<div class="text-center py-10"><i class="fas fa-spinner fa-spin text-indigo-600 text-2xl mr-2"></i> Mengambil data siswa dari server...</div>';
                 
-                fetch(GAS_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: 'getDashboardData', usernameAdmin: ADMIN_USER, passwordAdmin: ADMIN_PASS })
-                })
-                .then(res => res.json())
+                callGas(srv, { action: 'getDashboardData', usernameAdmin: ADMIN_USER, passwordAdmin: ADMIN_PASS })
                 .then(res => {
-                    if(res.listSiswaMaster) {
-                        window.rawStudentsData = res.listSiswaMaster;
-                        processAndRenderDenahRows(rows);
+                    if(res.listSiswaMaster && res.listSiswaMaster.length > 0) {
+                        if (srv === 'ABK') window.rawStudentsAbk = res.listSiswaMaster;
+                        else window.rawStudentsReg = res.listSiswaMaster;
+                        processAndRenderDenahRows(rows, res.listSiswaMaster);
                     } else {
-                        alert("Data siswa pada database utama kosong atau belum tersinkronisasi.");
+                        alert(`Data siswa pada database ${srv} kosong atau belum tersinkronisasi.`);
                         container.innerHTML = '<p class="text-center py-10 text-rose-500 font-semibold">Data siswa tidak ditemukan.</p>';
                     }
                 })
-                .catch(err => {
+                .catch(() => {
                     alert("Terjadi kesalahan jaringan saat mengambil data siswa.");
                 });
                 return;
             }
 
-            processAndRenderDenahRows(rows);
+            processAndRenderDenahRows(rows, sourceStudents);
         }
 
-        function processAndRenderDenahRows(rows) {
+        function processAndRenderDenahRows(rows, sourceStudents) {
             let generatedRooms = [];
             let globalRoomCounter = 1;
 
@@ -1237,12 +1494,12 @@
                 let k1 = row.querySelector('.class-a-select').value.trim();
                 let k2 = row.querySelector('.class-b-select').value.trim();
 
-                let s1 = window.rawStudentsData.filter(s => {
+                let s1 = sourceStudents.filter(s => {
                     let kelasSiswa = (s.Kelas || s.kelas || '').toString().trim().toLowerCase().replace(/[^a-z0-9]/g, '');
                     return kelasSiswa === k1.toLowerCase().replace(/[^a-z0-9]/g, '');
                 });
                 
-                let s2 = window.rawStudentsData.filter(s => {
+                let s2 = (k1 === k2) ? [] : sourceStudents.filter(s => {
                     let kelasSiswa = (s.Kelas || s.kelas || '').toString().trim().toLowerCase().replace(/[^a-z0-9]/g, '');
                     return kelasSiswa === k2.toLowerCase().replace(/[^a-z0-9]/g, '');
                 });
@@ -1300,7 +1557,6 @@
                         }
                     });
 
-                    // Kumpulkan daftar kelas unik yang ada di ruangan ini untuk label bersih
                     let kelasUnikSet = new Set();
                     pasanganArr.forEach(p => {
                         if(p[0]) kelasUnikSet.add(p[0].kelas);
@@ -1391,7 +1647,7 @@
                 </head>
                 <body>
             `;
-            window.currentDenahData.forEach((room, index) => {
+            window.currentDenahData.forEach((room) => {
                 let daftarSiswa = [];
                 room.pasangan.forEach(pasang => {
                     if (pasang[0]) daftarSiswa.push(pasang[0]);
@@ -1405,13 +1661,11 @@
                                 <h2 style="font-size: 18px;">SMAN 1 WONGSOREJO</h2>
                                 <p style="text-align: center; margin: 2px 0 0; font-size: 11px;">Jl. Raya Wongsorejo, Banyuwangi, Jawa Timur</p>
                             </div>
-                            
                             <div class="ruang-title-box">
                                 <p style="font-size: 14px; text-transform: uppercase; margin-bottom: 5px;">RUANG UJIAN CBT</p>
                                 <h1>${room.namaRuang.toUpperCase()}</h1>
                                 <p>KELAS: ${room.tingkat}</p>
                             </div>
-
                             <p style="font-weight: bold; margin-bottom: 5px; font-size: 12px;">DAFTAR PESERTA DALAM RUANGAN (${daftarSiswa.length} Siswa):</p>
                         </div>
                         <div class="table-container">
@@ -1477,7 +1731,7 @@
                 </head>
                 <body>
             `;
-            window.currentDenahData.forEach((room, index) => {
+            window.currentDenahData.forEach((room) => {
                 html += `
                     <div class="page-break">
                         <div>
@@ -1539,7 +1793,7 @@
                 </head>
                 <body>
             `;
-            window.currentDenahData.forEach((room, index) => {
+            window.currentDenahData.forEach((room) => {
                 let daftarSiswa = [];
                 room.pasangan.forEach(pasang => {
                     if (pasang[0]) daftarSiswa.push(pasang[0]);
@@ -1630,7 +1884,7 @@
                 </head>
                 <body>
             `;
-            window.currentDenahData.forEach((room, index) => {
+            window.currentDenahData.forEach((room) => {
                 let totalSiswa = 0;
                 room.pasangan.forEach(pasang => {
                     if (pasang[0]) totalSiswa++;
